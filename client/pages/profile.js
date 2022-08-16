@@ -1,12 +1,21 @@
-import React from "react";
-import Head from "next/head";
-import AppLayout from "../componets/AppLayout";
-import NicknameEditForm from "../componets/NicknameEditForm";
-import FollowList from "../componets/FollowList";
-
+import React, { useEffect } from 'react';
+import Head from 'next/head';
+import AppLayout from '../componets/AppLayout';
+import NicknameEditForm from '../componets/NicknameEditForm';
+import FollowList from '../componets/FollowList';
+import { useSelector } from 'react-redux';
+import Router from 'next/router';
 const profile = () => {
-  const followerList = [{nickname: "sample1"}, {nickname: "sample2"},{nickname: "sample3"}]
-  const followingList = [{nickname: "test1"}, {nickname: "test2"},{nickname: "test3"}]
+  const { me, Followings, Followers } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (!(me && me.id)) {
+      Router.push('/');
+    }
+  }, [me && me.id]);
+  if (!me) {
+    return null;
+  }
   return (
     <>
       <Head>
@@ -14,8 +23,8 @@ const profile = () => {
       </Head>
       <AppLayout>
         <NicknameEditForm />
-        <FollowList header="팔로잉 목록" data={followingList} />
-        <FollowList header="팔로워 목록" data={followerList} />
+        <FollowList header='팔로잉 목록' data={Followings} />
+        <FollowList header='팔로워 목록' data={Followers} />
       </AppLayout>
     </>
   );

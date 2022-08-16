@@ -1,59 +1,92 @@
-import React, { useCallback, useMemo, useState } from "react";
-import { Form, Input, Button } from "antd";
-import Link from "next/link";
-import styled from "styled-components";
-import PropTypes from 'prop-types';
-import useInput from "../hooks/useInput";
+import React, { useCallback, useMemo, useState } from 'react';
+import { Form, Input, Button } from 'antd';
+import Link from 'next/link';
+import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+
+import useInput from '../hooks/useInput';
+import { loginRequestAction } from '../reducers/user';
 
 const FormWrapper = styled(Form)`
-  padding: 10px;
-  background-color: azure;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+  background-color: #fca3b9;
+
+  & label {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  & Input{
+    border-radius: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+  }
+`;
+const ButtonWrapper = styled.div`
+  padding-top: 10px;
+  text-align: center;
+  & Button {
+    width: 40%;
+  }
 `;
 
-const LoginForm = ({ setIsLoggedIn }) => {
-  const style = useMemo(() => ({ marginTop: 10 }), []);
-
-  const [id, onChangeId] = useInput('')
+const LoginForm = () => {
+  const dispatch = useDispatch();
+  const { logInLoading } = useSelector((state) => state.user);
+  const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
 
   // login dummy
   const onSubmitForm = useCallback(() => {
-    console.log(id, password);
-    setIsLoggedIn(true);
-  }, [id, password]);
+    console.log(email, password);
+    dispatch(loginRequestAction({ email, password }));
+  }, [email, password]);
 
   return (
     <FormWrapper onFinish={onSubmitForm}>
       <div>
-        <label htmlFor="user-id">아이디</label>
-        <br />
-        <Input name="user-id" value={id} onChange={onChangeId} required />
-      </div>
-      <div>
-        <label htmlFor="user-password">비밀번호</label>
+        <label htmlFor='user-email'>이메일</label>
         <br />
         <Input
-          name="user-password"
-          type="password"
+          name='user-email'
+          type='email'
+          value={email}
+          onChange={onChangeEmail}
+          required
+          placeholder='e-mail을 입력하세요.'
+        />
+      </div>
+      <div>
+        <label htmlFor='user-password'>비밀번호</label>
+        <br />
+        <Input
+          name='user-password'
+          type='password'
           value={password}
           onChange={onChangePassword}
           required
+          placeholder='password를 입력하세요.'
         />
       </div>
-      <div style={style}>
-        <Button type="primary" htmlType="submit" loading={false}>
+      <ButtonWrapper>
+        <Button type='primary' htmlType='submit' loading={logInLoading}>
           로그인
         </Button>
-        <Link href="/signup">
+        <Link href='/signup'>
           <a>
-            <button>회원가입</button>
+            <Button>회원가입</Button>
           </a>
         </Link>
-      </div>
+      </ButtonWrapper>
     </FormWrapper>
   );
 };
-LoginForm.propTypes = {
-  setIsLoggedIn: PropTypes.func.isRequired,
-}
+
 export default LoginForm;
