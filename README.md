@@ -29,7 +29,7 @@ SNS 웹페이지 풀스택 구현 프로젝트
 
 ### 회원가입 페이지
 
-<img src="./readmeImg/220817/singup.png">
+<img src="./readmeImg/220817/signup.png">
 <br>
 
 1. 회원가입페이지 구현
