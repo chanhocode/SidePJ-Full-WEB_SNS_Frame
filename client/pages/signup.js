@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 import AppLayout from '../componets/AppLayout';
 import styled from 'styled-components';
@@ -6,6 +6,7 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import useInput from '../hooks/useInput';
 import { SIGN_UP_REQUEST } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
+import Router from 'next/router';
 
 const ErrorMessage = styled.div`
   color: red;
@@ -37,7 +38,24 @@ const FormWrapper = styled(Form)`
 
 const signup = () => {
   const dispatch = useDispatch();
-  const { signUpLoading } = useSelector((state) => state.user);
+  const { signUpLoading, signUpDone, signUpError, me } = useSelector(
+    (state) => state.user
+  );
+  useEffect(() => {
+    if (me && me.id) {
+      Router.replace('/');
+    }
+  }, [me && me.id]);
+  useEffect(() => {
+    if (signUpDone) {
+      Router.replace('/');
+    }
+  }, [signUpDone]);
+  useEffect(() => {
+    if (signUpError) {
+      alert(signUpError);
+    }
+  }, [signUpError]);
 
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
@@ -66,7 +84,7 @@ const signup = () => {
       return setTermError(true);
     }
     console.log(email, nickname, password);
-    dispatchEvent({
+    dispatch({
       type: SIGN_UP_REQUEST,
       data: { email, password, nickname },
     });
@@ -126,7 +144,7 @@ const signup = () => {
             name='user-term'
             checked={term}
             onChange={onChangeTerm}
-            style={{ color: '#fff', marginTop: '20px', marginBottom: '20px'}}
+            style={{ color: '#fff', marginTop: '20px', marginBottom: '20px' }}
           >
             본 약관에 동의합니다.
           </Checkbox>

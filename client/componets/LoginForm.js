@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { Form, Input, Button } from 'antd';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -23,7 +23,7 @@ const FormWrapper = styled(Form)`
     font-size: 1rem;
     font-weight: 500;
   }
-  & Input{
+  & Input {
     border-radius: 8px;
     margin-top: 5px;
     margin-bottom: 15px;
@@ -39,9 +39,15 @@ const ButtonWrapper = styled.div`
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const { logInLoading } = useSelector((state) => state.user);
+  const { logInLoading, logInError } = useSelector((state) => state.user);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
+
+  useEffect(() => {
+    if (logInError) {
+      alert(logInError);
+    }
+  }, [logInError]);
 
   // login dummy
   const onSubmitForm = useCallback(() => {
