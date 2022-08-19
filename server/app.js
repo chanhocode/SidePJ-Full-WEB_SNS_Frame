@@ -21,10 +21,12 @@ db.sequelize
   .catch(console.error);
 passportConfig();
 
-app.use(cors({
-    origin: '*',
-    credentials: false,
-  }));
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  })
+);
 
 // comment:: req.body
 app.use(express.json());
