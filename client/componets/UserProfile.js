@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Card, Avatar, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutRequestAction, LOG_OUT_REQUEST } from '../reducers/user';
+import { logoutRequestAction } from '../reducers/user';
 import styled from 'styled-components';
 // Comment :: 리액트에서 배열로 JSX 쓸때는 Key를 붙여줘야함.
 
@@ -32,9 +32,9 @@ const UserProfile = () => {
   const { me, logOutLoading } = useSelector((state) => state.user);
 
   const onLogOut = useCallback(() => {
-    console.log('logOut');
     dispatch(logoutRequestAction());
   }, []);
+
   return (
     <CardWrapper
       actions={[

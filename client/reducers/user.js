@@ -108,13 +108,13 @@ const reducer = (state = initialState, action) =>
         break;
       case FOLLOW_REQUEST:
         draft.followLoading = true;
-        draft.followDone = false;
         draft.followError = null;
+        draft.followDone = false;
         break;
       case FOLLOW_SUCCESS:
         draft.followLoading = false;
-        draft.followDone = true;
         draft.me.Followings.push({ id: action.data.UserId });
+        draft.followDone = true;
         break;
       case FOLLOW_FAILURE:
         draft.followLoading = false;
@@ -122,15 +122,15 @@ const reducer = (state = initialState, action) =>
         break;
       case UNFOLLOW_REQUEST:
         draft.unfollowLoading = true;
-        draft.unfollowDone = false;
         draft.unfollowError = null;
+        draft.unfollowDone = false;
         break;
       case UNFOLLOW_SUCCESS:
         draft.unfollowLoading = false;
-        draft.unfollowDone = true;
         draft.me.Followings = draft.me.Followings.filter(
           (v) => v.id !== action.data.UserId
         );
+        draft.unfollowDone = true;
         break;
       case UNFOLLOW_FAILURE:
         draft.unfollowLoading = false;
@@ -152,8 +152,8 @@ const reducer = (state = initialState, action) =>
         break;
       case LOG_OUT_REQUEST:
         draft.logOutLoading = true;
-        draft.logOutDone = false;
         draft.logOutError = null;
+        draft.logOutDone = false;
         break;
       case LOG_OUT_SUCCESS:
         draft.logOutLoading = false;
