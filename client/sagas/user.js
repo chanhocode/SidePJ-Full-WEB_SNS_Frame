@@ -22,9 +22,81 @@ import {
   CHANGE_NICKNAME_REQUEST,
   CHANGE_NICKNAME_SUCCESS,
   CHANGE_NICKNAME_FAILURE,
+  REMOVE_FOLLOWER_REQUEST,
+  REMOVE_FOLLOWER_SUCCESS,
+  REMOVE_FOLLOWER_FAILURE,
+  LOAD_FOLLOWERS_REQUEST,
+  LOAD_FOLLOWINGS_REQUEST,
+  LOAD_FOLLOWERS_SUCCESS,
+  LOAD_FOLLOWERS_FAILURE,
+  LOAD_FOLLOWINGS_SUCCESS,
+  LOAD_FOLLOWINGS_FAILURE,
 } from '../reducers/user';
 
-// LOAD
+// REMOVE Follower
+function removeFollowerAPI(data) {
+  return axios.delete(`/user/follower/${data}`);
+}
+
+function* removeFollower(action) {
+  try {
+    const result = yield call(removeFollowerAPI, action.data);
+    yield put({
+      type: REMOVE_FOLLOWER_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: REMOVE_FOLLOWER_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+// LOAD Followers
+function loadFollowersAPI(data) {
+  console.dir(data);
+  return axios.get('/user/followers', data);
+}
+
+function* loadFollowers(action) {
+  try {
+    const result = yield call(loadFollowersAPI, action.data);
+    yield put({
+      type: LOAD_FOLLOWERS_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_FOLLOWERS_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+// LOAD Followings
+function loadFollowingsAPI(data) {
+  return axios.get('/user/followings', data);
+}
+
+function* loadFollowings(action) {
+  try {
+    const result = yield call(loadFollowingsAPI, action.data);
+    yield put({
+      type: LOAD_FOLLOWINGS_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_FOLLOWINGS_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+// LOAD User
 function loadUserAPI() {
   return axios.get('/user');
 }
@@ -182,9 +254,23 @@ function* watchSignUP() {
 function* watchChangeNickname() {
   yield takeLatest(CHANGE_NICKNAME_REQUEST, changeNickname);
 }
+function* watchRemoveFollower() {
+  yield takeLatest(REMOVE_FOLLOWER_REQUEST, removeFollower);
+}
+
+function* watchLoadFollowers() {
+  yield takeLatest(LOAD_FOLLOWERS_REQUEST, loadFollowers);
+}
+
+function* watchLoadFollowings() {
+  yield takeLatest(LOAD_FOLLOWINGS_REQUEST, loadFollowings);
+}
 
 export default function* userSaga() {
   yield all([
+    fork(watchRemoveFollower),
+    fork(watchLoadFollowers),
+    fork(watchLoadFollowings),
     fork(watchChangeNickname),
     fork(watchLoadUser),
     fork(watchFollow),

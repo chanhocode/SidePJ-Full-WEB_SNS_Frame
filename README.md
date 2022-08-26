@@ -23,6 +23,11 @@ SNS 웹페이지 풀스택 구현 프로젝트
 
 <br>
 
+## 서버 5차 구현 \_ 2022/08/26
+1. MySQL schema 수정
+2. 프로필 페이지 팔로우, 언팔로우 목록 제공
+- commit: "Fix: Bug fixes and profile page updates"
+
 ## 서버 4차 구현 \_ 2022/08/23
 
 1. 팔로우, 언팔로우 기능 구현
