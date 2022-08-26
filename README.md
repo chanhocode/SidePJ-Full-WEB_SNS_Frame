@@ -27,6 +27,8 @@ SNS 웹페이지 풀스택 구현 프로젝트
 1. MySQL schema 수정
 2. 프로필 페이지 팔로우, 언팔로우 목록 제공
 - commit: "Fix: Bug fixes and profile page updates"
+3. 게시글 이미지 업로드 구현 - 이미지 선택, 미리보기 및 제거 기능 제공
+- commit: "Feat: Implement image upload"
 
 ## 서버 4차 구현 \_ 2022/08/23
 

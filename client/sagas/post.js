@@ -27,9 +27,30 @@ import {
   LIKE_POSTS_FAILURE,
   UNLIKE_POSTS_SUCCESS,
   UNLIKE_POSTS_FAILURE,
+  UPLOAD_IMAGES_REQUEST,
+  UPLOAD_IMAGES_SUCCESS,
+  UPLOAD_IMAGES_FAILURE,
 } from '../reducers/post';
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
+// UploadImages
+function uploadImagesAPI(data) {
+  return axios.post('/post/images', data);
+}
+function* uploadImages(action) {
+  try {
+    const result = yield call(uploadImagesAPI, action.data);
+    yield put({
+      type: UPLOAD_IMAGES_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      type: UPLOAD_IMAGES_FAILURE,
+      data: err.response.data,
+    });
+  }
+}
 // LoadPosts
 function loadPostsAPI(data) {
   return axios.get('/posts', data);
@@ -50,7 +71,7 @@ function* loadPosts(action) {
 }
 // AddPost
 function addPostAPI(data) {
-  return axios.post('/post', { content: data });
+  return axios.post('/post', data);
 }
 function* addPost(action) {
   try {
@@ -152,6 +173,9 @@ function* unlikePosts(action) {
 }
 
 // Event Listener와 비슷한 역할
+function* watchUploadImages() {
+  yield throttle(2000, UPLOAD_IMAGES_REQUEST, uploadImages);
+}
 function* watchLoadPost() {
   yield throttle(2000, LOAD_POSTS_REQUEST, loadPosts);
 }
@@ -173,6 +197,7 @@ function* watchUnlikePosts() {
 
 export default function* postSaga() {
   yield all([
+    fork(watchUploadImages),
     fork(watchLoadPost),
     fork(watchAddPost),
     fork(watchRemovePost),
