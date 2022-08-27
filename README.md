@@ -23,12 +23,20 @@ SNS 웹페이지 풀스택 구현 프로젝트
 
 <br>
 
+## 서버 5차 구현 \_ 2022/08/27
+1. 리트윗 기능 구현
+2. Fix: 게시글 삭제시 화면 적용 안됨 문제 수정(직접 리렌더링을 해야 적용)
+- commit: "Feat: Implement Retweet"
+
 ## 서버 5차 구현 \_ 2022/08/26
 1. MySQL schema 수정
 2. 프로필 페이지 팔로우, 언팔로우 목록 제공
 - commit: "Fix: Bug fixes and profile page updates"
 3. 게시글 이미지 업로드 구현 - 이미지 선택, 미리보기 및 제거 기능 제공
 - commit: "Feat: Implement image upload"
+4. 해시태그 등록 구현 - db 연동
+- commit: "Implement hashtag registration"
+
 
 ## 서버 4차 구현 \_ 2022/08/23
 
