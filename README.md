@@ -27,6 +27,9 @@ SNS 웹페이지 풀스택 구현 프로젝트
 1. 리트윗 기능 구현
 2. Fix: 게시글 삭제시 화면 적용 안됨 문제 수정(직접 리렌더링을 해야 적용)
 - commit: "Feat: Implement Retweet"
+3. Fix: 게시글 스크롤 이벤트 'lastId' 적용
+4. Implement CSR Server
+5. Create: "Implement CSR SERVER"
 
 ## 서버 5차 구현 \_ 2022/08/26
 1. MySQL schema 수정
