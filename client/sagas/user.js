@@ -31,6 +31,9 @@ import {
   LOAD_FOLLOWERS_FAILURE,
   LOAD_FOLLOWINGS_SUCCESS,
   LOAD_FOLLOWINGS_FAILURE,
+  LOAD_MY_INFO_REQUEST,
+  LOAD_MY_INFO_SUCCESS,
+  LOAD_MY_INFO_FAILURE,
 } from '../reducers/user';
 
 // REMOVE Follower
@@ -96,9 +99,29 @@ function* loadFollowings(action) {
   }
 }
 
+// LOAD MyInfo
+function loadMyInfoAPI() {
+  return axios.get(`/user`);
+}
+function* loadMyInfo() {
+  try {
+    const result = yield call(loadMyInfoAPI);
+    yield put({
+      type: LOAD_MY_INFO_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_MY_INFO_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 // LOAD User
-function loadUserAPI() {
-  return axios.get('/user');
+function loadUserAPI(data) {
+  return axios.get(`/user/${data}`);
 }
 function* loadUser(action) {
   try {
@@ -233,6 +256,9 @@ function* changeNickname(action) {
 }
 
 // Event Listener와 비슷한 역할
+function* watchLoadMyInfo() {
+  yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
+}
 function* watchLoadUser() {
   yield takeLatest(LOAD_USER_REQUEST, loadUser);
 }
@@ -272,6 +298,7 @@ export default function* userSaga() {
     fork(watchLoadFollowers),
     fork(watchLoadFollowings),
     fork(watchChangeNickname),
+    fork(watchLoadMyInfo),
     fork(watchLoadUser),
     fork(watchFollow),
     fork(watchUnfollow),

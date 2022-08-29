@@ -10,6 +10,7 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   // GET /user
+  console.log(req.headers);
   try {
     if (req.user) {
       const fullUserWithoutPassword = await User.findOne({
@@ -136,9 +137,10 @@ router.patch('/nickname', isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.patch('/:userId/follow', isLoggedIn, async (req, res, next) => { // PATCH /user/1/follow
+router.patch('/:userId/follow', isLoggedIn, async (req, res, next) => {
+  // PATCH /user/1/follow
   try {
-    const user = await User.findOne({ where: { id: req.params.userId }});
+    const user = await User.findOne({ where: { id: req.params.userId } });
     if (!user) {
       res.status(403).send('없는 사람을 팔로우하려고 하시네요?');
     }
@@ -150,9 +152,10 @@ router.patch('/:userId/follow', isLoggedIn, async (req, res, next) => { // PATCH
   }
 });
 
-router.delete('/:userId/follow', isLoggedIn, async (req, res, next) => { // DELETE /user/1/follow
+router.delete('/:userId/follow', isLoggedIn, async (req, res, next) => {
+  // DELETE /user/1/follow
   try {
-    const user = await User.findOne({ where: { id: req.params.userId }});
+    const user = await User.findOne({ where: { id: req.params.userId } });
     if (!user) {
       res.status(403).send('없는 사람을 언팔로우하려고 하시네요?');
     }
