@@ -26,6 +26,8 @@ SNS 웹페이지 풀스택 구현 프로젝트
 ## ServerSideRendering Setting \_ 2022/08/30
 
 1. getStaticProps 이용 about 페이지 생성
+2. 다이나믹 라우팅 적용
+3. css ssr 적용
 
 ## ServerSideRendering Setting \_ 2022/08/28 ~ 2022/08/29
 

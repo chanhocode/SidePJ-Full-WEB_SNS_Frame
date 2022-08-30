@@ -7,22 +7,24 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import wrapper from '../store/configureStore';
 
-const App = ({ Component }) => {
+function App({ Component }) {
   return (
     <>
       <Head>
         <meta charSet='utf-8' />
-        <title>ChanhoCode</title>
+        <title>chanhocode</title>
       </Head>
       <Component />
     </>
   );
-};
+}
 
 App.propTypes = {
   Component: PropTypes.elementType.isRequired,
 };
+
 export function reportWebVitals(metric) {
   console.log(metric);
 }
+
 export default wrapper.withRedux(App);

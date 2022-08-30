@@ -3,8 +3,12 @@ import produce from 'immer';
 // comment:: User, Images, Comment 는 대문자로 시작하는 이유: 다른 정보들과 합쳐지기 떄문이다. _ 시퀄라이즈랑 관계 _ 시퀄라이즈에서 정보와 정보가 관계가 있으면 합쳐주는데 그떄 합쳐지는 것은 대문자로 나온다.
 export const initialState = {
   mainPosts: [],
+  singlePost: null,
   imagePaths: [],
   hasMorePosts: true,
+  loadPostLoading: false,
+  loadPostDone: false,
+  loadPostError: null,
   loadPostsLoading: false,
   loadPostsDone: false,
   loadPostsError: null,
@@ -31,52 +35,6 @@ export const initialState = {
   retweetError: null,
 };
 
-// ^ Dummy Data ::
-// export const generateDummyPost = (number) =>
-//   Array(number)
-//     .fill()
-//     .map(() => ({
-//       id: shortId.generate(),
-//       User: {
-//         id: shortId.generate,
-//         nickname: faker.internet.userName(),
-//       },
-//       content: faker.lorem.paragraph(),
-//       Images: [
-//         {
-//           src: faker.image.cats(),
-//         },
-//       ],
-//       Comments: [
-//         {
-//           id: shortId.generate(),
-//           User: {
-//             id: shortId.generate(),
-//             nickname: faker.name.firstName(),
-//           },
-//           content: faker.lorem.paragraph(),
-//         },
-//       ],
-//     }));
-// dummy data
-// const dummyPost = (data) => ({
-//   id: data.id,
-//   content: data.content,
-//   User: {
-//     id: 1,
-//     nickname: 'chanho',
-//   },
-//   Images: [],
-//   Comments: [],
-// });
-// const dummyComment = (data) => ({
-//   id: shortId.generate(),
-//   content: data,
-//   User: {
-//     id: 1,
-//     nickname: 'hyebin',
-//   },
-// });
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';
 export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE';
@@ -88,6 +46,10 @@ export const LIKE_POSTS_FAILURE = 'LIKE_POSTS_FAILURE';
 export const UNLIKE_POSTS_REQUEST = 'UNLIKE_POSTS_REQUEST';
 export const UNLIKE_POSTS_SUCCESS = 'UNLIKE_POSTS_SUCCESS';
 export const UNLIKE_POSTS_FAILURE = 'UNLIKE_POSTS_FAILURE';
+
+export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
+export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
+export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
 
 export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
@@ -157,6 +119,20 @@ const reducer = (state = initialState, action) =>
       case UPLOAD_IMAGES_FAILURE:
         draft.uploadImagesLoading = false;
         draft.uploadImagesError = action.error;
+        break;
+      case LOAD_POST_REQUEST:
+        draft.loadPostLoading = true;
+        draft.loadPostDone = false;
+        draft.loadPostError = null;
+        break;
+      case LOAD_POST_SUCCESS:
+        draft.loadPostLoading = false;
+        draft.loadPostDone = true;
+        draft.singlePost = action.data;
+        break;
+      case LOAD_POST_FAILURE:
+        draft.loadPostLoading = false;
+        draft.loadPostError = action.error;
         break;
       case LOAD_POSTS_REQUEST:
         draft.loadPostsLoading = true;
