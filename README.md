@@ -23,6 +23,10 @@ SNS 웹페이지 풀스택 구현 프로젝트
 
 <br>
 
+## ServerSideRendering Setting \_ 2022/08/30
+
+1. getStaticProps 이용 about 페이지 생성
+
 ## ServerSideRendering Setting \_ 2022/08/28 ~ 2022/08/29
 
 - 버그로 인해 28일 작업 초기화후 다시 진행
