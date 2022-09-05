@@ -23,6 +23,10 @@ SNS 웹페이지 풀스택 구현 프로젝트
 
 <br>
 
+## ServerSideRendering Setting \_ 2022/09/05
+
+1. 사용자 게시글, 해시태그 게시글 불러오기 구현
+
 ## ServerSideRendering Setting \_ 2022/08/30
 
 1. getStaticProps 이용 about 페이지 생성

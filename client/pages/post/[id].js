@@ -17,15 +17,25 @@ const post = () => {
   return (
     <AppLayout>
       <Head>
-      <title>
+        <title>
           {singlePost.User.nickname}
           님의 글
         </title>
-        <meta name="description" content={singlePost.content} />
-        <meta property="og:title" content={`${singlePost.User.nickname}님의 게시글`} />
-        <meta property="og:description" content={singlePost.content} />
-        <meta property="og:image" content={singlePost.Images[0] ? singlePost.Images[0].src : 'https://nodebird.com/favicon.ico'} />
-        <meta property="og:url" content={`https://nodebird.com/post/${id}`} />
+        <meta name='description' content={singlePost.content} />
+        <meta
+          property='og:title'
+          content={`${singlePost.User.nickname}님의 게시글`}
+        />
+        <meta property='og:description' content={singlePost.content} />
+        <meta
+          property='og:image'
+          content={
+            singlePost.Images[0]
+              ? singlePost.Images[0].src
+              : 'https://nodebird.com/favicon.ico'
+          }
+        />
+        <meta property='og:url' content={`https://nodebird.com/post/${id}`} />
       </Head>
       <PostCard post={singlePost} />
     </AppLayout>
