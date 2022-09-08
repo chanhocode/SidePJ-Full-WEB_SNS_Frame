@@ -9,6 +9,8 @@ import wrapper from '../store/configureStore';
 import { END } from 'redux-saga';
 import axios from 'axios';
 
+import { BackTop } from 'antd';
+
 const home = () => {
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
@@ -45,6 +47,7 @@ const home = () => {
   return (
     <div>
       <AppLayout>
+        <BackTop />
         {me && <PostForm />}
         {mainPosts.map((post) => (
           <PostCard key={post.id} post={post} />

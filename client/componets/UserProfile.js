@@ -5,28 +5,77 @@ import { logoutRequestAction } from '../reducers/user';
 import styled from 'styled-components';
 import Link from 'next/link';
 
+import {
+  EditOutlined,
+  ArrowUpOutlined,
+  ArrowDownOutlined,
+} from '@ant-design/icons';
+
 const CardWrapper = styled(Card)`
-  padding-bottom: 20px;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-right: 5px;
   margin-bottom: 20px;
-  background-color: #A2A8D3;
+  background-color: #a2a8d3;
 `;
-const Meta = styled(Card.Meta)`
+
+const Meta = styled.a`
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+
+  height: 100%;
+  width: 100%;
+
+  color: black;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
 `;
 const LogOut = styled(Button)`
-  display: flex;
-  margin-left: auto;
-  margin-right: auto;
   border-radius: 10px;
+  background-color: #38598b;
+  color: white;
+  border: none;
+  width: 105px;
 `;
+const Greetings = styled.div`
+color: #fff;
+font-weight: 500;
+`;
+const TopItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const UserData = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Data = styled.div`
+  font-size: large;
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+`;
+
+const UserArea = styled.div`
+  display: flex;
+  height: 100px;
+  justify-content: space-between;
+  border-bottom: solid 2px #fff;
+  color: #113f67;
+  font-weight: 500;
+`;
+const UserAvater = styled(Avatar)`
+  height: 60px;
+  width: 60px;
+  aspect-ratio: 1/1;
+  margin-right: 20px;
+`;
+
 const UserProfile = () => {
   const dispatch = useDispatch();
   const { me, logOutLoading } = useSelector((state) => state.user);
@@ -36,44 +85,48 @@ const UserProfile = () => {
   }, []);
 
   return (
-    <CardWrapper
-      actions={[
-        <div key='twit'>
+    <CardWrapper>
+      <TopItem>
+        <Greetings>Welcom to {me.nickname}!! Did anything special happen?</Greetings>
+        <LogOut onClick={onLogOut} loading={logOutLoading}>
+          Logout
+        </LogOut>
+      </TopItem>
+
+      <UserArea>
+        <div style={{ height: '100%' }} key='avater'>
           <Link href={`/user/${me.id}`}>
-            <a>content</a>
+            <Meta>
+              <UserAvater>{me.nickname[0]}</UserAvater>
+              <>{me.nickname}</>
+            </Meta>
           </Link>
-          <br />
-          {me.Posts.length}
-        </div>,
-        <div key='followings'>
-          <Link href='/profile'>
-            <a>팔로잉</a>
-          </Link>{' '}
-          <br />
-          {me.Followings.length}
-        </div>,
-        <div key='followers'>
-          <Link href='/profile'>
-            <a>팔로워</a>
-          </Link>
-          <br />
-          {me.Followers.length}
-        </div>,
-      ]}
-    >
-      <Meta
-        avatar={
-          <Link href={`/user/${me.id}`}>
-            <a>
-              <Avatar>{me.nickname[0]}</Avatar>
-            </a>
-          </Link>
-        }
-        title={me.nickname}
-      />
-      <LogOut onClick={onLogOut} loading={logOutLoading}>
-        로그아웃
-      </LogOut>
+        </div>
+
+        <UserData>
+          <Data key='twit'>
+            <Link href={`/user/${me.id}`}>
+              <EditOutlined />
+            </Link>
+            <br />
+            {me.Posts.length}
+          </Data>
+          <Data key='followings'>
+            <Link href='/profile'>
+              <ArrowUpOutlined />
+            </Link>{' '}
+            <br />
+            {me.Followings.length}
+          </Data>
+          <Data key='followers'>
+            <Link href='/profile'>
+              <ArrowDownOutlined />
+            </Link>
+            <br />
+            {me.Followers.length}
+          </Data>
+        </UserData>
+      </UserArea>
     </CardWrapper>
   );
 };

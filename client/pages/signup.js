@@ -99,7 +99,7 @@ const signup = () => {
           src='/img/signup.png'
           alt='sign'
           style={{
-            width: '70%',
+            width: '50%',
             marginRight: 'auto',
             marginLeft: 'auto',
           }}

@@ -76,6 +76,7 @@ const PostCard = ({ post }) => {
         style={{
           borderBottom: 'solid 5px #A2A8D3',
           color: '#38598B',
+          marginRight: '5px'
         }}
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[

@@ -10,7 +10,7 @@ import {
   SearchOutlined,
 } from '@ant-design/icons';
 
-import { Layout, Menu, Input, Row, Col } from 'antd';
+import { Layout, Menu, Input, Row, Col, Button } from 'antd';
 
 import { useSelector } from 'react-redux';
 import UserProfile from './UserProfile';
@@ -20,15 +20,6 @@ import Router from 'next/router';
 import useInput from '../hooks/useInput';
 
 const { Sider } = Layout;
-
-function getItem(label, key, icon, children) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  };
-}
 
 const Global = createGlobalStyle`
   body {
@@ -56,17 +47,57 @@ const Global = createGlobalStyle`
   }
 `;
 
-const NavMenu = styled(Menu)`
-  margin-bottom: 20px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+const GreetingForm = styled.div`
+  background-color: #e7eaf6;
+  border-radius: 10px;
+  margin-right: 10px;
+  padding: 5px;
+  & a {
+    color: black;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
 `;
 
-const MenuItem = styled(Menu.Item)`
-  font-size: 1.2rem;
-  font-weight: 400;
+const AdsOne = styled.div`
+  height: 15vw;
+  background-image: url('/img/goods1.jpg');
+  background-size: cover;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.3rem;
+  & h3 {
+    color: #fefefe;
+  }
+  & Button {
+    border-radius: 30px;
+  }
+`;
+const AdsTwo = styled.div`
+  height: 15vw;
+  background-image: url('/img/goods2.jpg');
+  background-size: cover;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.3rem;
+  & h3 {
+    color: #fefefe;
+  }
+  & Button {
+    border-radius: 30px;
+  }
 `;
 
 const AppLayout = ({ children }) => {
@@ -135,24 +166,35 @@ const AppLayout = ({ children }) => {
         className='site-layout'
         style={{
           paddingTop: 10,
-          paddingLeft: 65,
+          paddingLeft: 70,
         }}
       >
         <Row gutter={8}>
-          <Col xs={24} md={6}>
-            {me ? <UserProfile /> : <LoginForm />}
+          <Col xs={24} md={14}>
+            <>
+              {me ? <UserProfile /> : <LoginForm />}
+              {children}
+            </>
           </Col>
-          <Col xs={24} md={15}>
-            {children}
-          </Col>
-          <Col xs={24} md={3}>
-            <a
-              href='https://github.com/chanhocode'
-              target='_blank'
-              rel='noreferrer noopener'
-            >
-              Made by Chanho
-            </a>
+          <Col xs={24} md={10}>
+            <GreetingForm>
+              <img src='/img/quokka.png' alt='quokka' width={'30%'} />
+              <a
+                href='https://github.com/chanhocode'
+                target='_blank'
+                rel='noreferrer noopener'
+              >
+                Made by Chanho
+              </a>
+            </GreetingForm>
+            <AdsOne>
+              <h3>It's an advertisement.</h3>
+              <Button>Contact us</Button>
+            </AdsOne>
+            <AdsTwo>
+              <h3>It's an advertisement.</h3>
+              <Button>Contact us</Button>
+            </AdsTwo>
           </Col>
         </Row>
       </Layout>

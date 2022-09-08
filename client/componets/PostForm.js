@@ -1,5 +1,5 @@
-import { Button, Form, Input } from 'antd';
-import React, { useCallback, useEffect, useRef } from 'react';
+import { Button, Form, Input, Modal } from 'antd';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../hooks/useInput';
 import {
@@ -9,18 +9,30 @@ import {
   ADD_POST_REQUEST,
 } from '../reducers/post';
 import styled from 'styled-components';
-import {SendOutlined} from '@ant-design/icons'
+import { SendOutlined } from '@ant-design/icons';
 
 const FormWrapper = styled(Form)`
   margin-bottom: 20px;
   background-color: #38598b;
-  border-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   overflow: hidden;
   padding: 10px;
+  margin-right: 5px;
 `;
 const TextInput = styled(Input.TextArea)`
   margin-bottom: 10px;
 `;
+
+const PostButton = styled(Button)`
+  border: none;
+  background-color: #38598b;
+  color: #fff;
+  font-weight: 600;
+  border-top-left-radius: 5px;
+`;
+
 const PostForm = () => {
   const dispatch = useDispatch();
   const { imagePaths, addPostDone, addPostLoading } = useSelector(
@@ -71,49 +83,61 @@ const PostForm = () => {
       data: index,
     });
   });
+  const [uploadView, setUploadView] = useState(false);
+  const toggleView = () => {
+    setUploadView((uploadView) => !uploadView);
+  };
   return (
-    <FormWrapper encType='multipart/form-data' onFinish={onSubmit}>
-      <TextInput
-        value={text}
-        onChange={onChangeText}
-        maxLength={140}
-        placeholder='새로운 글을 작성 해보세요.'
-        style={{ resize: 'none', height: '90px'}}
-      />
-      <div>
-        <input
-          type='file'
-          name='image'
-          multiple
-          hidden
-          ref={imageInput}
-          onChange={onChangeImages}
-        />
-        <Button onClick={onClickImageUpload}>이미지 업로드</Button>
-        <Button
-          type='primary'
-          style={{ float: 'right', width: '5vw'}}
-          htmlType='submit'
-          loading={addPostLoading}
-        >
-          <SendOutlined />
-        </Button>
-      </div>
-      <div>
-        {imagePaths.map((v, i) => (
-          <div key={v} style={{ display: 'inline-block' }}>
-            <img
-              src={`http://localhost:3065/${v}`}
-              style={{ width: '200px' }}
-              alt={v}
+    <>
+      <PostButton  onClick={toggleView}>
+        게시글을 작성 하시겠습니까?
+        <SendOutlined />
+      </PostButton>
+      {uploadView && (
+        <FormWrapper encType='multipart/form-data' onFinish={onSubmit}>
+          <TextInput
+            value={text}
+            onChange={onChangeText}
+            maxLength={140}
+            placeholder='새로운 글을 작성 해보세요.'
+            style={{ resize: 'none', height: '90px' }}
+          />
+          <div>
+            <input
+              type='file'
+              name='image'
+              multiple
+              hidden
+              ref={imageInput}
+              onChange={onChangeImages}
             />
-            <div>
-              <Button onClick={onRemoveImage(i)}>제거</Button>
-            </div>
+            <Button onClick={onClickImageUpload}>이미지 업로드</Button>
+            <Button
+              type='primary'
+              style={{ float: 'right', width: '6vw' }}
+              htmlType='submit'
+              loading={addPostLoading}
+            >
+              <SendOutlined />
+            </Button>
           </div>
-        ))}
-      </div>
-    </FormWrapper>
+          <div>
+            {imagePaths.map((v, i) => (
+              <div key={v} style={{ display: 'inline-block' }}>
+                <img
+                  src={`http://localhost:3065/${v}`}
+                  style={{ width: '200px' }}
+                  alt={v}
+                />
+                <div>
+                  <Button onClick={onRemoveImage(i)}>제거</Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </FormWrapper>
+      )}
+    </>
   );
 };
 

@@ -23,6 +23,14 @@ SNS 웹페이지 풀스택 구현 프로젝트
 
 <br>
 
+## ServerSideRendering Complete \_ 2022/09/08
+
+1. 디자인 최종 수정
+
+2. 시퀄라이즈 최신 문법 적용
+
+3. immer 확장 (익스플로러11)
+
 ## ServerSideRendering Setting \_ ~2022/09/07
 
 1. 사용자 게시글, 해시태그 게시글 불러오기 구현

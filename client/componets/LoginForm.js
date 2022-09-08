@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
-import { Form, Input, Button } from 'antd';
+import React, { useCallback, useEffect } from 'react';
+import { Form, Input, Button, Row, Col } from 'antd';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,12 +11,10 @@ const FormWrapper = styled(Form)`
   padding-top: 20px;
   padding-bottom: 20px;
   padding-left: 10px;
-  padding-right: 10px;
   border-radius: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-right: 5px;
   margin-bottom: 20px;
-  background-color: #A2A8D3;
+  background-color: #a2a8d3;
 
   & label {
     color: #fff;
@@ -31,9 +29,14 @@ const FormWrapper = styled(Form)`
 `;
 const ButtonWrapper = styled.div`
   padding-top: 10px;
-  text-align: center;
   & Button {
-    width: 40%;
+    width: 25%;
+    border-radius: 20px;
+  }
+  & a {
+    margin-left: 10px;
+    color: #fff;
+
   }
 `;
 
@@ -55,40 +58,48 @@ const LoginForm = () => {
 
   return (
     <FormWrapper onFinish={onSubmitForm}>
-      <div>
-        <label htmlFor='user-email'>이메일</label>
-        <br />
-        <Input
-          name='user-email'
-          type='email'
-          value={email}
-          onChange={onChangeEmail}
-          required
-          placeholder='e-mail을 입력하세요.'
-        />
-      </div>
-      <div>
-        <label htmlFor='user-password'>비밀번호</label>
-        <br />
-        <Input
-          name='user-password'
-          type='password'
-          value={password}
-          onChange={onChangePassword}
-          required
-          placeholder='password를 입력하세요.'
-        />
-      </div>
-      <ButtonWrapper>
-        <Button type='primary' htmlType='submit' loading={logInLoading}>
-          로그인
-        </Button>
-        <Link href='/signup'>
-          <a>
-            <Button>회원가입</Button>
-          </a>
-        </Link>
-      </ButtonWrapper>
+      <Row gotter={8}>
+        <Col xs={24} md={12}>
+          <div style={{marginRight: 10}}>
+            <label htmlFor='user-email'>이메일</label>
+            <br />
+            <Input
+              name='user-email'
+              type='email'
+              value={email}
+              onChange={onChangeEmail}
+              required
+              placeholder='e-mail을 입력하세요.'
+            />
+          </div>
+        </Col>
+        <Col xs={24} md={12}>
+          <div style={{marginRight: 10}}>
+            <label htmlFor='user-password'>비밀번호</label>
+            <br />
+            <Input
+              name='user-password'
+              type='password'
+              value={password}
+              onChange={onChangePassword}
+              required
+              placeholder='password를 입력하세요.'
+            />
+          </div>
+        </Col>
+        <Col xs={24} md={24}>
+          <ButtonWrapper>
+            <Button type='primary' htmlType='submit' loading={logInLoading}>
+              로그인
+            </Button>
+            <Link href='/signup'>
+              <a>
+                아직 회원이 아니신가요?
+              </a>
+            </Link>
+          </ButtonWrapper>
+        </Col>
+      </Row>
     </FormWrapper>
   );
 };
