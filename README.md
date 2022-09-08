@@ -23,9 +23,21 @@ SNS 웹페이지 풀스택 구현 프로젝트
 
 <br>
 
-## ServerSideRendering Setting \_ 2022/09/05
+## ServerSideRendering Setting \_ ~2022/09/07
 
 1. 사용자 게시글, 해시태그 게시글 불러오기 구현
+
+2. getStaticPaths 적용
+
+3. Profile Page swr 적용
+
+4. 해시태그 검색기능 추가
+
+5. Moment 라이브러리 이용 -> 게시글 작성일 표시
+
+6. 커스텀 웹팩 작성 및 빌드 하기
+
+7. 디자인 수정
 
 ## ServerSideRendering Setting \_ 2022/08/30
 
