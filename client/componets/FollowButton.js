@@ -28,8 +28,8 @@ const FollowButton = ({ post }) => {
     return null;
   }
   return (
-    <Button loading={followLoading || unfollowLoading} onClick={onClickButton}>
-      {isFollowing ? '언팔로우' : '팔로우'}
+    <Button style={{borderRadius: 10}} loading={followLoading || unfollowLoading} onClick={onClickButton}>
+      {isFollowing ? 'UnFollow' : 'Follow'}
     </Button>
   );
 };

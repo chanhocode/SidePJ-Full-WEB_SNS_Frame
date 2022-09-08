@@ -9,10 +9,11 @@ import {
   ADD_POST_REQUEST,
 } from '../reducers/post';
 import styled from 'styled-components';
+import {SendOutlined} from '@ant-design/icons'
 
 const FormWrapper = styled(Form)`
   margin-bottom: 20px;
-  background-color: #6184c6;
+  background-color: #38598b;
   border-radius: 5px;
   overflow: hidden;
   padding: 10px;
@@ -76,7 +77,8 @@ const PostForm = () => {
         value={text}
         onChange={onChangeText}
         maxLength={140}
-        placeholder='어떤 일이 있었나요?'
+        placeholder='새로운 글을 작성 해보세요.'
+        style={{ resize: 'none', height: '90px'}}
       />
       <div>
         <input
@@ -90,11 +92,11 @@ const PostForm = () => {
         <Button onClick={onClickImageUpload}>이미지 업로드</Button>
         <Button
           type='primary'
-          style={{ float: 'right' }}
+          style={{ float: 'right', width: '5vw'}}
           htmlType='submit'
           loading={addPostLoading}
         >
-          작성
+          <SendOutlined />
         </Button>
       </div>
       <div>

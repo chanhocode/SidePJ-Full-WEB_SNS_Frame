@@ -16,7 +16,7 @@ const FormWrapper = styled(Form)`
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 20px;
-  background-color: #fca3b9;
+  background-color: #A2A8D3;
 
   & label {
     color: #fff;

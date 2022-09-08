@@ -19,7 +19,7 @@ const InputArea = styled(Input)`
 `;
 const FormWrapper = styled(Form)`
   width: 95%;
-  background-color: #6184c6;
+  background-color: #38598b;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -92,10 +92,19 @@ const signup = () => {
   return (
     <AppLayout>
       <Head>
-        <title>Sing UP</title>
+        <title>Sign UP</title>
       </Head>
       <FormWrapper onFinish={onSubmit}>
-        <h1>회원가입 페이지 입니다.</h1>
+        <img
+          src='/img/signup.png'
+          alt='sign'
+          style={{
+            width: '70%',
+            marginRight: 'auto',
+            marginLeft: 'auto',
+          }}
+        />
+        <h1>Welcome to Sign Up!!</h1>
         <div>
           <InputArea
             name='user-email'
@@ -145,12 +154,17 @@ const signup = () => {
             onChange={onChangeTerm}
             style={{ color: '#fff', marginTop: '20px', marginBottom: '20px' }}
           >
-            본 약관에 동의합니다.
+            정말로 회원가입 하시겠습니까?
           </Checkbox>
           {termError && <ErrorMessage>약관에 동의하셔야 합니다.</ErrorMessage>}
         </div>
         <div style={{ marginTop: 10 }}>
-          <Button type='primary' htmlType='submit' loading={signUpLoading}>
+          <Button
+            type='primary'
+            htmlType='submit'
+            loading={signUpLoading}
+            style={{ backgroundColor: '#A2A8D3', border: 'none' }}
+          >
             가입하기
           </Button>
         </div>

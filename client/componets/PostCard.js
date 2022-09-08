@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Popover, Button, Avatar, List, Comment } from 'antd';
 import {
@@ -19,6 +19,10 @@ import {
   RETWEET_REQUEST,
 } from '../reducers/post';
 import FollowButton from './FollowButton';
+import Link from 'next/link';
+import moment from 'moment';
+moment.locale('ko');
+
 const PostCard = ({ post }) => {
   const dispatch = useDispatch();
   const { removePostLoading } = useSelector((state) => state.post);
@@ -69,9 +73,17 @@ const PostCard = ({ post }) => {
   return (
     <div style={{ marginBottom: 20 }}>
       <Card
+        style={{
+          borderBottom: 'solid 5px #A2A8D3',
+          color: '#38598B',
+        }}
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
-          <RetweetOutlined key='retweet' onClick={onRetweet} />,
+          <RetweetOutlined
+            style={{ color: '#38598B' }}
+            key='retweet'
+            onClick={onRetweet}
+          />,
           liked ? (
             <HeartTwoTone
               twoToneColor='#eb2f96'
@@ -79,9 +91,17 @@ const PostCard = ({ post }) => {
               onClick={onUnlike}
             />
           ) : (
-            <HeartOutlined key='heart' onClick={onLike} />
+            <HeartOutlined
+              style={{ color: '#38598B' }}
+              key='heart'
+              onClick={onLike}
+            />
           ),
-          <MessageOutlined key='comment' onClick={onToggleComment} />,
+          <MessageOutlined
+            style={{ color: '#38598B' }}
+            key='comment'
+            onClick={onToggleComment}
+          />,
           <Popover
             key='more'
             content={
@@ -103,7 +123,7 @@ const PostCard = ({ post }) => {
               </Button.Group>
             }
           >
-            <EllipsisOutlined />
+            <EllipsisOutlined style={{ color: '#38598B' }} />
           </Popover>,
         ]}
         title={
@@ -119,32 +139,79 @@ const PostCard = ({ post }) => {
               )
             }
           >
+            <div style={{ float: 'right' }}>
+              {moment(post.createdAt).format('YYYY.MM.DD')}
+            </div>
             <Card.Meta
-              avatar={<Avatar>{post.Retweet.User.nickname[0]}</Avatar>}
+              avatar={
+                <Link href={`/user/${post.Retweet.User.id}`}>
+                  <a>
+                    <Avatar>{post.Retweet.User.nickname[0]}</Avatar>
+                  </a>
+                </Link>
+              }
               title={post.Retweet.User.nickname}
               description={<PostCardContent postData={post.Retweet.content} />}
             />
           </Card>
         ) : (
-          <Card.Meta
-            avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
-            title={post.User.nickname}
-            description={<PostCardContent postData={post.content} />}
-          />
+          <>
+            <div style={{ float: 'right' }}>
+              {moment(post.createdAt).format('YYYY.MM.DD')}
+            </div>
+            <Card.Meta
+              avatar={
+                <Link href={`/user/${post.User.id}`}>
+                  <a>
+                    <Avatar>{post.User.nickname[0]}</Avatar>
+                  </a>
+                </Link>
+              }
+              title={post.User.nickname}
+              description={<PostCardContent postData={post.content} />}
+            />
+          </>
         )}
       </Card>
       {commentFormOpened && (
-        <div>
+        <div
+          style={{
+            borderBottom: 'solid 5px #113F67',
+            backgroundColor: '#A2A8D3',
+            padding: 10,
+          }}
+        >
           <CommentForm post={post} />
           <List
             header={`${post.Comments.length}개의 댓글`}
             itemLayout='horizontal'
             dataSource={post.Comments}
+            style={{
+              color: '#fff',
+              fontWeight: 'bold',
+            }}
             renderItem={(item) => (
-              <li>
+              <li
+                style={{
+                  color: 'black',
+                  backgroundColor: '#b9bedd',
+                  borderRadius: '10px',
+                  overflow: 'hidden',
+                  marginTop: 7,
+                  marginBottom: 7,
+                  paddingLeft: 7,
+                  paddingRight: 7,
+                }}
+              >
                 <Comment
                   author={item.User.nickname}
-                  avatar={<Avatar>{item.User.nickname[0]}</Avatar>}
+                  avatar={
+                    <Link href={`/user/${item.User.id}`}>
+                      <a>
+                        <Avatar>{item.User.nickname[0]}</Avatar>
+                      </a>
+                    </Link>
+                  }
                   content={item.content}
                 />
               </li>

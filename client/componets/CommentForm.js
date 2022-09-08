@@ -4,6 +4,7 @@ import useInput from './../hooks/useInput';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_COMMENT_REQUEST } from '../reducers/post';
+import { EditFilled } from '@ant-design/icons';
 
 const CommentForm = ({ post }) => {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const CommentForm = ({ post }) => {
           value={commentText}
           onChange={onChangeCommentText}
           row={4}
+          style={{ resize: 'none' }}
         />
         <Button
           type='primary'
@@ -39,7 +41,7 @@ const CommentForm = ({ post }) => {
           style={{ position: 'absolute', right: 0, bottom: -40, zIndex: 1 }}
           loading={addCommentLoading}
         >
-          작성
+          <EditFilled />
         </Button>
       </Form.Item>
     </Form>

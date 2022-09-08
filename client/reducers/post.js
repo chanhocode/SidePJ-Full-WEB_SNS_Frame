@@ -91,8 +91,6 @@ export const addComment = (data) => ({
   data,
 });
 
-// comment:: 이전 state 를 action을 통해 다음 state로 만들어내는 function(불변성은 지키면서)
-// comment:: immer 라이브러리 사용하여 불변성 유지
 
 const reducer = (state = initialState, action) =>
   produce(state, (draft) => {

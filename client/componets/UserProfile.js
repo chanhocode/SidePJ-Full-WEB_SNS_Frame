@@ -3,7 +3,7 @@ import { Card, Avatar, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutRequestAction } from '../reducers/user';
 import styled from 'styled-components';
-// Comment :: 리액트에서 배열로 JSX 쓸때는 Key를 붙여줘야함.
+import Link from 'next/link';
 
 const CardWrapper = styled(Card)`
   padding-bottom: 20px;
@@ -13,7 +13,7 @@ const CardWrapper = styled(Card)`
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 20px;
-  background-color: #fca3b9;
+  background-color: #A2A8D3;
 `;
 const Meta = styled(Card.Meta)`
   display: flex;
@@ -39,23 +39,38 @@ const UserProfile = () => {
     <CardWrapper
       actions={[
         <div key='twit'>
-          content
+          <Link href={`/user/${me.id}`}>
+            <a>content</a>
+          </Link>
           <br />
           {me.Posts.length}
         </div>,
         <div key='followings'>
-          팔로잉
+          <Link href='/profile'>
+            <a>팔로잉</a>
+          </Link>{' '}
           <br />
           {me.Followings.length}
         </div>,
         <div key='followers'>
-          팔로워
+          <Link href='/profile'>
+            <a>팔로워</a>
+          </Link>
           <br />
           {me.Followers.length}
         </div>,
       ]}
     >
-      <Meta avatar={<Avatar>{me.nickname[0]}</Avatar>} title={me.nickname} />
+      <Meta
+        avatar={
+          <Link href={`/user/${me.id}`}>
+            <a>
+              <Avatar>{me.nickname[0]}</Avatar>
+            </a>
+          </Link>
+        }
+        title={me.nickname}
+      />
       <LogOut onClick={onLogOut} loading={logOutLoading}>
         로그아웃
       </LogOut>
