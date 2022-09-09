@@ -135,8 +135,7 @@ typings/
 # Serverless directories
 .serverless
 /client/build/
-react-nodebird.pem
-react-nodebird-aws.pem
+sns_pj.pem
 node_modules
 .env
 .next
