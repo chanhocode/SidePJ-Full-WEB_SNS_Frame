@@ -10,6 +10,7 @@ import {
 } from '../reducers/post';
 import styled from 'styled-components';
 import { SendOutlined } from '@ant-design/icons';
+import { backURL } from '../config/config';
 
 const FormWrapper = styled(Form)`
   margin-bottom: 20px;
@@ -125,7 +126,7 @@ const PostForm = () => {
             {imagePaths.map((v, i) => (
               <div key={v} style={{ display: 'inline-block' }}>
                 <img
-                  src={`http://localhost:3065/${v}`}
+                  src={`${backURL}/${v}`}
                   style={{ width: '200px' }}
                   alt={v}
                 />

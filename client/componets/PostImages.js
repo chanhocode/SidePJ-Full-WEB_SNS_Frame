@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import ImagesZoom from './ImagesZoom';
 import styled from 'styled-components';
+import { backURL } from '../config/config';
 
 const ImgWrapper = styled.div`
   padding: 10px;
@@ -20,7 +21,7 @@ const PostImages = ({ images }) => {
       <>
         <img
           role='presentation'
-          src={`http://localhost:3065/${images[0].src}`}
+          src={`${backURL}/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
         />
@@ -34,7 +35,7 @@ const PostImages = ({ images }) => {
         <img
           role='presentation'
           width='100%'
-          src={`http://localhost:3065/${images[0].src}`}
+          src={`${backURL}/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
         />
