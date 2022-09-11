@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'chanhosns.com'],
+    origin: ['http://localhost:3000', 'chanhosns.com', 'http://3.38.153.29'],
     credentials: true,
   })
 );
