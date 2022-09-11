@@ -37,7 +37,11 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'chanhosns.com', 'http://3.38.153.29'],
+    origin: [
+      'http://localhost:3000',
+      'http://chanhopj.com',
+      'http://43.200.67.2',
+    ],
     credentials: true,
   })
 );
@@ -53,6 +57,11 @@ app.use(
     saveUninitialized: false,
     resave: false,
     secret: process.env.COOKIE_SECRET,
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      domain: process.env.NODE_ENV === 'production' && '.chanhopj.com',
+    },
   })
 );
 app.use(passport.initialize());
