@@ -13,15 +13,25 @@ SNS 웹페이지 풀스택 구현 프로젝트
   [ React, Next.js, Redux, Saga, Immer, Styled-Component ]
 </div>
 
-## 프로젝트 실행
+## Web URL
 
-### client
-
-### `npm run dev` :: 클라이언트 실행
+[SNS 바로가기](http://chanhopj.com/)
 
 ## History
 
 <br>
+
+## Distribute Web Service [ AWS ] \_ ~2022/09/14
+
+1. EC2 생성 및 노드, MySQL, pm2 환경 구성
+
+2. 프론트 서버, 백엔드 서버 배포
+
+3. 도메인 연결 \_ 가비아 구매
+
+4. 이미지 저장 \_ S3 연결
+
+5. 이미지 리사이징 \_ Lambda
 
 ## ServerSideRendering Complete \_ 2022/09/08
 

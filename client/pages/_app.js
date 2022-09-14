@@ -13,6 +13,7 @@ function App({ Component }) {
       <Head>
         <meta charSet='utf-8' />
         <title>chanhocode</title>
+        <link rel='icon' href='/favicon.png' />
       </Head>
       <Component />
     </>
