@@ -90,7 +90,7 @@ const PostForm = () => {
   };
   return (
     <>
-      <PostButton  onClick={toggleView}>
+      <PostButton onClick={toggleView}>
         게시글을 작성 하시겠습니까?
         <SendOutlined />
       </PostButton>
@@ -126,7 +126,7 @@ const PostForm = () => {
             {imagePaths.map((v, i) => (
               <div key={v} style={{ display: 'inline-block' }}>
                 <img
-                  src={v}
+                  src={v.relpae(/\/thumb\//, '/original/')}
                   style={{ width: '200px' }}
                   alt={v}
                 />
