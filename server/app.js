@@ -39,7 +39,7 @@ app.use(
   cors({
     origin: [
       'http://localhost:3000',
-      'http://chanhopj.com',
+      'https://chanhopj.com',
       'http://43.200.67.2',
     ],
     credentials: true,
@@ -59,7 +59,7 @@ app.use(
     secret: process.env.COOKIE_SECRET,
     cookie: {
       httpOnly: true,
-      secure: false,
+      secure: true,
       domain: process.env.NODE_ENV === 'production' && '.chanhopj.com',
     },
   })
@@ -76,6 +76,6 @@ app.use('/posts', postsRouter);
 app.use('/user', userRouter);
 app.use('/hashtag', hashtagRouter);
 
-app.listen(80, () => {
+app.listen(3065, () => {
   console.log('server On');
 });

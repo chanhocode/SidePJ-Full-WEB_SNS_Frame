@@ -21,6 +21,14 @@ SNS 웹페이지 풀스택 구현 프로젝트
 
 <br>
 
+## Web Service [ AWS ] \_ ~2022/09/15
+
+  1. Let'sEncrypt 인증서 발급 및 cron 이용 자동 갱신 적용
+
+  2. 프론트서버 nginx + https 적용
+
+  3. 백엔드서버 https 적용
+  
 ## Distribute Web Service [ AWS ] \_ ~2022/09/14
 
 1. EC2 생성 및 노드, MySQL, pm2 환경 구성
