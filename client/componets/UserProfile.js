@@ -40,8 +40,8 @@ const LogOut = styled(Button)`
   width: 105px;
 `;
 const Greetings = styled.div`
-color: #fff;
-font-weight: 500;
+  color: #fff;
+  font-weight: 500;
 `;
 const TopItem = styled.div`
   display: flex;
@@ -87,7 +87,9 @@ const UserProfile = () => {
   return (
     <CardWrapper>
       <TopItem>
-        <Greetings>Welcom to {me.nickname}!! Did anything special happen?</Greetings>
+        <Greetings>
+          Welcom to {me.nickname}!! Did anything special happen?
+        </Greetings>
         <LogOut onClick={onLogOut} loading={logOutLoading}>
           Logout
         </LogOut>
@@ -95,7 +97,7 @@ const UserProfile = () => {
 
       <UserArea>
         <div style={{ height: '100%' }} key='avater'>
-          <Link href={`/user/${me.id}`}>
+          <Link href={`/user/${me.id}`} prefetch={false}>
             <Meta>
               <UserAvater>{me.nickname[0]}</UserAvater>
               <>{me.nickname}</>
