@@ -17,18 +17,17 @@ SNS 웹페이지 풀스택 구현 프로젝트
 <h1>📚 STACKS</h1>
 
 <div align=center> 
-  <img src="https://img.shields.io/badge/기술이름-#제외색상번호?style=for-the-badge&logo=아이콘이름&logoColor=white">
-
   <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
   <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white">
   <img src="https://img.shields.io/badge/Redux-Saga-764ABC?style=for-the-badge&logo=Redux-Saga&logoColor=white">
   <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white">
+  <br>
   <img src="https://img.shields.io/badge/Immer-00E7C3?style=for-the-badge&logo=Immer&logoColor=white">
   <img src="https://img.shields.io/badge/PM2-2B037A?style=for-the-badge&logo=PM2&logoColor=white">
-  <br>
   <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
   <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=Express&logoColor=white">
   <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=Express&logoColor=white">
+  <br>
   <img src="https://img.shields.io/badge/Passport-34E27A?style=for-the-badge&logo=Passport&logoColor=black">
   <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">
   <img src="https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white">
@@ -43,19 +42,19 @@ SNS 웹페이지 풀스택 구현 프로젝트
 
 <h3>Preview1</h3>
 
-![preview1](https://user-images.githubusercontent.com/105937460/190849325-b3e2715a-cf25-4611-bf9f-411a4ac8cd35.gif)
+![preview1](https://user-images.githubusercontent.com/105937460/190849325-b3e2715a-cf25-4611-bf9f-411a4ac8cd35.gif){: width="100%" height="100%"}
 
 <h3>Preview2</h3>
 
-![preview2](https://user-images.githubusercontent.com/105937460/190849415-68d6deb9-f81d-4e08-8444-b9d11a53892d.gif)
+![preview2](https://user-images.githubusercontent.com/105937460/190849415-68d6deb9-f81d-4e08-8444-b9d11a53892d.gif){: width="100%" height="100%"}
 
 <h3>Preview3</h3>
 
-![preview3](https://user-images.githubusercontent.com/105937460/190849432-cc58aab7-6e9b-426e-bcd4-7b8dec3256b1.gif)
+![preview3](https://user-images.githubusercontent.com/105937460/190849432-cc58aab7-6e9b-426e-bcd4-7b8dec3256b1.gif){: width="100%" height="100%"}
 
 <h3>Preview4</h3>
 
-![preview4](https://user-images.githubusercontent.com/105937460/190849451-c66c7a4a-4e31-4125-a35d-b1b764faed03.gif)
+![preview4](https://user-images.githubusercontent.com/105937460/190849451-c66c7a4a-4e31-4125-a35d-b1b764faed03.gif){: width="100%" height="100%"}
 
 </div>
 
