@@ -6,29 +6,95 @@
 SNS 웹페이지 풀스택 구현 프로젝트
 </p>
 
+### Web URL
+
+[SNS 사이트 바로가기](http://chanhopj.com/)
+
 ## 기술 스택
 
-<div align=center><h1>📚 STACKS</h1></div>
 <div align=center>
-  [ React, Next.js, Redux, Saga, Immer, Styled-Component ]
+
+<h1>📚 STACKS</h1>
+
+<div align=center> 
+  <img src="https://img.shields.io/badge/기술이름-#제외색상번호?style=for-the-badge&logo=아이콘이름&logoColor=white">
+
+  <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
+  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white">
+  <img src="https://img.shields.io/badge/Redux-Saga-764ABC?style=for-the-badge&logo=Redux-Saga&logoColor=white">
+  <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white">
+  <img src="https://img.shields.io/badge/Immer-00E7C3?style=for-the-badge&logo=Immer&logoColor=white">
+  <img src="https://img.shields.io/badge/PM2-2B037A?style=for-the-badge&logo=PM2&logoColor=white">
+  <br>
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
+  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=Express&logoColor=white">
+  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=Express&logoColor=white">
+  <img src="https://img.shields.io/badge/Passport-34E27A?style=for-the-badge&logo=Passport&logoColor=black">
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">
+  <img src="https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white">
+  <img src="https://img.shields.io/badge/Amazon AWS-FF9900?style=for-the-badge&logo=Amazon AWS&logoColor=black">
+  <br>
+</div>
 </div>
 
-## Web URL
+## Preview
 
-[SNS 바로가기](http://chanhopj.com/)
+<div align=center>
+
+<h3>Preview1</h3>
+
+![preview1](https://user-images.githubusercontent.com/105937460/190849325-b3e2715a-cf25-4611-bf9f-411a4ac8cd35.gif)
+
+<h3>Preview2</h3>
+
+![preview2](https://user-images.githubusercontent.com/105937460/190849415-68d6deb9-f81d-4e08-8444-b9d11a53892d.gif)
+
+<h3>Preview3</h3>
+
+![preview3](https://user-images.githubusercontent.com/105937460/190849432-cc58aab7-6e9b-426e-bcd4-7b8dec3256b1.gif)
+
+<h3>Preview4</h3>
+
+![preview4](https://user-images.githubusercontent.com/105937460/190849451-c66c7a4a-4e31-4125-a35d-b1b764faed03.gif)
+
+</div>
+
+## 업데이트 예정
+
+1. 팔로잉 게시글만 불러오기 구현
+
+2. 게시글 신고 기능 구현
+
+3. 댓글 수정 & 삭제 구현
+
+4. 좋아요 게시글 목록 구현
+
+5. 닉네임 검색 기능 구현
+
+6. 프로필 이미지 구현
+
+7. 상태메세지 구현
+
+8. 메세지 기능 구현
+
+## 수정 예정
+
+<p>[ 버그 내용 ] -> [ 수정_날짜 ]</p>
 
 ## History
 
-<br>
+## Web Service Func \_ ~2022/09/15
+
+1. 게시글 수정 구현
 
 ## Web Service [ AWS ] \_ ~2022/09/15
 
-  1. Let'sEncrypt 인증서 발급 및 cron 이용 자동 갱신 적용
+1. Let'sEncrypt 인증서 발급 및 cron 이용 자동 갱신 적용
 
-  2. 프론트서버 nginx + https 적용
+2. 프론트서버 nginx + https 적용
 
-  3. 백엔드서버 https 적용
-  
+3. 백엔드서버 https 적용
+
 ## Distribute Web Service [ AWS ] \_ ~2022/09/14
 
 1. EC2 생성 및 노드, MySQL, pm2 환경 구성
