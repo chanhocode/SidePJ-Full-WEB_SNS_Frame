@@ -42,7 +42,7 @@ SNS 웹페이지 풀스택 구현 프로젝트
 
 <h3>Preview1</h3>
 
-![preview1](https://user-images.githubusercontent.com/105937460/190849325-b3e2715a-cf25-4611-bf9f-411a4ac8cd35.gif){: width="100%" height="100%"}
+![preview1](https://user-images.githubusercontent.com/105937460/190849325-b3e2715a-cf25-4611-bf9f-411a4ac8cd35.gif)![preview2](https://user-images.githubusercontent.com/105937460/190849415-68d6deb9-f81d-4e08-8444-b9d11a53892d.gif)
 
 <h3>Preview2</h3>
 
