@@ -3,12 +3,12 @@
 ## 프로젝트 소개
 
 <p align="justify">
-SNS 웹페이지 풀스택 구현 프로젝트
+SNS 웹페이지 풀스택 구현 프로젝트:: Local Develop Branch
 </p>
 
-### Web URL
-
-[SNS 사이트 바로가기](http://chanhopj.com/)
+<p>
+배포되는 Main Branch에 올리기전에 기능 추가 테스트 및 최적화를 위한 로컬 브랜치 입니다.
+</p>
 
 ## 기술 스택
 
@@ -42,14 +42,6 @@ SNS 웹페이지 풀스택 구현 프로젝트
 
 <h3>Preview1</h3>
 
-![preview1](https://user-images.githubusercontent.com/105937460/190849325-b3e2715a-cf25-4611-bf9f-411a4ac8cd35.gif)![preview2](https://user-images.githubusercontent.com/105937460/190849415-68d6deb9-f81d-4e08-8444-b9d11a53892d.gif)
-
-<h3>Preview2</h3>
-
-![preview3](https://user-images.githubusercontent.com/105937460/190849432-cc58aab7-6e9b-426e-bcd4-7b8dec3256b1.gif)![preview4](https://user-images.githubusercontent.com/105937460/190849451-c66c7a4a-4e31-4125-a35d-b1b764faed03.gif)
-
-</div>
-
 ## 업데이트 예정
 
 1. 팔로잉 게시글만 불러오기 구현
@@ -73,6 +65,8 @@ SNS 웹페이지 풀스택 구현 프로젝트
 <p>[ 버그 내용 ] -> [ 수정_날짜 ]</p>
 
 ## History
+
+## Local Branch 생성 \_ 2022/10/12
 
 ## Web Service Func \_ ~2022/09/15
 

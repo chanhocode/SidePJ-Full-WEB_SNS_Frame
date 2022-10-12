@@ -126,10 +126,19 @@ const PostForm = () => {
             {imagePaths.map((v, i) => (
               <div key={v} style={{ display: 'inline-block' }}>
                 <img
-                  src={v.replace(/\/thumb\//, '/original/')}
+                  src={`http://localhost:3065/${v}`}
                   style={{ width: '200px' }}
                   alt={v}
                 />
+                {/* 
+            < 배포 버전 >
+            {imagePaths.map((v, i) => (
+              <div key={v} style={{ display: 'inline-block' }}>
+                <img
+                  src={v.replace(/\/thumb\//, '/original/')}
+                  style={{ width: '200px' }}
+                  alt={v}
+                /> */}
                 <div>
                   <Button onClick={onRemoveImage(i)}>제거</Button>
                 </div>
