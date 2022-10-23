@@ -120,15 +120,21 @@ router.get('/:userId', async (req, res, next) => {
   }
 });
 
+// 로그인
 router.post('/login', isNotLoggedIn, (req, res, next) => {
+  // <- 미들웨어 확장
+  // local전략 _ passport/local 에서의 done을 응답으로 받음 _ (서버에러, 성공객체, 클라이언트에러)
   passport.authenticate('local', (err, user, info) => {
     if (err) {
+      // 서버에러
       console.error(err);
       return next(err);
     }
     if (info) {
+      // 클라이언트 에러
       return res.status(401).send(info.reason);
     }
+    // 패스포트 로그인
     return req.login(user, async (loginErr) => {
       if (loginErr) {
         console.error(loginErr);
@@ -156,15 +162,17 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
           },
         ],
       });
+      // 사용자 정보 프론트로 넘김
       return res.status(200).json(fullUserWithoutPassword);
     });
   })(req, res, next);
-});
+}); // end 로그인
 
+// 회원가입
 router.post('/', isNotLoggedIn, async (req, res, next) => {
   // POST /user/
   try {
-    // 이메일 중복 Check
+    // 이메일 중복 Check _ 없으면 null return
     const exUser = await User.findOne({
       where: {
         email: req.body.email,
@@ -173,9 +181,10 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {
     if (exUser) {
       return res.status(403).send('이미 사용 중인 아이디입니다.');
     }
-    // Password 암호화 (bcrypt 사용)
+    // Password 해쉬화 (bcrypt 사용) _ 적정숫자 10~13(처리길이_ 높을 수록 좋다.)
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     await User.create({
+      // req.body act ion data -> saga data -> req
       email: req.body.email,
       nickname: req.body.nickname,
       password: hashedPassword,
@@ -185,15 +194,17 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {
     console.error(error);
     next(error); // status 500 :: 서버 에러
   }
-});
+}); // end 회원가입
 
+// 로그아웃
 router.post('/logout', isLoggedIn, (req, res) => {
+  // 세션제거 쿠키 제거
   req.logout(() => {
     res.redirect('/');
   });
   req.session.destroy();
   res.send('ok');
-});
+}); // end 로그아웃
 
 router.patch('/nickname', isLoggedIn, async (req, res, next) => {
   try {

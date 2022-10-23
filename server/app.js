@@ -25,6 +25,7 @@ db.sequelize
     console.log('db 연결 성공!');
   })
   .catch(console.error);
+// passport 연결 
 passportConfig();
 
 if (process.env.NODE_ENV === 'production') {
@@ -35,6 +36,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('dev'));
 }
 
+// cors setting
 app.use(
   cors({
     origin: [
@@ -44,13 +46,17 @@ app.use(
     ],
     credentials: true,
   })
-);
+); // end cors setting
 
 app.use('/', express.static(path.join(__dirname, 'uploads')));
+
 // comment:: req.body
+// 프론트에서 json 형식의 data 를 req.body에 넣어준다.
 app.use(express.json());
+// form submit을 하면 urlencoded방식으로 data가 넘어온다. 그 데이터를 req.body에 넣어준다.
 app.use(express.urlencoded({ extended: true }));
 
+// 쿠키 
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
   session({
