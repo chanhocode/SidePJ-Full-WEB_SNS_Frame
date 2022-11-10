@@ -45,6 +45,7 @@ const PostImages = ({ images }) => {
           src={`http://localhost:3065/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
+          width='100%'
         />
         {/* <img
           role='presentation'
