@@ -28,6 +28,7 @@ db.sequelize
 // passport 연결 
 passportConfig();
 
+// 디버깅 편의
 if (process.env.NODE_ENV === 'production') {
   app.use(morgan('combined'));
   app.use(hpp());
@@ -44,6 +45,7 @@ app.use(
       'http://chanhopj.com',
       'http://43.200.67.2',
     ],
+    // 쿠키도 함께 전달
     credentials: true,
   })
 ); // end cors setting
@@ -77,6 +79,7 @@ app.get('/', (req, res) => {
   res.send('hello express');
 });
 
+// 데이터 흐름: dispatch Component -> reducer -> saga -> router
 app.use('/post', postRouter);
 app.use('/posts', postsRouter);
 app.use('/user', userRouter);

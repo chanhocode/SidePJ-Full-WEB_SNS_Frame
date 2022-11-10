@@ -1,4 +1,6 @@
+// 로그인 유무 검사 미들웨어
 exports.isLoggedIn = (req, res, next) => {
+  // isAuthenticated가 true이면 로그인 상태
   if (req.isAuthenticated()) {
     next();
   } else {

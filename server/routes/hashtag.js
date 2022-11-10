@@ -3,6 +3,7 @@ const { Op } = require('sequelize');
 const { Post, User, Image, Comment, Hashtag } = require('../models');
 const router = express.Router();
 
+// 해시태그
 router.get('/:hashtag', async (req, res, next) => {
   // GET /hashtag/node
   try {
@@ -52,6 +53,6 @@ router.get('/:hashtag', async (req, res, next) => {
     console.error(error);
     next(error);
   }
-});
+}); // end 해시태그
 
 module.exports = router;

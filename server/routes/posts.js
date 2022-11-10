@@ -3,6 +3,7 @@ const { Op } = require('sequelize');
 const { Post, User, Image, Comment } = require('../models');
 const router = express.Router();
 
+// 게시글들 불러오기
 router.get('/', async (req, res, next) => {
   // GET /posts
   try {
@@ -10,12 +11,16 @@ router.get('/', async (req, res, next) => {
     if (parseInt(req.query.lastId, 10)) {
       // 초기 로딩이 아닐 때
       where.id = { [Op.lt]: parseInt(req.query.lastId, 10) };
-    } // 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1
+    }
+    // findAll을 이용해 데이터를 모두 불러올 수 있다.
     const posts = await Post.findAll({
       where,
+      // 10개 씩 가져온다.
       limit: 10,
       order: [
+        // 최신 게시글 순으로 가져온다.
         ['createdAt', 'DESC'],
+        // 댓글 최신순
         [Comment, 'createdAt', 'DESC'],
       ],
       include: [
@@ -60,6 +65,6 @@ router.get('/', async (req, res, next) => {
     console.error(error);
     next(error);
   }
-});
+}); // end 게시글들 불러오기
 
 module.exports = router;

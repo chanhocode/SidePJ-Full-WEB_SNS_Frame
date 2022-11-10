@@ -6,13 +6,15 @@ const passport = require('passport');
 const { Op } = require('sequelize');
 const { User, Post, Image, Comment } = require('../models');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
-
+// isLoggedIn: 로그인이 되어있는경우 검사 _ isNotLoggedIn: 로그인이 안되어 있는 경우인지 검사하는 미들웨어
 const router = express.Router();
 
+// 로그인 정보 불러오기
 router.get('/', async (req, res, next) => {
   // GET /user
   // console.log(req.headers);
   try {
+    // 로그인 상태 확인 (사용자가 있으면 동작 없으면 null)
     if (req.user) {
       const fullUserWithoutPassword = await User.findOne({
         where: { id: req.user.id },
@@ -20,6 +22,7 @@ router.get('/', async (req, res, next) => {
           exclude: ['password'],
         },
         include: [
+          // attributes로 id만 가져온다. _ lenght만 필요하기 때문에 _ 데이터 효율을 위해
           {
             model: Post,
             attributes: ['id'],
@@ -44,7 +47,7 @@ router.get('/', async (req, res, next) => {
     console.error(error);
     next(error);
   }
-});
+}); // end 로그인 정보 불러오기
 
 router.get('/followers', isLoggedIn, async (req, res, next) => {
   // GET /user/followers
@@ -143,6 +146,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
       const fullUserWithoutPassword = await User.findOne({
         where: { id: user.id },
         attributes: {
+          // password빼고 전체 데이터를 받아 오겠다.
           exclude: ['password'],
         },
         include: [
@@ -206,12 +210,14 @@ router.post('/logout', isLoggedIn, (req, res) => {
   res.send('ok');
 }); // end 로그아웃
 
+// 닉네임 수정 _ (부분 수정이므로 patch)
 router.patch('/nickname', isLoggedIn, async (req, res, next) => {
   try {
     User.update(
       {
         nickname: req.body.nickname,
       },
+      // 자신의 계정의 닉네임만 변경할 수 있는 조건 부여
       {
         where: { id: req.user.id },
       }
@@ -221,7 +227,7 @@ router.patch('/nickname', isLoggedIn, async (req, res, next) => {
     console.error(error);
     next(error);
   }
-});
+});// end 닉네임 수정
 
 router.patch('/:userId/follow', isLoggedIn, async (req, res, next) => {
   // PATCH /user/1/follow
