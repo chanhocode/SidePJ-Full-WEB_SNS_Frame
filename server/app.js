@@ -39,13 +39,13 @@ passportConfig();
 // } else {
 //   app.use(morgan('dev'));
 // }
+
 app.use(
   cors({
     origin: 'http://localhost:3000',
     credentials: true,
   })
 );
-
 // < 배포 버전 >
 // app.use(
 //   cors({
@@ -57,12 +57,6 @@ app.use(
 //     credentials: true,
 //   })
 // );
-app.use(
-  cors({
-    origin: 'http://localhost:3000',
-    credentials: true,
-  })
-);
 
 app.use('/', express.static(path.join(__dirname, 'uploads')));
 // comment:: req.body
@@ -70,7 +64,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser(process.env.COOKIE_SECRET));
-
 // <배포 버전>
 // app.use(
 //   session({

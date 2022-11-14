@@ -62,7 +62,6 @@ router.get('/followers', isLoggedIn, async (req, res, next) => {
     next(error);
   }
 });
-
 router.get('/followings', isLoggedIn, async (req, res, next) => {
   // GET /user/followings
   try {
@@ -226,7 +225,6 @@ router.patch('/:userId/follow', isLoggedIn, async (req, res, next) => {
     next(error);
   }
 });
-
 router.delete('/:userId/follow', isLoggedIn, async (req, res, next) => {
   // DELETE /user/1/follow
   try {
