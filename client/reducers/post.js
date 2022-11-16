@@ -36,7 +36,14 @@ export const initialState = {
   retweetLoading: false,
   retweetDone: false,
   retweetError: null,
+  accuseLoading: false,
+  accuseDone: false,
+  accuseError: null,
 };
+
+export const POST_ACCUSE_REQUEST = 'POST_ACCUSE_REQUEST';
+export const POST_ACCUSE_SUCCESS = 'POST_ACCUSE_SUCCESS';
+export const POST_ACCUSE_FAILURE = 'POST_ACCUSE_FAILURE';
 
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';
@@ -259,6 +266,22 @@ const reducer = (state = initialState, action) =>
       case UNLIKE_POSTS_FAILURE:
         draft.unlikePostLoading = false;
         draft.unlikePostError = action.error;
+        break;
+      case POST_ACCUSE_REQUEST:
+        draft.accuseLoading = true;
+        draft.accuseDone = false;
+        draft.accuseError = null;
+        break;
+      case POST_ACCUSE_SUCCESS: {
+        // const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
+        // post.Accuses.unshift(action.data);
+        draft.accuseLoading = false;
+        draft.accuseDone = true;
+        break;
+      }
+      case POST_ACCUSE_FAILURE:
+        draft.accuseLoading = false;
+        draft.accuseError = action.error;
         break;
       default:
         break;

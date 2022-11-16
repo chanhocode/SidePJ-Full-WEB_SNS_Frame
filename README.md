@@ -66,6 +66,8 @@ SNS 웹페이지 풀스택 구현 프로젝트:: Local Develop Branch
 
 ## History
 
+## 신고하기 기능 구현 \_ 2022/11/16
+
 ## Local Branch 생성 \_ 2022/10/12
 
 ## Web Service Func \_ ~2022/09/15

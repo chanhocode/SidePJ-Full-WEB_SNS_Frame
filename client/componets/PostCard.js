@@ -1,6 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Popover, Button, Avatar, List, Comment } from 'antd';
+import {
+  Card,
+  Popover,
+  Button,
+  Avatar,
+  List,
+  Comment,
+  Modal,
+  Input,
+} from 'antd';
 import {
   RetweetOutlined,
   HeartOutlined,
@@ -18,18 +27,81 @@ import {
   UNLIKE_POSTS_REQUEST,
   RETWEET_REQUEST,
   UPDATE_POST_REQUEST,
+  POST_ACCUSE_REQUEST,
 } from '../reducers/post';
 import FollowButton from './FollowButton';
 import Link from 'next/link';
 import moment from 'moment';
+import styled from 'styled-components';
+
 moment.locale('ko');
 
+const AccuseForm = styled.div`
+  width: 100%;
+  background-color: #e7eaf6;
+  padding-top: 10px;
+  height: 165px;
+  .title {
+    padding-left: 5%;
+  }
+  .textWrapper {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    TextArea {
+      width: 90%;
+    }
+  }
+  .button-group {
+    width: 100%;
+    padding-right: 5%;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    Button {
+      float: right;
+    }
+  }
+`;
+
 const PostCard = ({ post }) => {
+  const { TextArea } = Input;
+  const id = useSelector((state) => state.user.me?.id);
+
   const dispatch = useDispatch();
   const { removePostLoading } = useSelector((state) => state.post);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
-  const id = useSelector((state) => state.user.me?.id);
   const [editMode, setEditMode] = useState(false);
+
+  const [accuseValue, setAccuseValue] = useState('');
+  const [isAccuseOpen, setIsAccuseOpen] = useState(false);
+
+  const showAccuse = () => {
+    setIsAccuseOpen(true);
+    console.log(isAccuseOpen);
+  };
+
+  const accuseHandleOk = useCallback(
+    (accuseValue) => () => {
+      console.log(
+        `postId: ${post.id} _ userId: ${id} _ content: ${accuseValue}`
+      );
+      dispatch({
+        type: POST_ACCUSE_REQUEST,
+        data: {
+          postId: post.id,
+          userId: id,
+          content: accuseValue,
+        },
+      });
+      setIsAccuseOpen(false);
+      setAccuseValue('');
+    },
+    []
+  );
+  const accuseHandleCancel = () => {
+    setIsAccuseOpen(false);
+  };
 
   const onClickUpdate = useCallback(() => {
     setEditMode(true);
@@ -142,7 +214,11 @@ const PostCard = ({ post }) => {
                     </Button>
                   </>
                 ) : (
-                  <Button>신고</Button>
+                  <>
+                    <Button type='primary' onClick={showAccuse}>
+                      신고
+                    </Button>
+                  </>
                 )}
               </Button.Group>
             }
@@ -255,6 +331,28 @@ const PostCard = ({ post }) => {
             )}
           />
         </div>
+      )}
+      {isAccuseOpen && (
+        <AccuseForm>
+          <div className='title'>게시글 신고</div>
+          <div className='textWrapper'>
+            <TextArea
+              value={accuseValue}
+              onChange={(e) => setAccuseValue(e.target.value)}
+              placeholder='신고 내용을 입력하세요'
+              autoSize={{
+                minRows: 3,
+                maxRows: 3,
+              }}
+            />
+          </div>
+          <div className='button-group'>
+            <Button onClick={accuseHandleCancel}>취소</Button>
+            <Button type='danger' onClick={accuseHandleOk(accuseValue)}>
+              신고
+            </Button>
+          </div>
+        </AccuseForm>
       )}
     </div>
   );

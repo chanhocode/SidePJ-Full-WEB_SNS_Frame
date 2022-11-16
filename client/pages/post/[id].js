@@ -29,13 +29,8 @@ const post = () => {
         <meta property='og:description' content={singlePost.content} />
         <meta
           property='og:image'
-          content={
-            singlePost.Images[0]
-              ? singlePost.Images[0].src
-              : 'https://nodebird.com/favicon.ico'
-          }
+          content={singlePost.Images[0] ? singlePost.Images[0].src : null}
         />
-        <meta property='og:url' content={`https://nodebird.com/post/${id}`} />
       </Head>
       <PostCard post={singlePost} />
     </AppLayout>

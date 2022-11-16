@@ -37,6 +37,9 @@ import {
   UPDATE_POST_REQUEST,
   UPDATE_POST_SUCCESS,
   UPDATE_POST_FAILURE,
+  POST_ACCUSE_REQUEST,
+  POST_ACCUSE_SUCCESS,
+  POST_ACCUSE_FAILURE,
 } from '../reducers/post';
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
@@ -229,6 +232,28 @@ function* addComment(action) {
   }
 }
 
+// PostAccuse
+function postAccuseAPI(data) {
+  console.log('accuse data: ', data);
+  return axios.post(`/post/${data.postId}/accuse`, data);
+}
+function* postAccuse(action) {
+  try {
+    const result = yield call(postAccuseAPI, action.data);
+    // console.log('accuse saga result: ', result, result.data);
+    yield put({
+      type: POST_ACCUSE_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: POST_ACCUSE_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 // LikePosts
 function likePostsAPI(data) {
   return axios.patch(`/post/${data}/like`);
@@ -325,6 +350,10 @@ function* watchUnlikePosts() {
   yield takeLatest(UNLIKE_POSTS_REQUEST, unlikePosts);
 }
 
+function* watchPostAccuse() {
+  yield takeLatest(POST_ACCUSE_REQUEST, postAccuse);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchRetweet),
@@ -339,5 +368,6 @@ export default function* postSaga() {
     fork(watchAddComment),
     fork(watchLikePosts),
     fork(watchUnlikePosts),
+    fork(watchPostAccuse),
   ]);
 }

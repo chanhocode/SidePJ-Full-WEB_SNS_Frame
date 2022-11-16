@@ -5,7 +5,7 @@ const fs = require('fs');
 // const multerS3 = require('multer-s3');
 // const AWS = require('aws-sdk');
 
-const { Post, Image, Comment, User, Hashtag } = require('../models');
+const { Post, Image, Comment, User, Hashtag, Accuse } = require('../models');
 const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
@@ -135,6 +135,36 @@ router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {
       ],
     });
     res.status(201).json(fullComment);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.post('/:postId/accuse', isLoggedIn, async (req, res, next) => {
+  // POST /post/id/accuse
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId },
+    });
+    if (!post) {
+      return res.status(403).send('존재하지 않는 게시글입니다.');
+    }
+    const accuse = await Accuse.create({
+      content: req.body.content,
+      PostId: parseInt(req.params.postId, 10),
+      UserId: req.user.id,
+    });
+    const fullAccuse = await Accuse.findOne({
+      where: { id: accuse.id },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'nickname'],
+        },
+      ],
+    });
+    res.status(201).json(fullAccuse);
   } catch (error) {
     console.error(error);
     next(error);
