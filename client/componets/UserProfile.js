@@ -15,7 +15,7 @@ const CardWrapper = styled(Card)`
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 10px;
-  margin-right: 5px;
+  /* margin-right: 5px; */
   margin-bottom: 20px;
   background-color: #a2a8d3;
 `;

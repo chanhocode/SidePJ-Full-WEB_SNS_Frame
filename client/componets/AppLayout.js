@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 
@@ -8,22 +8,31 @@ import {
   UserOutlined,
   AuditOutlined,
   SearchOutlined,
+  DownOutlined,
+  UserAddOutlined,
+  TeamOutlined,
+  LogoutOutlined,
+  RightSquareOutlined,
+  DoubleRightOutlined,
 } from '@ant-design/icons';
 
-import { Layout, Menu, Input, Row, Col, Button } from 'antd';
+import { Layout, Menu, Input, Row, Col, Button, Space, Dropdown } from 'antd';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutRequestAction } from '../reducers/user';
+
 import UserProfile from './UserProfile';
 import LoginForm from './LoginForm';
 import styled, { createGlobalStyle } from 'styled-components';
 import Router from 'next/router';
 import useInput from '../hooks/useInput';
+import ChanhoInfo from './ChanhoInfo';
 
 const { Sider } = Layout;
 
 const Global = createGlobalStyle`
   body {
-    background-color: #E7EAF6;
+    background-color: #fff !important;
   }
   #__next {
     height: 100% !important;
@@ -47,57 +56,94 @@ const Global = createGlobalStyle`
   }
 `;
 
-const GreetingForm = styled.div`
-  background-color: #e7eaf6;
-  border-radius: 10px;
-  margin-right: 10px;
-  padding: 5px;
-  & a {
-    color: black;
-    font-size: 1.3rem;
-    font-weight: 600;
+const Header = styled.div``;
+const HeaderUpper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  height: 60px;
+  border-bottom: 2px solid #fff;
+  border-top: 2px solid #fff;
+
+  font-size: medium;
+  font-weight: 600;
+`;
+const HeaderLeft = styled.div`
+  display: flex;
+  width: 30%;
+  justify-content: space-between;
+  .logo {
+    margin-right: 15px;
+    cursor: pointer;
   }
+`;
+const HeaderRight = styled.div`
+  display: flex;
+  width: 30%;
+  justify-content: end;
+  padding-right: 10px;
+  .profileLink {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+  .logout {
+    cursor: pointer;
+  }
+`;
+const HeaderInput = styled.div`
+  width: 40%;
+  margin-left: auto;
+  margin-bottom: 10px;
+  .ant-input {
+    border: none;
+    border-bottom: 2px solid darkgray;
+  }
+`;
+const allmenu = (
+  <Menu>
+    <Menu.Item key={1}>
+      <Link href='/allpage'>
+        <a>Category: all</a>
+      </Link>
+    </Menu.Item>
+    <Menu.Item key={2}>
+      <Link href='/catpage'>
+        <a>Category: cat</a>
+      </Link>
+    </Menu.Item>
+    <Menu.Item key={3}>
+      <Link href='/dogpage'>
+        <a>Category: dog</a>
+      </Link>
+    </Menu.Item>
+  </Menu>
+);
+
+const AddvertisementWrapper = styled.div`
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-bottom: 10px;
+  .addv_img1 {
+    background-image: url('/img/avm1.png');
+    background-size: cover;
+    aspect-ratio: 1920/481;
+  }
+  .addv_img2 {
+    background-image: url('/img/avm2.png');
+    background-size: cover;
+    aspect-ratio: 1920/481;
+  }
+`;
+const AppLogo = styled.div`
+  background-image: url('/img/logo.png');
+  background-size: cover;
+  aspect-ratio: 1172/358;
+  width: 150px;
 `;
 
-const AdsOne = styled.div`
-  height: 15vw;
-  background-image: url('/img/goods1.jpg');
-  background-size: cover;
-  margin-right: 10px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border-radius: 10px;
+const UserHandle = styled.div`
   display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  font-size: 1.3rem;
-  & h3 {
-    color: #fefefe;
-  }
-  & Button {
-    border-radius: 30px;
-  }
-`;
-const AdsTwo = styled.div`
-  height: 15vw;
-  background-image: url('/img/goods2.jpg');
-  background-size: cover;
-  margin-right: 10px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  font-size: 1.3rem;
-  & h3 {
-    color: #fefefe;
-  }
-  & Button {
-    border-radius: 30px;
-  }
 `;
 
 const AppLayout = ({ children }) => {
@@ -109,92 +155,180 @@ const AppLayout = ({ children }) => {
     Router.push(`/hashtag/${searchInput}`);
   }, [searchInput]);
 
+  const onLogOut = useCallback(() => {
+    dispatch(logoutRequestAction());
+  }, []);
+
+  const value = {
+    me,
+    onLogOut,
+  };
+
   return (
     <Layout hasSider>
       <Global />
-      <Sider
-        theme='light'
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
-        width={300}
-        collapsedWidth={60}
-        style={{
-          overflow: 'auto',
-          height: '100vh',
-          position: 'fixed',
-          left: 0,
-          top: 0,
-          bottom: 0,
-          zIndex: 1000,
-          backgroundColor: '#E7EAF6',
-        }}
-      >
-        <Menu
-          theme='light'
-          defaultSelectedKeys={['1']}
-          mode='inline'
-          style={{ backgroundColor: '#E7EAF6' }}
-        >
-          <Menu.Item key={1} icon={<HomeOutlined />}>
-            <Link href='/'>
-              <a>HOME</a>
-            </Link>
-          </Menu.Item>
-          <Menu.Item key={2} icon={<UserOutlined />}>
-            <Link href='/profile'>
-              <a>Profile</a>
-            </Link>
-          </Menu.Item>
-          <Menu.Item key={3} icon={<AuditOutlined />}>
-            <Link href='/signup'>
-              <a>SignUp</a>
-            </Link>
-          </Menu.Item>
-          <Menu.Item key={4} icon={<SearchOutlined />}>
-            <Input.Search
-              enterButton
-              style={{ verticalAlign: 'middle' }}
-              value={searchInput}
-              onChange={onChangeSearchInput}
-              onSearch={onSearch}
-            />
-          </Menu.Item>
-        </Menu>
-      </Sider>
       <Layout
         className='site-layout'
         style={{
           paddingTop: 10,
-          paddingLeft: 70,
+          backgroundColor: '#fff',
         }}
       >
         <Row gutter={8}>
-          <Col xs={24} md={14}>
+          <Col xs={0} md={2}>
+            <Sider
+              theme='light'
+              collapsible
+              collapsed={collapsed}
+              onCollapse={(value) => setCollapsed(value)}
+              width={300}
+              collapsedWidth={60}
+              style={{
+                overflow: 'auto',
+                height: '100vh',
+                position: 'fixed',
+                left: 0,
+                top: 0,
+                bottom: 0,
+                zIndex: 1000,
+                backgroundColor: '#E7EAF6',
+              }}
+            >
+              <Menu
+                theme='light'
+                defaultSelectedKeys={['1']}
+                mode='inline'
+                style={{ backgroundColor: '#E7EAF6' }}
+              >
+                <Menu.Item key={1} icon={<HomeOutlined />}>
+                  <Link href='/'>
+                    <a>HOME</a>
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key={2} icon={<DoubleRightOutlined />}>
+                  <Link href='/allpage'>
+                    <a>All</a>
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key={3} icon={<DoubleRightOutlined />}>
+                  <Link href='/catpage'>
+                    <a>Cat</a>
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key={4} icon={<DoubleRightOutlined />}>
+                  <Link href='/dogpage'>
+                    <a>Dog</a>
+                  </Link>
+                </Menu.Item>
+                {me ? (
+                  <>
+                    <Menu.Item key={5} icon={<UserOutlined />}>
+                      <Link href='/profile'>
+                        <a>Profile</a>
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item key={6} icon={<LogoutOutlined />}>
+                      <div className='logout' onClick={onLogOut}>
+                        LogOut
+                      </div>
+                    </Menu.Item>
+                  </>
+                ) : (
+                  <Menu.Item key={7} icon={<AuditOutlined />}>
+                    <Link href='/signup'>
+                      <a>SignUp</a>
+                    </Link>
+                  </Menu.Item>
+                )}
+                <Menu.Item key={8} icon={<SearchOutlined />}>
+                  <Input.Search
+                    enterButton
+                    style={{ verticalAlign: 'middle' }}
+                    value={searchInput}
+                    onChange={onChangeSearchInput}
+                    onSearch={onSearch}
+                  />
+                </Menu.Item>
+              </Menu>
+            </Sider>
+          </Col>
+          <Col xs={24} md={0}>
+            <Header>
+              <HeaderUpper>
+                <HeaderLeft>
+                  <div className='logo'>
+                    <Link href='/'>
+                      <AppLogo />
+                    </Link>
+                  </div>
+                </HeaderLeft>
+                <HeaderRight>
+                  <Dropdown overlay={allmenu}>
+                    <a onClick={(e) => e.preventDefault()}>
+                      <Space>
+                        <DownOutlined
+                          style={{ fontSize: '30px', color: '#000' }}
+                        />
+                      </Space>
+                    </a>
+                  </Dropdown>
+                  <div>
+                    {me ? (
+                      <UserHandle>
+                        <div className='profileLink'>
+                          <Link href='/profile'>
+                            <a>
+                              <TeamOutlined
+                                style={{ fontSize: '30px', color: '#000' }}
+                              />
+                            </a>
+                          </Link>
+                        </div>
+                        <div className='logout' onClick={onLogOut}>
+                          <LogoutOutlined
+                            style={{ fontSize: '30px', color: '#000' }}
+                          />
+                        </div>
+                      </UserHandle>
+                    ) : (
+                      <Link href='/signup'>
+                        <a>
+                          <UserAddOutlined />
+                        </a>
+                      </Link>
+                    )}
+                  </div>
+                </HeaderRight>
+              </HeaderUpper>
+              <HeaderInput>
+                <Input.Search
+                  enterButton
+                  style={{ verticalAlign: 'middle' }}
+                  value={searchInput}
+                  onChange={onChangeSearchInput}
+                  onSearch={onSearch}
+                />
+              </HeaderInput>
+            </Header>
+          </Col>
+          <Col xs={24} md={12} style={{ padding: '0' }}>
             <>
               {me ? <UserProfile /> : <LoginForm />}
               {children}
             </>
           </Col>
           <Col xs={24} md={10}>
-            <GreetingForm>
-              <img src='/img/quokka.png' alt='quokka' width={'30%'} />
-              <a
-                href='https://github.com/chanhocode'
-                target='_blank'
-                rel='noreferrer noopener'
-              >
-                Made by Chanho
+            <ChanhoInfo />
+            <AddvertisementWrapper>
+              <a href='https://map.naver.com/v5/search/%EB%B7%B0%ED%8B%B0%ED%98%9C/place/1440294673?placePath=%3Fentry=pll%26from=nx%26fromNxList=true'>
+                <div className='addv_img1'></div>
               </a>
-            </GreetingForm>
-            <AdsOne>
-              <h3>It's an advertisement.</h3>
-              <Button>Contact us</Button>
-            </AdsOne>
-            <AdsTwo>
-              <h3>It's an advertisement.</h3>
-              <Button>Contact us</Button>
-            </AdsTwo>
+            </AddvertisementWrapper>
+            <AddvertisementWrapper>
+              <a href='https://map.naver.com/v5/search/%EC%95%84%EC%82%B0%20%EC%9A%B4%EB%8F%99%ED%99%94%EA%B5%AC%EB%91%90%EB%B9%A8%EB%9E%98%EB%B0%A9/place/35263276?placePath=%3Fentry=pll%26from=nx%26fromNxList=true'>
+                <div className='addv_img2'></div>
+              </a>
+            </AddvertisementWrapper>
           </Col>
         </Row>
       </Layout>

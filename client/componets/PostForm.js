@@ -20,7 +20,7 @@ const FormWrapper = styled(Form)`
   border-bottom-right-radius: 5px;
   overflow: hidden;
   padding: 10px;
-  margin-right: 5px;
+  /* margin-right: 5px; */
 `;
 const TextInput = styled(Input.TextArea)`
   margin-bottom: 10px;

@@ -12,7 +12,6 @@ const FormWrapper = styled(Form)`
   padding-bottom: 20px;
   padding-left: 10px;
   border-radius: 10px;
-  margin-right: 5px;
   margin-bottom: 20px;
   background-color: #a2a8d3;
 
@@ -36,7 +35,6 @@ const ButtonWrapper = styled.div`
   & a {
     margin-left: 10px;
     color: #fff;
-
   }
 `;
 
@@ -60,7 +58,7 @@ const LoginForm = () => {
     <FormWrapper onFinish={onSubmitForm}>
       <Row gotter={8}>
         <Col xs={24} md={12}>
-          <div style={{marginRight: 10}}>
+          <div style={{ marginRight: 10 }}>
             <label htmlFor='user-email'>이메일</label>
             <br />
             <Input
@@ -74,7 +72,7 @@ const LoginForm = () => {
           </div>
         </Col>
         <Col xs={24} md={12}>
-          <div style={{marginRight: 10}}>
+          <div style={{ marginRight: 10 }}>
             <label htmlFor='user-password'>비밀번호</label>
             <br />
             <Input
@@ -93,9 +91,7 @@ const LoginForm = () => {
               로그인
             </Button>
             <Link href='/signup'>
-              <a>
-                아직 회원이 아니신가요?
-              </a>
+              <a>아직 회원이 아니신가요?</a>
             </Link>
           </ButtonWrapper>
         </Col>
