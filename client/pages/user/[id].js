@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Card } from 'antd';
 import { END } from 'redux-saga';
@@ -20,7 +20,11 @@ const User = () => {
     (state) => state.post
   );
   const { userInfo, me } = useSelector((state) => state.user);
-
+  const [Image, setImage] = useState(
+    userInfo.profileImage
+      ? `http://localhost:3065/${userInfo.profileImage}`
+      : '/img/blankProfile.png'
+  );
   useEffect(() => {
     const onScroll = () => {
       if (
@@ -87,7 +91,7 @@ const User = () => {
           ]}
         >
           <Card.Meta
-            avatar={<Avatar>{userInfo.nickname[0]}</Avatar>}
+            avatar={<Avatar src={Image} />}
             title={userInfo.nickname}
           />
         </Card>

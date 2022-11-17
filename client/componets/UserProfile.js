@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { Card, Avatar, Button } from 'antd';
+import React, { useCallback, useState } from 'react';
+import { Form, Card, Avatar, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutRequestAction } from '../reducers/user';
 import styled from 'styled-components';
@@ -69,7 +69,7 @@ const UserArea = styled.div`
   color: #113f67;
   font-weight: 500;
 `;
-const UserAvater = styled(Avatar)`
+const UserAvatar = styled(Avatar)`
   height: 60px;
   width: 60px;
   aspect-ratio: 1/1;
@@ -79,7 +79,11 @@ const UserAvater = styled(Avatar)`
 const UserProfile = () => {
   const dispatch = useDispatch();
   const { me, logOutLoading } = useSelector((state) => state.user);
-
+  const [Image, setImage] = useState(
+    me.profileImage
+      ? `http://localhost:3065/${me.profileImage}`
+      : '/img/blankProfile.png'
+  );
   const onLogOut = useCallback(() => {
     dispatch(logoutRequestAction());
   }, []);
@@ -96,10 +100,10 @@ const UserProfile = () => {
       </TopItem>
 
       <UserArea>
-        <div style={{ height: '100%' }} key='avater'>
+        <div style={{ height: '100%' }} key='avatar'>
           <Link href={`/user/${me.id}`} prefetch={false}>
             <Meta>
-              <UserAvater>{me.nickname[0]}</UserAvater>
+              <UserAvatar src={Image} />
               <>{me.nickname}</>
             </Meta>
           </Link>

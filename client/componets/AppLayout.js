@@ -205,17 +205,44 @@ const AppLayout = ({ children }) => {
                     <a>HOME</a>
                   </Link>
                 </Menu.Item>
-                <Menu.Item key={2} icon={<DoubleRightOutlined />}>
+                <Menu.Item
+                  key={2}
+                  icon={
+                    <img
+                      src='/img/allIcon.png'
+                      alt='all'
+                      style={{ width: '15px' }}
+                    />
+                  }
+                >
                   <Link href='/allpage'>
                     <a>All</a>
                   </Link>
                 </Menu.Item>
-                <Menu.Item key={3} icon={<DoubleRightOutlined />}>
+                <Menu.Item
+                  key={3}
+                  icon={
+                    <img
+                      src='/img/catIcon.png'
+                      alt='all'
+                      style={{ width: '15px' }}
+                    />
+                  }
+                >
                   <Link href='/catpage'>
                     <a>Cat</a>
                   </Link>
                 </Menu.Item>
-                <Menu.Item key={4} icon={<DoubleRightOutlined />}>
+                <Menu.Item
+                  key={4}
+                  icon={
+                    <img
+                      src='/img/dogIcon.png'
+                      alt='all'
+                      style={{ width: '17px' }}
+                    />
+                  }
+                >
                   <Link href='/dogpage'>
                     <a>Dog</a>
                   </Link>
@@ -293,7 +320,9 @@ const AppLayout = ({ children }) => {
                     ) : (
                       <Link href='/signup'>
                         <a>
-                          <UserAddOutlined />
+                          <UserAddOutlined
+                            style={{ fontSize: '30px', color: '#000' }}
+                          />
                         </a>
                       </Link>
                     )}

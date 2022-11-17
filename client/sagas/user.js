@@ -1,4 +1,4 @@
-import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
+import { all, fork, put, takeLatest, call, throttle } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   LOG_IN_FAILURE,
@@ -22,6 +22,9 @@ import {
   CHANGE_NICKNAME_REQUEST,
   CHANGE_NICKNAME_SUCCESS,
   CHANGE_NICKNAME_FAILURE,
+  CHANGE_PROFILE_REQUEST,
+  CHANGE_PROFILE_SUCCESS,
+  CHANGE_PROFILE_FAILURE,
   REMOVE_FOLLOWER_REQUEST,
   REMOVE_FOLLOWER_SUCCESS,
   REMOVE_FOLLOWER_FAILURE,
@@ -34,7 +37,30 @@ import {
   LOAD_MY_INFO_REQUEST,
   LOAD_MY_INFO_SUCCESS,
   LOAD_MY_INFO_FAILURE,
+  UPLOAD_PROFILE_IMAGES_REQUEST,
+  UPLOAD_PROFILE_IMAGES_SUCCESS,
+  UPLOAD_PROFILE_IMAGES_FAILURE,
 } from '../reducers/user';
+
+// UploadImages
+function uploadImagesAPI(data) {
+  return axios.post('/user/images', data);
+}
+function* uploadImages(action) {
+  try {
+    const result = yield call(uploadImagesAPI, action.data);
+    console.log('Upload_saga: ', result.data);
+    yield put({
+      type: UPLOAD_PROFILE_IMAGES_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      type: UPLOAD_PROFILE_IMAGES_FAILURE,
+      errors: err.response.data,
+    });
+  }
+}
 
 // REMOVE Follower
 function removeFollowerAPI(data) {
@@ -150,6 +176,7 @@ function* logIn(action) {
       type: LOG_IN_SUCCESS,
       data: result.data,
     });
+    console.log('login me: ', result.data);
   } catch (err) {
     console.error(err);
     yield put({
@@ -253,6 +280,24 @@ function* changeNickname(action) {
     });
   }
 }
+// Change Profile
+function changeProfileAPI(data) {
+  return axios.post('/user/profile', data);
+}
+function* changeProfile(action) {
+  try {
+    const result = yield call(changeProfileAPI, action.data);
+    yield put({
+      type: CHANGE_PROFILE_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      type: CHANGE_PROFILE_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
 
 // Event Listener와 비슷한 역할
 function* watchLoadMyInfo() {
@@ -279,6 +324,9 @@ function* watchSignUP() {
 function* watchChangeNickname() {
   yield takeLatest(CHANGE_NICKNAME_REQUEST, changeNickname);
 }
+function* watchChangeProfile() {
+  yield takeLatest(CHANGE_PROFILE_REQUEST, changeProfile);
+}
 function* watchRemoveFollower() {
   yield takeLatest(REMOVE_FOLLOWER_REQUEST, removeFollower);
 }
@@ -290,13 +338,18 @@ function* watchLoadFollowers() {
 function* watchLoadFollowings() {
   yield takeLatest(LOAD_FOLLOWINGS_REQUEST, loadFollowings);
 }
+function* watchUploadImages() {
+  yield throttle(2000, UPLOAD_PROFILE_IMAGES_REQUEST, uploadImages);
+}
 
 export default function* userSaga() {
   yield all([
     fork(watchRemoveFollower),
+    fork(watchUploadImages),
     fork(watchLoadFollowers),
     fork(watchLoadFollowings),
     fork(watchChangeNickname),
+    fork(watchChangeProfile),
     fork(watchLoadMyInfo),
     fork(watchLoadUser),
     fork(watchFollow),

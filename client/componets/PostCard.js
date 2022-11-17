@@ -67,12 +67,12 @@ const AccuseForm = styled.div`
 const PostCard = ({ post }) => {
   const { TextArea } = Input;
   const id = useSelector((state) => state.user.me?.id);
-
   const dispatch = useDispatch();
+  const { me } = useSelector((state) => state.user);
+
   const { removePostLoading } = useSelector((state) => state.post);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
   const [editMode, setEditMode] = useState(false);
-
   const [accuseValue, setAccuseValue] = useState('');
   const [isAccuseOpen, setIsAccuseOpen] = useState(false);
 
@@ -245,7 +245,13 @@ const PostCard = ({ post }) => {
               avatar={
                 <Link href={`/user/${post.Retweet.User.id}`} prefetch={false}>
                   <a>
-                    <Avatar>{post.Retweet.User.nickname[0]}</Avatar>
+                    <Avatar
+                      src={
+                        post.Retweet.User.profileImage
+                          ? `http://localhost:3065/${post.Retweet.User.profileImage}`
+                          : '/img/blankProfile.png'
+                      }
+                    />
                   </a>
                 </Link>
               }
@@ -268,7 +274,13 @@ const PostCard = ({ post }) => {
               avatar={
                 <Link href={`/user/${post.User.id}`} prefetch={false}>
                   <a>
-                    <Avatar>{post.User.nickname[0]}</Avatar>
+                    <Avatar
+                      src={
+                        post.User.profileImage
+                          ? `http://localhost:3065/${post.User.profileImage}`
+                          : '/img/blankProfile.png'
+                      }
+                    />
                   </a>
                 </Link>
               }
@@ -320,7 +332,13 @@ const PostCard = ({ post }) => {
                   avatar={
                     <Link href={`/user/${item.User.id}`} prefetch={false}>
                       <a>
-                        <Avatar>{item.User.nickname[0]}</Avatar>
+                        <Avatar
+                          src={
+                            item.User.profileImage
+                              ? `http://localhost:3065/${item.User.profileImage}`
+                              : '/img/blankProfile.png'
+                          }
+                        />
                       </a>
                     </Link>
                   }

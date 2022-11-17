@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../hooks/useInput';
 import { CHANGE_NICKNAME_REQUEST } from '../reducers/user';
 
-const NicknameEditForm = () => {
+const ProfileEditForm = () => {
   const style = useMemo(() => ({
     marginBottom: '20px',
     borderRadius: '5px',
@@ -35,4 +35,4 @@ const NicknameEditForm = () => {
   );
 };
 
-export default NicknameEditForm;
+export default ProfileEditForm;

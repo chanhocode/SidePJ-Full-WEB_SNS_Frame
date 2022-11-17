@@ -1,4 +1,7 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
 const bcrypt = require('bcrypt');
 const passport = require('passport');
@@ -8,6 +11,27 @@ const { User, Post, Image, Comment } = require('../models');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 const router = express.Router();
+
+try {
+  fs.accessSync('uploads');
+} catch (error) {
+  console.log('uploads 폴더 생성');
+  fs.mkdirSync('uploads');
+}
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, 'uploads');
+    },
+    filename(req, file, done) {
+      // 파일.png
+      const ext = path.extname(file.originalname); // 확장자 추출(.png)
+      const basename = path.basename(file.originalname, ext); //파일
+      done(null, basename + '_' + new Date().getTime + ext); // 파일1234214.png (중복 방지)
+    },
+  }),
+  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+});
 
 router.get('/', async (req, res, next) => {
   // GET /user
@@ -211,6 +235,42 @@ router.patch('/nickname', isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.post('/profile', isLoggedIn, upload.none(), async (req, res, next) => {
+  // USER /profile
+  try {
+    const profile = await User.update(
+      {
+        profileImage: req.body.image,
+      },
+      {
+        where: { id: req.body.userId },
+      }
+    );
+    const user = await User.findOne({ where: { id: req.body.userId } });
+    if (req.body.image) {
+      if (Array.isArray(req.body.image)) {
+        const images = await Promise.all(
+          req.body.image.map((image) => Image.create({ src: image }))
+        );
+        await user.addImages(images);
+      } else {
+        const image = await Image.create({ src: req.body.image });
+        await user.addImages(image);
+      }
+    }
+    res.status(200).json({ profileImage: req.body.image });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
+  // POST /user/images
+  console.log(req.files);
+  res.json(req.files.map((v) => v.filename));
+});
+
 router.patch('/:userId/follow', isLoggedIn, async (req, res, next) => {
   // PATCH /user/1/follow
   try {
@@ -275,13 +335,13 @@ router.get('/:userId/posts', async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ['id', 'nickname'],
+              attributes: ['id', 'nickname', 'profileImage'],
             },
           ],
         },
         {
           model: User,
-          attributes: ['id', 'nickname'],
+          attributes: ['id', 'nickname', 'profileImage'],
         },
         {
           model: User,
@@ -295,7 +355,7 @@ router.get('/:userId/posts', async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ['id', 'nickname'],
+              attributes: ['id', 'nickname', 'profileImage'],
             },
             {
               model: Image,
