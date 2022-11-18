@@ -13,7 +13,7 @@ const FormWrapper = styled(Form)`
   padding-left: 10px;
   border-radius: 10px;
   margin-bottom: 20px;
-  background-color: #a2a8d3;
+  background-color: #1C6DD0;
 
   & label {
     color: #fff;

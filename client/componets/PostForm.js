@@ -14,7 +14,7 @@ import { backURL } from '../config/config';
 
 const FormWrapper = styled(Form)`
   margin-bottom: 20px;
-  background-color: #38598b;
+  background-color: #1C6DD0;
   border-top-right-radius: 5px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -28,7 +28,7 @@ const TextInput = styled(Input.TextArea)`
 
 const PostButton = styled(Button)`
   border: none;
-  background-color: #38598b;
+  background-color: #1C6DD0;
   color: #fff;
   font-weight: 600;
   border-top-left-radius: 5px;

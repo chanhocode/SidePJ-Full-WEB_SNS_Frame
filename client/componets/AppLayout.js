@@ -54,6 +54,10 @@ const Global = createGlobalStyle`
   .ant-layout .site-layout {
     margin: 0 !important;
   }
+  .ant-card-bordered 
+{
+    border: none;
+  }
 `;
 
 const Header = styled.div``;
@@ -147,6 +151,7 @@ const UserHandle = styled.div`
 `;
 
 const AppLayout = ({ children }) => {
+  const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(true);
   const { me } = useSelector((state) => state.user);
 
@@ -191,14 +196,18 @@ const AppLayout = ({ children }) => {
                 top: 0,
                 bottom: 0,
                 zIndex: 1000,
-                backgroundColor: '#E7EAF6',
+                backgroundColor: '#1C6DD0',
               }}
             >
               <Menu
                 theme='light'
                 defaultSelectedKeys={['1']}
                 mode='inline'
-                style={{ backgroundColor: '#E7EAF6' }}
+                style={{
+                  backgroundColor: '#1C6DD0',
+                  borderRight: '1px',
+                  color: '#fff',
+                }}
               >
                 <Menu.Item key={1} icon={<HomeOutlined />}>
                   <Link href='/'>

@@ -11,15 +11,33 @@ import {
   ArrowDownOutlined,
 } from '@ant-design/icons';
 
-const CardWrapper = styled(Card)`
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 10px;
-  /* margin-right: 5px; */
+const ProfileWrapper = styled(Card)`
   margin-bottom: 20px;
-  background-color: #a2a8d3;
 `;
-
+const TopItem = styled.div`
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+  position: absolute;
+  width: 60%;
+  top: 30px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  .nicknameWrapper {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  .imageWrapper {
+    width: 100%;
+    aspect-ratio: 1/1;
+    .ant-avatar {
+      width: 100%;
+      height: 100%;
+    }
+  }
+`;
 const Meta = styled.a`
   display: flex;
   align-items: center;
@@ -32,26 +50,25 @@ const Meta = styled.a`
   font-size: 1.2rem;
   font-weight: bold;
 `;
-const LogOut = styled(Button)`
-  border-radius: 10px;
-  background-color: #38598b;
-  color: white;
-  border: none;
-  width: 105px;
-`;
 const Greetings = styled.div`
-  color: #fff;
+  color: #000;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 5px;
+  background-color: #fff;
   font-weight: 500;
-`;
-const TopItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
 `;
 
 const UserData = styled.div`
   display: flex;
   align-items: center;
+  a {
+    color: #FDF0E0;
+  }
 `;
 
 const Data = styled.div`
@@ -63,17 +80,15 @@ const Data = styled.div`
 
 const UserArea = styled.div`
   display: flex;
-  height: 100px;
-  justify-content: space-between;
-  border-bottom: solid 2px #fff;
-  color: #113f67;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  color: #FDF0E0;
   font-weight: 500;
-`;
-const UserAvatar = styled(Avatar)`
-  height: 60px;
-  width: 60px;
-  aspect-ratio: 1/1;
-  margin-right: 20px;
+  background-color: #1C6DD0;
+  margin-top: 60%;
+  padding-top: 18%;
 `;
 
 const UserProfile = () => {
@@ -89,51 +104,47 @@ const UserProfile = () => {
   }, []);
 
   return (
-    <CardWrapper>
+    <ProfileWrapper>
       <TopItem>
-        <Greetings>
-          Welcom to {me.nickname}!! Did anything special happen?
-        </Greetings>
-        <LogOut onClick={onLogOut} loading={logOutLoading}>
-          Logout
-        </LogOut>
-      </TopItem>
-
-      <UserArea>
-        <div style={{ height: '100%' }} key='avatar'>
+        <div className='nicknameWrapper'>{me.nickname}</div>
+        <div className='imageWrapper' key='avatar'>
           <Link href={`/user/${me.id}`} prefetch={false}>
             <Meta>
-              <UserAvatar src={Image} />
-              <>{me.nickname}</>
+              <Avatar src={Image} />
             </Meta>
           </Link>
         </div>
+      </TopItem>
 
+      <UserArea>
         <UserData>
           <Data key='twit'>
             <Link href={`/user/${me.id}`}>
-              <EditOutlined />
+              게시물
             </Link>
             <br />
             {me.Posts.length}
           </Data>
           <Data key='followings'>
             <Link href='/profile'>
-              <ArrowUpOutlined />
-            </Link>{' '}
+              팔로워
+            </Link>
             <br />
             {me.Followings.length}
           </Data>
           <Data key='followers'>
             <Link href='/profile'>
-              <ArrowDownOutlined />
+              팔로잉
             </Link>
             <br />
             {me.Followers.length}
           </Data>
         </UserData>
+        <Greetings>
+          Welcom to {me.nickname}!! Did anything special happen?
+        </Greetings>
       </UserArea>
-    </CardWrapper>
+    </ProfileWrapper>
   );
 };
 

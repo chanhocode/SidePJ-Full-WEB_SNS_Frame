@@ -38,7 +38,7 @@ moment.locale('ko');
 
 const AccuseForm = styled.div`
   width: 100%;
-  background-color: #e7eaf6;
+  background-color: #5F9DF7;
   padding-top: 10px;
   height: 165px;
   .title {
@@ -167,7 +167,7 @@ const PostCard = ({ post }) => {
     <div style={{ marginBottom: 20 }}>
       <Card
         style={{
-          borderBottom: 'solid 5px #A2A8D3',
+          borderBottom: 'solid 5px #E6CBA8',
           color: '#38598B',
         }}
         cover={post.Images[0] && <PostImages images={post.Images} />}
@@ -300,8 +300,8 @@ const PostCard = ({ post }) => {
       {commentFormOpened && (
         <div
           style={{
-            borderBottom: 'solid 5px #113F67',
-            backgroundColor: '#A2A8D3',
+            borderBottom: 'solid 5px #E6CBA8',
+            backgroundColor: '#5F9DF7',
             padding: 10,
           }}
         >
@@ -318,7 +318,7 @@ const PostCard = ({ post }) => {
               <li
                 style={{
                   color: 'black',
-                  backgroundColor: '#b9bedd',
+                  backgroundColor: '#FFF7E9',
                   borderRadius: '10px',
                   overflow: 'hidden',
                   marginTop: 7,
