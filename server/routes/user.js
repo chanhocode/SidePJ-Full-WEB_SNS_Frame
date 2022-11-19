@@ -198,10 +198,17 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {
     }
     // Password 암호화 (bcrypt 사용)
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    console.log(req.body);
+
     await User.create({
       email: req.body.email,
       nickname: req.body.nickname,
       password: hashedPassword,
+      name: req.body.name,
+      age: req.body.userAge,
+      birth: req.body.birth,
+      gender: req.body.gender,
+      phonNumber: req.body.fullNum,
     });
     res.status(201).send('ok');
   } catch (error) {

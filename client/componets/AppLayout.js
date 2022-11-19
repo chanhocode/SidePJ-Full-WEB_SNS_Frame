@@ -58,6 +58,9 @@ const Global = createGlobalStyle`
 {
     border: none;
   }
+  .ant-layout-sider-trigger {
+    border-right:1px solid #f2f2f2;
+  }
 `;
 
 const Header = styled.div``;

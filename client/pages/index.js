@@ -29,12 +29,11 @@ const SlickWrapper = styled.div`
 const PageButtonGroup = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   .pageButton {
-    width: 98%;
-    aspect-ratio: 1920/800;
+    width: 32%;
+    aspect-ratio: 600/800;
     margin-top: 5px;
     margin-bottom: 5px;
     cursor: pointer;
@@ -44,27 +43,27 @@ const PageButtonGroup = styled.div`
     transition: all 0.2s;
   }
   .allPage {
-    background-image: url('/img/allButton.png');
+    background-image: url('/img/allBt1.png');
     background-size: cover;
   }
   .allPage:hover {
-    background-image: url('/img/allButtonCursor.png');
+    background-image: url('/img/allBt2.png');
     background-size: cover;
   }
   .catPage {
-    background-image: url('/img/catButton.png');
+    background-image: url('/img/catBt1.png');
     background-size: cover;
   }
   .catPage:hover {
-    background-image: url('/img/catButtonCursor.png');
+    background-image: url('/img/catBt2.png');
     background-size: cover;
   }
   .dogPage {
-    background-image: url('/img/dogButton.png');
+    background-image: url('/img/dogBt1.png');
     background-size: cover;
   }
   .dogPage:hover {
-    background-image: url('/img/dogButtonCursor.png');
+    background-image: url('/img/dogBt2.png');
     background-size: cover;
   }
 `;
