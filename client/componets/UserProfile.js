@@ -67,7 +67,7 @@ const UserData = styled.div`
   display: flex;
   align-items: center;
   a {
-    color: #FDF0E0;
+    color: #fdf0e0;
   }
 `;
 
@@ -84,9 +84,9 @@ const UserArea = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  color: #FDF0E0;
+  color: #fdf0e0;
   font-weight: 500;
-  background-color: #1C6DD0;
+  background-color: #1c6dd0;
   margin-top: 60%;
   padding-top: 18%;
 `;
@@ -119,25 +119,20 @@ const UserProfile = () => {
       <UserArea>
         <UserData>
           <Data key='twit'>
-            <Link href={`/user/${me.id}`}>
-              게시물
-            </Link>
+            <Link href={`/user/${me.id}`}>게시물</Link>
             <br />
             {me.Posts.length}
           </Data>
-          <Data key='followings'>
-            <Link href='/profile'>
-              팔로워
-            </Link>
-            <br />
-            {me.Followings.length}
-          </Data>
+
           <Data key='followers'>
-            <Link href='/profile'>
-              팔로잉
-            </Link>
+            <Link href='/profile'>팔로워</Link>
             <br />
             {me.Followers.length}
+          </Data>
+          <Data key='followings'>
+            <Link href='/profile'>팔로잉</Link>
+            <br />
+            {me.Followings.length}
           </Data>
         </UserData>
         <Greetings>

@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import AppLayout from '../componets/AppLayout';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -6,10 +8,17 @@ import 'slick-carousel/slick/slick-theme.css';
 import styled from 'styled-components';
 import Link from 'next/link';
 
-import { LOAD_POSTS_REQUEST } from '../reducers/post';
-import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
+import PostCard from '../componets/PostCard';
+import PostForm from '../componets/PostForm';
+
+import {
+  LOAD_FOLLOWINGS_POSTS_REQUEST,
+  LOAD_POSTS_REQUEST,
+} from '../reducers/post';
+import { LOAD_FOLLOWERS_REQUEST, LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import { END } from 'redux-saga';
 import wrapper from '../store/configureStore';
+import { useRouter } from 'next/router';
 import axios from 'axios';
 
 import { BackTop } from 'antd';
@@ -85,6 +94,36 @@ const CategoryWrapper = styled.div`
   }
 `;
 const home = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { me } = useSelector((state) => state.user);
+  const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector(
+    (state) => state.post
+  );
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (
+        window.pageYOffset + document.documentElement.clientHeight >
+        document.documentElement.scrollHeight - 300
+      ) {
+        if (hasMorePosts && !loadPostsLoading) {
+          dispatch({
+            type: LOAD_FOLLOWINGS_POSTS_REQUEST,
+            lastId:
+              mainPosts[mainPosts.length - 1] &&
+              mainPosts[mainPosts.length - 1].id,
+            data: 'cat',
+          });
+        }
+      }
+    };
+    window.addEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [mainPosts.length, hasMorePosts, loadPostsLoading]);
+
   return (
     <div>
       <AppLayout>
@@ -122,6 +161,8 @@ const home = () => {
             <button className='pageButton dogPage' />
           </Link>
         </PageButtonGroup>
+        {me && <PostForm />}
+        {me && mainPosts.map((post) => <PostCard key={post.id} post={post} />)}
       </AppLayout>
     </div>
   );
@@ -140,7 +181,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       type: LOAD_MY_INFO_REQUEST,
     });
     context.store.dispatch({
-      type: LOAD_POSTS_REQUEST,
+      type: LOAD_FOLLOWERS_REQUEST,
     });
     context.store.dispatch(END);
     console.log('getServerSideProps end');

@@ -40,6 +40,9 @@ import {
   POST_ACCUSE_REQUEST,
   POST_ACCUSE_SUCCESS,
   POST_ACCUSE_FAILURE,
+  LOAD_FOLLOWINGS_POSTS_REQUEST,
+  LOAD_FOLLOWINGS_POSTS_SUCCESS,
+  LOAD_FOLLOWINGS_POSTS_FAILURE,
 } from '../reducers/post';
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
@@ -79,6 +82,26 @@ function* loadPost(action) {
     console.error(err);
     yield put({
       type: LOAD_POST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function loadFollowingsPostsAPI(lastId) {
+  return axios.get(`posts/related?lastId=${lastId || 0}`);
+}
+
+function* loadFollowingsPosts(action) {
+  try {
+    const result = yield call(loadFollowingsPostsAPI, action.data);
+    yield put({
+      type: LOAD_FOLLOWINGS_POSTS_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_FOLLOWINGS_POSTS_FAILURE,
       error: err.response.data,
     });
   }
@@ -326,6 +349,9 @@ function* watchLoadPost() {
 function* watchLoadPosts() {
   yield throttle(2000, LOAD_POSTS_REQUEST, loadPosts);
 }
+function* watchLoadFollowingsPosts() {
+  yield throttle(2000, LOAD_FOLLOWINGS_POSTS_REQUEST, loadFollowingsPosts);
+}
 function* watchLoadUserPosts() {
   yield throttle(2000, LOAD_USER_POSTS_REQUEST, loadUserPosts);
 }
@@ -361,6 +387,7 @@ export default function* postSaga() {
     fork(watchUploadImages),
     fork(watchLoadPost),
     fork(watchLoadPosts),
+    fork(watchLoadFollowingsPosts),
     fork(watchLoadUserPosts),
     fork(watchLoadHashtagPosts),
     fork(watchAddPost),

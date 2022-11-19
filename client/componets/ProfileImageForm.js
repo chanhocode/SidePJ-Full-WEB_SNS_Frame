@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { Form, Avatar, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import {
