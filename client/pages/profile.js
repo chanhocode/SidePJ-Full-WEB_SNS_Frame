@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Head from 'next/head';
 import AppLayout from '../componets/AppLayout';
+
 import ProfileEditForm from '../componets/ProfileEditForm';
 import ProfileImageForm from '../componets/ProfileImageForm';
 import FollowList from '../componets/FollowList';

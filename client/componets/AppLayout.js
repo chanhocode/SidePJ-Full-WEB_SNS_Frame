@@ -40,6 +40,7 @@ const Global = createGlobalStyle`
   .ant-row {
     margin-left: 0 !important;
     margin-right: 0 !important;
+    width: 100%;
   }
   .ant-col:first-child {
     padding-left: 0 !important;

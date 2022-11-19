@@ -5,6 +5,29 @@ import {
   CHANGE_PROFILE_REQUEST,
   UPLOAD_PROFILE_IMAGES_REQUEST,
 } from '../reducers/user';
+import styled from 'styled-components';
+
+const ProfileImageEdit = styled(Form)`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #d3d3d3;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  .AvatarWrapper {
+    width: 50%;
+  }
+  .ButtonWrapper {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  Button {
+    width: 150px;
+  }
+`;
 
 const ProfileImageForm = () => {
   const dispatch = useDispatch();
@@ -53,8 +76,8 @@ const ProfileImageForm = () => {
   }, []);
 
   return (
-    <Form encType='multipart/form-data' onFinish={onSubmit}>
-      <div>
+    <ProfileImageEdit encType='multipart/form-data' onFinish={onSubmit}>
+      <div className='AvatarWrapper'>
         <Avatar
           src={Image}
           style={{ margin: '20px' }}
@@ -70,14 +93,12 @@ const ProfileImageForm = () => {
           onChange={onChangeImages}
         />
       </div>
-      <Button
-        type='primary'
-        style={{ float: 'right', width: '6vw' }}
-        htmlType='submit'
-      >
-        수정
-      </Button>
-    </Form>
+      <div className='ButtonWrapper'>
+        <Button type='primary' htmlType='submit'>
+          프로필 사진 변경
+        </Button>
+      </div>
+    </ProfileImageEdit>
   );
 };
 
