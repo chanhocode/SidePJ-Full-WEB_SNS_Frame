@@ -236,6 +236,41 @@ router.patch('/:postId', isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.delete(
+  '/comment/:postId/:commentId',
+  isLoggedIn,
+  async (req, res, next) => {
+    // DELETE /post/10
+    try {
+      const comment = await Comment.destroy({
+        where: {
+          id: req.params.commentId,
+        },
+      });
+      if (!comment) {
+        return res.status(403).send('존재하지 않습니다.');
+      }
+      await Comment.destroy({
+        where: {
+          UserId: req.user.id,
+          id: req.params.commentId,
+        },
+      });
+      console.log('comment_ PostId', comment.PostId);
+      console.log('comment', comment);
+      res.status(200).json({
+        commentId: parseInt(req.params.commentId),
+        PostId: parseInt(req.params.postId),
+      });
+    } catch (error) {
+      console.log('req.params:: ', req.params);
+      console.log('req.params.commentText:: ', req.params.commentText);
+      console.error(error);
+      next(error);
+    }
+  }
+);
+
 router.delete('/:postId', isLoggedIn, async (req, res, next) => {
   // DELETE /post/10
   try {

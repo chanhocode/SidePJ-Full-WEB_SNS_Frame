@@ -42,7 +42,7 @@ const AllPage = () => {
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, [hasMorePosts, loadPostsLoading, mainPosts]);
+  }, [hasMorePosts, loadPostsLoading, mainPosts, mainPosts.Comments]);
 
   return (
     <div>

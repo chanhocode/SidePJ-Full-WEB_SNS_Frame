@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Card,
@@ -28,6 +28,7 @@ import {
   RETWEET_REQUEST,
   UPDATE_POST_REQUEST,
   POST_ACCUSE_REQUEST,
+  REMOVE_COMMENT_REQUEST,
 } from '../reducers/post';
 import FollowButton from './FollowButton';
 import Link from 'next/link';
@@ -38,7 +39,7 @@ moment.locale('ko');
 
 const AccuseForm = styled.div`
   width: 100%;
-  background-color: #5F9DF7;
+  background-color: #5f9df7;
   padding-top: 10px;
   height: 165px;
   .title {
@@ -70,7 +71,9 @@ const PostCard = ({ post }) => {
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
 
-  const { removePostLoading } = useSelector((state) => state.post);
+  const { removePostLoading, removeCommentLoading } = useSelector(
+    (state) => state.post
+  );
   const [commentFormOpened, setCommentFormOpened] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [accuseValue, setAccuseValue] = useState('');
@@ -80,6 +83,9 @@ const PostCard = ({ post }) => {
     setIsAccuseOpen(true);
     console.log(isAccuseOpen);
   };
+
+  // comment render
+  // useEffect(() => {}, [post.comment]);
 
   const accuseHandleOk = useCallback(
     (accuseValue) => () => {
@@ -143,6 +149,7 @@ const PostCard = ({ post }) => {
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
   }, []);
+
   const onRemovePost = useCallback(() => {
     if (!id) {
       return alert('로그인이 필요합니다.');
@@ -152,6 +159,58 @@ const PostCard = ({ post }) => {
       data: post.id,
     });
   }, [id]);
+  //
+  // const onRemoveComment = useCallback(
+  //   (e) => {
+  //     if (!id) {
+  //       return alert('로그인이 필요합니다.');
+  //     }
+  //     const commentText =
+  //       e.target.parentElement.parentElement.getElementsByClassName(
+  //         'ant-comment-content-detail'
+  //       )[0].innerHTML;
+  //     console.log('post: ', post);
+  //     console.log(
+  //       'targer: ',
+  //       e.target.parentElement.parentElement.getElementsByClassName(
+  //         'ant-comment-content-detail'
+  //       )[0].innerHTML
+  //     );
+  //     console.log('postId: ', post.id);
+  //     console.log('commentId: ', post.Comments);
+  //     console.log('comment: ', commentText);
+  //     console.log('userId', me.id);
+  //     return dispatch({
+  //       type: REMOVE_COMMENT_REQUEST,
+  //       data: { postId: post.id, commentText: commentText, userId: me.id },
+  //     });
+  //   },
+  //   [id]
+  // );
+  // const onRemoveComment = useCallback(
+  //   (v) => {
+  //     if (!id) {
+  //       return alert('로그인이 필요합니다.');
+  //     }
+  //     return dispatch({
+  //       type: REMOVE_COMMENT_REQUEST,
+  //       data: { commentId: v, postId: post.id, userId: id },
+  //     });
+  //   },
+  //   [id]
+  // );
+  const onRemoveComment = useCallback(
+    (v) => {
+      if (!id) {
+        return alert('해당 댓글을 삭제할 수 없습니다.');
+      }
+      return dispatch({
+        type: REMOVE_COMMENT_REQUEST,
+        data: { commentId: v, postId: post.id, userId: id },
+      });
+    },
+    [id]
+  );
   const onRetweet = useCallback(() => {
     if (!id) {
       return alert('로그인이 필요합니다.');
@@ -325,25 +384,42 @@ const PostCard = ({ post }) => {
                   marginBottom: 7,
                   paddingLeft: 7,
                   paddingRight: 7,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  paddingLeft: '10px',
+                  paddingRight: '10px',
                 }}
               >
-                <Comment
-                  author={item.User.nickname}
-                  avatar={
-                    <Link href={`/user/${item.User.id}`} prefetch={false}>
-                      <a>
-                        <Avatar
-                          src={
-                            item.User.profileImage
-                              ? `http://localhost:3065/${item.User.profileImage}`
-                              : '/img/blankProfile.png'
-                          }
-                        />
-                      </a>
-                    </Link>
-                  }
-                  content={item.content}
-                />
+                <div>
+                  <Comment
+                    author={item.User.nickname}
+                    avatar={
+                      <Link href={`/user/${item.User.id}`} prefetch={false}>
+                        <a>
+                          <Avatar
+                            src={
+                              item.User.profileImage
+                                ? `http://localhost:3065/${item.User.profileImage}`
+                                : '/img/blankProfile.png'
+                            }
+                          />
+                        </a>
+                      </Link>
+                    }
+                    content={item.content}
+                  />
+                </div>
+                {me.id === item.User.id ? (
+                  <Button
+                    // type='primary'
+                    onClick={() => {
+                      onRemoveComment(item.id);
+                    }}
+                  >
+                    삭제
+                  </Button>
+                ) : null}
               </li>
             )}
           />
