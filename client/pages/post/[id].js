@@ -29,13 +29,8 @@ const post = () => {
         <meta property='og:description' content={singlePost.content} />
         <meta
           property='og:image'
-          content={
-            singlePost.Images[0]
-              ? singlePost.Images[0].src
-              : 'https://nodebird.com/favicon.ico'
-          }
+          content={singlePost.Images[0] ? singlePost.Images[0].src : null}
         />
-        <meta property='og:url' content={`https://nodebird.com/post/${id}`} />
       </Head>
       <PostCard post={singlePost} />
     </AppLayout>
@@ -45,7 +40,7 @@ const post = () => {
 export const getServerSideProps = wrapper.getServerSideProps(
   async (context) => {
     const cookie = context.req ? context.req.headers.cookie : '';
-    console.log(context);
+    // console.log(context);
     axios.defaults.headers.Cookie = '';
     if (context.req && cookie) {
       axios.defaults.headers.Cookie = cookie;

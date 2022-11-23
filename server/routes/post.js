@@ -2,10 +2,10 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const multerS3 = require('multer-s3');
-const AWS = require('aws-sdk');
+// const multerS3 = require('multer-s3');
+// const AWS = require('aws-sdk');
 
-const { Post, Image, Comment, User, Hashtag } = require('../models');
+const { Post, Image, Comment, User, Hashtag, Accuse } = require('../models');
 const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
@@ -17,17 +17,33 @@ try {
   fs.mkdirSync('uploads');
 }
 
-AWS.config.update({
-  accessKeyId: process.env.S3_ACCESS_KEY_ID,
-  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-  region: 'ap-northeast-2',
-});
+// < 배포버전 >
+// AWS.config.update({
+//   accessKeyId: process.env.S3_ACCESS_KEY_ID,
+//   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+//   region: 'ap-northeast-2',
+// });
+// const upload = multer({
+//   storage: multerS3({
+//     s3: new AWS.S3(),
+//     bucket: 'sns-by-chanho-s3',
+//     key(req, file, cb) {
+//       cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`);
+//     },
+//   }),
+//   limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+// });
+
 const upload = multer({
-  storage: multerS3({
-    s3: new AWS.S3(),
-    bucket: 'sns-by-chanho-s3',
-    key(req, file, cb) {
-      cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`);
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, 'uploads');
+    },
+    filename(req, file, done) {
+      // 파일.png
+      const ext = path.extname(file.originalname); // 확장자 추출(.png)
+      const basename = path.basename(file.originalname, ext); //파일
+      done(null, basename + '_' + new Date().getTime + ext); // 파일1234214.png (중복 방지)
     },
   }),
   limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
@@ -73,13 +89,13 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ['id', 'nickname'],
+              attributes: ['id', 'nickname', 'profileImage'],
             },
           ],
         },
         {
           model: User, // 게시글 작성자
-          attributes: ['id', 'nickname'],
+          attributes: ['id', 'nickname', 'profileImage'],
         },
         {
           model: User, // 좋아요 누른사람
@@ -114,11 +130,41 @@ router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {
       include: [
         {
           model: User,
-          attributes: ['id', 'nickname'],
+          attributes: ['id', 'nickname', 'profileImage'],
         },
       ],
     });
     res.status(201).json(fullComment);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.post('/:postId/accuse', isLoggedIn, async (req, res, next) => {
+  // POST /post/id/accuse
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId },
+    });
+    if (!post) {
+      return res.status(403).send('존재하지 않는 게시글입니다.');
+    }
+    const accuse = await Accuse.create({
+      content: req.body.content,
+      PostId: parseInt(req.params.postId, 10),
+      UserId: req.user.id,
+    });
+    const fullAccuse = await Accuse.findOne({
+      where: { id: accuse.id },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'nickname', 'profileImage'],
+        },
+      ],
+    });
+    res.status(201).json(fullAccuse);
   } catch (error) {
     console.error(error);
     next(error);
@@ -180,17 +226,46 @@ router.patch('/:postId', isLoggedIn, async (req, res, next) => {
       );
       await post.setHashtags(result.map((v) => v[0]));
     }
-    res
-      .status(200)
-      .json({
-        PostId: parseInt(req.params.postId, 10),
-        content: req.body.content,
-      });
+    res.status(200).json({
+      PostId: parseInt(req.params.postId, 10),
+      content: req.body.content,
+    });
   } catch (error) {
     console.error(error);
     next(error);
   }
 });
+
+router.delete(
+  '/comment/:postId/:commentId',
+  isLoggedIn,
+  async (req, res, next) => {
+    // DELETE /post/10
+    try {
+      const comment = await Comment.destroy({
+        where: {
+          id: req.params.commentId,
+        },
+      });
+      if (!comment) {
+        return res.status(403).send('존재하지 않습니다.');
+      }
+      await Comment.destroy({
+        where: {
+          UserId: req.user.id,
+          id: req.params.commentId,
+        },
+      });
+      res.status(200).json({
+        commentId: parseInt(req.params.commentId),
+        PostId: parseInt(req.params.postId),
+      });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+);
 
 router.delete('/:postId', isLoggedIn, async (req, res, next) => {
   // DELETE /post/10
@@ -208,10 +283,16 @@ router.delete('/:postId', isLoggedIn, async (req, res, next) => {
   }
 });
 
+// <배포 버전>
+// router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
+//   // POST /post/images
+//   console.log(req.files);
+//   res.json(req.files.map((v) => v.location.replace(/\/original\//, '/thumb/')));
+// });
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
   // POST /post/images
-  console.log(req.files);
-  res.json(req.files.map((v) => v.location.replace(/\/original\//, '/thumb/')));
+  // console.log(req.files);
+  res.json(req.files.map((v) => v.filename));
 });
 
 router.get('/:postId', async (req, res, next) => {
@@ -232,7 +313,7 @@ router.get('/:postId', async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ['id', 'nickname'],
+              attributes: ['id', 'nickname', 'profileImage'],
             },
             {
               model: Image,
@@ -241,12 +322,12 @@ router.get('/:postId', async (req, res, next) => {
         },
         {
           model: User,
-          attributes: ['id', 'nickname'],
+          attributes: ['id', 'nickname', 'profileImage'],
         },
         {
           model: User,
           as: 'Likers',
-          attributes: ['id', 'nickname'],
+          attributes: ['id', 'nickname', 'profileImage'],
         },
         {
           model: Image,
@@ -256,7 +337,7 @@ router.get('/:postId', async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ['id', 'nickname'],
+              attributes: ['id', 'nickname', 'profileImage'],
             },
           ],
         },
@@ -314,7 +395,7 @@ router.post('/:postId/retweet', isLoggedIn, async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ['id', 'nickname'],
+              attributes: ['id', 'nickname', 'profileImage'],
             },
             {
               model: Image,
@@ -323,7 +404,7 @@ router.post('/:postId/retweet', isLoggedIn, async (req, res, next) => {
         },
         {
           model: User,
-          attributes: ['id', 'nickname'],
+          attributes: ['id', 'nickname', 'profileImage'],
         },
         {
           model: Image,
@@ -333,7 +414,7 @@ router.post('/:postId/retweet', isLoggedIn, async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ['id', 'nickname'],
+              attributes: ['id', 'nickname', 'profileImage'],
             },
           ],
         },

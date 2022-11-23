@@ -24,6 +24,9 @@ export const initialState = {
   addCommentLoading: false,
   addCommentDone: false,
   addCommentError: null,
+  removeCommentLoading: false,
+  removeCommentDone: false,
+  removeCommentError: null,
   likePostLoading: false,
   likePostDone: false,
   likePostError: null,
@@ -36,7 +39,14 @@ export const initialState = {
   retweetLoading: false,
   retweetDone: false,
   retweetError: null,
+  accuseLoading: false,
+  accuseDone: false,
+  accuseError: null,
 };
+
+export const POST_ACCUSE_REQUEST = 'POST_ACCUSE_REQUEST';
+export const POST_ACCUSE_SUCCESS = 'POST_ACCUSE_SUCCESS';
+export const POST_ACCUSE_FAILURE = 'POST_ACCUSE_FAILURE';
 
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';
@@ -62,6 +72,10 @@ export const LOAD_USER_POSTS_REQUEST = 'LOAD_USER_POSTS_REQUEST';
 export const LOAD_USER_POSTS_SUCCESS = 'LOAD_USER_POSTS_SUCCESS';
 export const LOAD_USER_POSTS_FAILURE = 'LOAD_USER_POSTS_FAILURE';
 
+export const LOAD_FOLLOWINGS_POSTS_REQUEST = 'LOAD_FOLLOWINGS_POSTS_REQUEST';
+export const LOAD_FOLLOWINGS_POSTS_SUCCESS = 'LOAD_FOLLOWINGS_POSTS_SUCCESS';
+export const LOAD_FOLLOWINGS_POSTS_FAILURE = 'LOAD_FOLLOWINGS_POSTS_FAILURE';
+
 export const LOAD_HASHTAG_POSTS_REQUEST = 'LOAD_HASHTAG_POSTS_REQUEST';
 export const LOAD_HASHTAG_POSTS_SUCCESS = 'LOAD_HASHTAG_POSTS_SUCCESS';
 export const LOAD_HASHTAG_POSTS_FAILURE = 'LOAD_HASHTAG_POSTS_FAILURE';
@@ -81,6 +95,10 @@ export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
 export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
+
+export const REMOVE_COMMENT_REQUEST = 'REMOVE_COMMENT_REQUEST';
+export const REMOVE_COMMENT_SUCCESS = 'REMOVE_COMMENT_SUCCESS';
+export const REMOVE_COMMENT_FAILURE = 'REMOVE_COMMENT_FAILURE';
 
 export const RETWEET_REQUEST = 'RETWEET_REQUEST';
 export const RETWEET_SUCCESS = 'RETWEET_SUCCESS';
@@ -149,6 +167,7 @@ const reducer = (state = initialState, action) =>
       case LOAD_USER_POSTS_REQUEST:
       case LOAD_HASHTAG_POSTS_REQUEST:
       case LOAD_POSTS_REQUEST:
+      case LOAD_FOLLOWINGS_POSTS_REQUEST:
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
         draft.loadPostsError = null;
@@ -156,6 +175,7 @@ const reducer = (state = initialState, action) =>
       case LOAD_USER_POSTS_SUCCESS:
       case LOAD_HASHTAG_POSTS_SUCCESS:
       case LOAD_POSTS_SUCCESS:
+      case LOAD_FOLLOWINGS_POSTS_SUCCESS:
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
         draft.mainPosts = draft.mainPosts.concat(action.data);
@@ -164,6 +184,7 @@ const reducer = (state = initialState, action) =>
       case LOAD_USER_POSTS_FAILURE:
       case LOAD_HASHTAG_POSTS_FAILURE:
       case LOAD_POSTS_FAILURE:
+      case LOAD_FOLLOWINGS_POSTS_FAILURE:
         draft.loadPostsLoading = false;
         draft.loadPostsError = action.error;
         break;
@@ -218,13 +239,31 @@ const reducer = (state = initialState, action) =>
         draft.addCommentDone = false;
         draft.addCommentError = null;
         break;
-      case ADD_COMMENT_SUCCESS:
+      case ADD_COMMENT_SUCCESS: {
         const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
         post.Comments.unshift(action.data);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
         break;
+      }
       case ADD_COMMENT_FAILURE:
+        draft.addCommentLoading = false;
+        draft.addCommentError = action.error;
+        break;
+      case REMOVE_COMMENT_REQUEST:
+        draft.removeCommentLoading = true;
+        draft.removeCommentDone = false;
+        draft.removeCommentError = null;
+        break;
+      case REMOVE_COMMENT_SUCCESS: {
+        const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
+        post.Comments = post.Comments.filter(
+          (v) => v.id !== action.data.commentId
+        );
+        draft.removeCommentLoading = false;
+        draft.removeCommentDone = true;
+      }
+      case REMOVE_COMMENT_FAILURE:
         draft.addCommentLoading = false;
         draft.addCommentError = action.error;
         break;
@@ -259,6 +298,22 @@ const reducer = (state = initialState, action) =>
       case UNLIKE_POSTS_FAILURE:
         draft.unlikePostLoading = false;
         draft.unlikePostError = action.error;
+        break;
+      case POST_ACCUSE_REQUEST:
+        draft.accuseLoading = true;
+        draft.accuseDone = false;
+        draft.accuseError = null;
+        break;
+      case POST_ACCUSE_SUCCESS: {
+        // const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
+        // post.Accuses.unshift(action.data);
+        draft.accuseLoading = false;
+        draft.accuseDone = true;
+        break;
+      }
+      case POST_ACCUSE_FAILURE:
+        draft.accuseLoading = false;
+        draft.accuseError = action.error;
         break;
       default:
         break;

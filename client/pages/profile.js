@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Head from 'next/head';
 import AppLayout from '../componets/AppLayout';
-import NicknameEditForm from '../componets/NicknameEditForm';
+
+import ProfileEditForm from '../componets/ProfileEditForm';
+import ProfileImageForm from '../componets/ProfileImageForm';
 import FollowList from '../componets/FollowList';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
@@ -52,7 +54,8 @@ const profile = () => {
         <title>My Profile</title>
       </Head>
       <AppLayout>
-        <NicknameEditForm />
+        <ProfileImageForm />
+        <ProfileEditForm />
         <FollowList
           header='팔로잉'
           data={followingsData}

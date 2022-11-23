@@ -1,4 +1,8 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const requestIp = require('request-ip');
 
 const bcrypt = require('bcrypt');
 const passport = require('passport');
@@ -8,6 +12,52 @@ const { User, Post, Image, Comment } = require('../models');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 const router = express.Router();
+
+try {
+  fs.accessSync('uploads');
+} catch (error) {
+  console.log('uploads 폴더 생성');
+  fs.mkdirSync('uploads');
+}
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, 'uploads');
+    },
+    filename(req, file, done) {
+      // 파일.png
+      const ext = path.extname(file.originalname); // 확장자 추출(.png)
+      const basename = path.basename(file.originalname, ext); //파일
+      done(null, basename + '_' + new Date().getTime + ext); // 파일1234214.png (중복 방지)
+    },
+  }),
+  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+});
+
+router.get('/:userId/check', isLoggedIn, async (req, res, next) => {
+  // GET /userId/check
+  try {
+    const IP = await User.findOne({
+      where: { id: req.user.id },
+      attributes: ['connectIP'],
+    });
+    if (IP.dataValues.connectIP !== requestIp.getClientIp(req)) {
+      req.logout(() => {
+        res.redirect('/');
+      });
+      req.session.destroy();
+      return res
+        .status(200)
+        .send(
+          "<script>alert('새로운 로그인 접근이 있습니다.'); window.location.replace('/login');</script>"
+        );
+    }
+    return res.status(200).json(null);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
 
 router.get('/', async (req, res, next) => {
   // GET /user
@@ -62,7 +112,6 @@ router.get('/followers', isLoggedIn, async (req, res, next) => {
     next(error);
   }
 });
-
 router.get('/followings', isLoggedIn, async (req, res, next) => {
   // GET /user/followings
   try {
@@ -156,6 +205,15 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
           },
         ],
       });
+      const addIp = await User.update(
+        {
+          connectIP: requestIp.getClientIp(req),
+        },
+        {
+          where: { id: user.id },
+        }
+      );
+      console.log('client IP: ' + requestIp.getClientIp(req));
       return res.status(200).json(fullUserWithoutPassword);
     });
   })(req, res, next);
@@ -175,10 +233,17 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {
     }
     // Password 암호화 (bcrypt 사용)
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    // console.log(req.body);
+
     await User.create({
       email: req.body.email,
       nickname: req.body.nickname,
       password: hashedPassword,
+      name: req.body.name,
+      age: req.body.userAge,
+      birth: req.body.birth,
+      gender: req.body.gender,
+      phonNumber: req.body.fullNum,
     });
     res.status(201).send('ok');
   } catch (error) {
@@ -187,12 +252,27 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {
   }
 });
 
-router.post('/logout', isLoggedIn, (req, res) => {
-  req.logout(() => {
-    res.redirect('/');
-  });
-  req.session.destroy();
-  res.send('ok');
+router.post('/logout', isLoggedIn, async (req, res, next) => {
+  // checkIp 비우기
+  try {
+    await User.update(
+      {
+        connectIP: ' ',
+      },
+      {
+        where: { id: req.user.id },
+      }
+    );
+
+    req.logout(() => {
+      res.redirect('/');
+    });
+    await req.session.destroy();
+    return res.send('ok');
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 router.patch('/nickname', isLoggedIn, async (req, res, next) => {
@@ -212,6 +292,42 @@ router.patch('/nickname', isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.post('/profile', isLoggedIn, upload.none(), async (req, res, next) => {
+  // USER /profile
+  try {
+    const profile = await User.update(
+      {
+        profileImage: req.body.image,
+      },
+      {
+        where: { id: req.body.userId },
+      }
+    );
+    const user = await User.findOne({ where: { id: req.body.userId } });
+    if (req.body.image) {
+      if (Array.isArray(req.body.image)) {
+        const images = await Promise.all(
+          req.body.image.map((image) => Image.create({ src: image }))
+        );
+        await user.addImages(images);
+      } else {
+        const image = await Image.create({ src: req.body.image });
+        await user.addImages(image);
+      }
+    }
+    res.status(200).json({ profileImage: req.body.image });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
+  // POST /user/images
+  // console.log(req.files);
+  res.json(req.files.map((v) => v.filename));
+});
+
 router.patch('/:userId/follow', isLoggedIn, async (req, res, next) => {
   // PATCH /user/1/follow
   try {
@@ -226,7 +342,6 @@ router.patch('/:userId/follow', isLoggedIn, async (req, res, next) => {
     next(error);
   }
 });
-
 router.delete('/:userId/follow', isLoggedIn, async (req, res, next) => {
   // DELETE /user/1/follow
   try {
@@ -277,13 +392,13 @@ router.get('/:userId/posts', async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ['id', 'nickname'],
+              attributes: ['id', 'nickname', 'profileImage'],
             },
           ],
         },
         {
           model: User,
-          attributes: ['id', 'nickname'],
+          attributes: ['id', 'nickname', 'profileImage'],
         },
         {
           model: User,
@@ -297,7 +412,7 @@ router.get('/:userId/posts', async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ['id', 'nickname'],
+              attributes: ['id', 'nickname', 'profileImage'],
             },
             {
               model: Image,

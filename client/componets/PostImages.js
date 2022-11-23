@@ -21,10 +21,18 @@ const PostImages = ({ images }) => {
       <>
         <img
           role='presentation'
-          src={`${images[0].src}`}
+          src={`http://localhost:3065/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
         />
+        {/*
+        < 배포 버전 >
+        <img
+          role='presentation'
+          src={`${images[0].src}`}
+          alt={images[0].src}
+          onClick={onZoom}
+        /> */}
         {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
     );
@@ -34,11 +42,18 @@ const PostImages = ({ images }) => {
       <div style={{}}>
         <img
           role='presentation'
+          src={`http://localhost:3065/${images[0].src}`}
+          alt={images[0].src}
+          onClick={onZoom}
+          width='100%'
+        />
+        {/* <img
+          role='presentation'
           width='100%'
           src={`${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
-        />
+        /> */}
         <div
           role='presentation'
           style={{

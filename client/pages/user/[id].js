@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Card } from 'antd';
 import { END } from 'redux-saga';
@@ -20,7 +20,11 @@ const User = () => {
     (state) => state.post
   );
   const { userInfo, me } = useSelector((state) => state.user);
-
+  const [Image, setImage] = useState(
+    userInfo.profileImage
+      ? `http://localhost:3065/${userInfo.profileImage}`
+      : '/img/blankProfile.png'
+  );
   useEffect(() => {
     const onScroll = () => {
       if (
@@ -64,18 +68,13 @@ const User = () => {
             property='og:description'
             content={`${userInfo.nickname}님의 게시글`}
           />
-          <meta
-            property='og:image'
-            content='https://nodebird.com/favicon.ico'
-          />
-          <meta property='og:url' content={`https://nodebird.com/user/${id}`} />
         </Head>
       )}
       {userInfo && userInfo.id !== me?.id ? (
         <Card
           actions={[
             <div key='twit'>
-              짹짹
+              게시글
               <br />
               {userInfo.Posts}
             </div>,
@@ -92,7 +91,7 @@ const User = () => {
           ]}
         >
           <Card.Meta
-            avatar={<Avatar>{userInfo.nickname[0]}</Avatar>}
+            avatar={<Avatar src={Image} />}
             title={userInfo.nickname}
           />
         </Card>
@@ -124,7 +123,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     });
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
-    console.log('getState', context.store.getState().post.mainPosts);
+    // console.log('getState', context.store.getState().post.mainPosts);
     return { props: {} };
   }
 );

@@ -1,6 +1,15 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Popover, Button, Avatar, List, Comment } from 'antd';
+import {
+  Card,
+  Popover,
+  Button,
+  Avatar,
+  List,
+  Comment,
+  Modal,
+  Input,
+} from 'antd';
 import {
   RetweetOutlined,
   HeartOutlined,
@@ -18,18 +27,83 @@ import {
   UNLIKE_POSTS_REQUEST,
   RETWEET_REQUEST,
   UPDATE_POST_REQUEST,
+  POST_ACCUSE_REQUEST,
+  REMOVE_COMMENT_REQUEST,
 } from '../reducers/post';
 import FollowButton from './FollowButton';
 import Link from 'next/link';
 import moment from 'moment';
+import styled from 'styled-components';
+
 moment.locale('ko');
 
+const AccuseForm = styled.div`
+  width: 100%;
+  background-color: #5f9df7;
+  padding-top: 10px;
+  height: 165px;
+  .title {
+    padding-left: 5%;
+  }
+  .textWrapper {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    TextArea {
+      width: 90%;
+    }
+  }
+  .button-group {
+    width: 100%;
+    padding-right: 5%;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    Button {
+      float: right;
+    }
+  }
+`;
+
 const PostCard = ({ post }) => {
-  const dispatch = useDispatch();
-  const { removePostLoading } = useSelector((state) => state.post);
-  const [commentFormOpened, setCommentFormOpened] = useState(false);
+  const { TextArea } = Input;
   const id = useSelector((state) => state.user.me?.id);
+  const dispatch = useDispatch();
+  const { me } = useSelector((state) => state.user);
+
+  const { removePostLoading, removeCommentLoading } = useSelector(
+    (state) => state.post
+  );
+  const [commentFormOpened, setCommentFormOpened] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [accuseValue, setAccuseValue] = useState('');
+  const [isAccuseOpen, setIsAccuseOpen] = useState(false);
+
+  const showAccuse = () => {
+    setIsAccuseOpen(true);
+  };
+
+  const accuseHandleOk = useCallback(
+    (accuseValue) => () => {
+      // console.log(
+      //   `postId: ${post.id} _ userId: ${id} _ content: ${accuseValue}`
+      // );
+      dispatch({
+        type: POST_ACCUSE_REQUEST,
+        data: {
+          postId: post.id,
+          userId: id,
+          content: accuseValue,
+        },
+      });
+      setIsAccuseOpen(false);
+      setAccuseValue('');
+    },
+    []
+  );
+  const accuseHandleCancel = () => {
+    setIsAccuseOpen(false);
+  };
 
   const onClickUpdate = useCallback(() => {
     setEditMode(true);
@@ -71,6 +145,7 @@ const PostCard = ({ post }) => {
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
   }, []);
+
   const onRemovePost = useCallback(() => {
     if (!id) {
       return alert('로그인이 필요합니다.');
@@ -80,6 +155,19 @@ const PostCard = ({ post }) => {
       data: post.id,
     });
   }, [id]);
+  
+  const onRemoveComment = useCallback(
+    (v) => {
+      if (!id) {
+        return alert('권한이 없습니다.');
+      }
+      return dispatch({
+        type: REMOVE_COMMENT_REQUEST,
+        data: { commentId: v, postId: post.id, userId: id },
+      });
+    },
+    [id]
+  );
   const onRetweet = useCallback(() => {
     if (!id) {
       return alert('로그인이 필요합니다.');
@@ -95,9 +183,8 @@ const PostCard = ({ post }) => {
     <div style={{ marginBottom: 20 }}>
       <Card
         style={{
-          borderBottom: 'solid 5px #A2A8D3',
+          borderBottom: 'solid 5px #E6CBA8',
           color: '#38598B',
-          marginRight: '5px',
         }}
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
@@ -142,7 +229,11 @@ const PostCard = ({ post }) => {
                     </Button>
                   </>
                 ) : (
-                  <Button>신고</Button>
+                  <>
+                    <Button type='primary' onClick={showAccuse}>
+                      신고
+                    </Button>
+                  </>
                 )}
               </Button.Group>
             }
@@ -170,7 +261,13 @@ const PostCard = ({ post }) => {
               avatar={
                 <Link href={`/user/${post.Retweet.User.id}`} prefetch={false}>
                   <a>
-                    <Avatar>{post.Retweet.User.nickname[0]}</Avatar>
+                    <Avatar
+                      src={
+                        post.Retweet.User.profileImage
+                          ? `http://localhost:3065/${post.Retweet.User.profileImage}`
+                          : '/img/blankProfile.png'
+                      }
+                    />
                   </a>
                 </Link>
               }
@@ -193,7 +290,13 @@ const PostCard = ({ post }) => {
               avatar={
                 <Link href={`/user/${post.User.id}`} prefetch={false}>
                   <a>
-                    <Avatar>{post.User.nickname[0]}</Avatar>
+                    <Avatar
+                      src={
+                        post.User.profileImage
+                          ? `http://localhost:3065/${post.User.profileImage}`
+                          : '/img/blankProfile.png'
+                      }
+                    />
                   </a>
                 </Link>
               }
@@ -213,8 +316,8 @@ const PostCard = ({ post }) => {
       {commentFormOpened && (
         <div
           style={{
-            borderBottom: 'solid 5px #113F67',
-            backgroundColor: '#A2A8D3',
+            borderBottom: 'solid 5px #E6CBA8',
+            backgroundColor: '#5F9DF7',
             padding: 10,
           }}
         >
@@ -231,30 +334,75 @@ const PostCard = ({ post }) => {
               <li
                 style={{
                   color: 'black',
-                  backgroundColor: '#b9bedd',
+                  backgroundColor: '#FFF7E9',
                   borderRadius: '10px',
                   overflow: 'hidden',
                   marginTop: 7,
                   marginBottom: 7,
                   paddingLeft: 7,
                   paddingRight: 7,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  paddingLeft: '10px',
+                  paddingRight: '10px',
                 }}
               >
-                <Comment
-                  author={item.User.nickname}
-                  avatar={
-                    <Link href={`/user/${item.User.id}`} prefetch={false}>
-                      <a>
-                        <Avatar>{item.User.nickname[0]}</Avatar>
-                      </a>
-                    </Link>
-                  }
-                  content={item.content}
-                />
+                <div>
+                  <Comment
+                    author={item.User.nickname}
+                    avatar={
+                      <Link href={`/user/${item.User.id}`} prefetch={false}>
+                        <a>
+                          <Avatar
+                            src={
+                              item.User.profileImage
+                                ? `http://localhost:3065/${item.User.profileImage}`
+                                : '/img/blankProfile.png'
+                            }
+                          />
+                        </a>
+                      </Link>
+                    }
+                    content={item.content}
+                  />
+                </div>
+                {me.id === item.User.id ? (
+                  <Button
+                    // type='primary'
+                    onClick={() => {
+                      onRemoveComment(item.id);
+                    }}
+                  >
+                    삭제
+                  </Button>
+                ) : null}
               </li>
             )}
           />
         </div>
+      )}
+      {isAccuseOpen && (
+        <AccuseForm>
+          <div className='title'>게시글 신고</div>
+          <div className='textWrapper'>
+            <TextArea
+              value={accuseValue}
+              onChange={(e) => setAccuseValue(e.target.value)}
+              placeholder='신고 내용을 입력하세요'
+              autoSize={{
+                minRows: 3,
+                maxRows: 3,
+              }}
+            />
+          </div>
+          <div className='button-group'>
+            <Button onClick={accuseHandleCancel}>취소</Button>
+            <Button type='danger' onClick={accuseHandleOk(accuseValue)}>
+              신고
+            </Button>
+          </div>
+        </AccuseForm>
       )}
     </div>
   );

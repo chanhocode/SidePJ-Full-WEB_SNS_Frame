@@ -135,7 +135,7 @@ typings/
 # Serverless directories
 .serverless
 /client/build/
-sns_pj.pem
+PetchSNS.pem
 node_modules
 .env
 .next

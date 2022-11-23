@@ -1,6 +1,10 @@
 import produce from '../util/produce';
 
 export const initialState = {
+  me: null,
+  userInfo: null,
+  imagePaths: [],
+  checkIp: false,
   loadMyInfoLoading: false,
   loadMyInfoDone: false,
   loadMyInfoError: null,
@@ -25,6 +29,14 @@ export const initialState = {
   changeNicknameLoading: false,
   changeNicknameDone: false,
   changeNicknameError: null,
+  //
+  changeProfileLoading: false,
+  changeProfileDone: false,
+  changeProfileError: null,
+  uploadProfileImagesLoading: false,
+  uploadProfileImagesDone: false,
+  uploadProfileImagesError: null,
+  //
   loadFollowingsLoading: false,
   loadFollowingsDone: false,
   loadFollowingsError: null,
@@ -34,9 +46,19 @@ export const initialState = {
   removeFollowerLoading: false,
   removeFollowerDone: false,
   removeFollowerError: null,
-  me: null,
-  userInfo: null,
+  //
+  checkMyIpLoading: false,
+  checkMyIpDone: false,
+  checkMyIpError: null,
 };
+
+export const UPLOAD_PROFILE_IMAGES_REQUEST = 'UPLOAD_PROFILE_IMAGES_REQUEST';
+export const UPLOAD_PROFILE_IMAGES_SUCCESS = 'UPLOAD_PROFILE_IMAGES_SUCCESS';
+export const UPLOAD_PROFILE_IMAGES_FAILURE = 'UPLOAD_PROFILE_IMAGES_FAILURE';
+
+export const CHECK_MY_IP_REQUEST = 'CHECK_MY_IP_REQUEST';
+export const CHECK_MY_IP_SUCCESS = 'CHECK_MY_IP_SUCCESS';
+export const CHECK_MY_IP_FAILURE = 'CHECK_MY_IP_FAILURE';
 
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
 export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS';
@@ -61,7 +83,11 @@ export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
 export const CHANGE_NICKNAME_REQUEST = 'CHANGE_NICKNAME_REQUEST';
 export const CHANGE_NICKNAME_SUCCESS = 'CHANGE_NICKNAME_SUCCESS';
 export const CHANGE_NICKNAME_FAILURE = 'CHANGE_NICKNAME_FAILURE';
-
+//
+export const CHANGE_PROFILE_REQUEST = 'CHANGE_PROFILE_REQUEST';
+export const CHANGE_PROFILE_SUCCESS = 'CHANGE_PROFILE_SUCCESS';
+export const CHANGE_PROFILE_FAILURE = 'CHANGE_PROFILE_FAILURE';
+//
 export const FOLLOW_REQUEST = 'FOLLOW_REQUEST';
 export const FOLLOW_SUCCESS = 'FOLLOW_SUCCESS';
 export const FOLLOW_FAILURE = 'FOLLOW_FAILURE';
@@ -101,6 +127,21 @@ export const logoutRequestAction = () => {
 const reducer = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
+      case CHECK_MY_IP_REQUEST:
+        draft.checkMyIpLoading = true;
+        draft.checkMyIpDone = false;
+        draft.checkMyIpError = null;
+        break;
+      case CHECK_MY_IP_SUCCESS:
+        draft.checkMyIpLoading = false;
+        draft.checkMyIpDone = true;
+        draft.checkIp = action.data;
+        break;
+      case CHECK_MY_IP_FAILURE:
+        draft.checkMyIpLoading = false;
+        // draft.checkMyIpError = action.error;
+        break;
+      //
       case REMOVE_FOLLOWER_REQUEST:
         draft.removeFollowerLoading = true;
         draft.removeFollowerError = null;
@@ -257,6 +298,35 @@ const reducer = (state = initialState, action) =>
       case CHANGE_NICKNAME_FAILURE:
         draft.changeNicknameLoading = false;
         draft.changeNicknameError = action.error;
+        break;
+      //
+      case CHANGE_PROFILE_REQUEST:
+        draft.changeProfileLoading = true;
+        draft.changeProfileDone = false;
+        draft.changeProfileError = null;
+        break;
+      case CHANGE_PROFILE_SUCCESS:
+        draft.me.profileImage = action.data.profileImage;
+        draft.changeProfileLoading = false;
+        draft.changeProfileDone = true;
+        break;
+      case CHANGE_PROFILE_FAILURE:
+        draft.changeProfileLoading = false;
+        draft.changeProfileError = action.error;
+        break;
+      case UPLOAD_PROFILE_IMAGES_REQUEST:
+        draft.uploadProfileImagesLoading = true;
+        draft.uploadProfileImagesDone = false;
+        draft.uploadProfileImagesError = null;
+        break;
+      case UPLOAD_PROFILE_IMAGES_SUCCESS:
+        draft.uploadProfileImagesLoading = false;
+        draft.uploadProfileImagesDone = true;
+        draft.imagePaths = draft.imagePaths.concat(action.data);
+        break;
+      case UPLOAD_PROFILE_IMAGES_FAILURE:
+        draft.uploadProfileImagesLoading = false;
+        draft.uploadProfileImagesError = action.error;
         break;
       case ADD_POST_TO_ME:
         draft.me.Posts.unshift({ id: action.data });

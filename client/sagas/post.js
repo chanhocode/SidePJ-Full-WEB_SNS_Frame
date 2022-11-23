@@ -37,6 +37,15 @@ import {
   UPDATE_POST_REQUEST,
   UPDATE_POST_SUCCESS,
   UPDATE_POST_FAILURE,
+  POST_ACCUSE_REQUEST,
+  POST_ACCUSE_SUCCESS,
+  POST_ACCUSE_FAILURE,
+  LOAD_FOLLOWINGS_POSTS_REQUEST,
+  LOAD_FOLLOWINGS_POSTS_SUCCESS,
+  LOAD_FOLLOWINGS_POSTS_FAILURE,
+  REMOVE_COMMENT_SUCCESS,
+  REMOVE_COMMENT_REQUEST,
+  REMOVE_COMMENT_FAILURE,
 } from '../reducers/post';
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
@@ -47,6 +56,7 @@ function uploadImagesAPI(data) {
 function* uploadImages(action) {
   try {
     const result = yield call(uploadImagesAPI, action.data);
+    console.log('Upload_saga: ', result.data);
     yield put({
       type: UPLOAD_IMAGES_SUCCESS,
       data: result.data,
@@ -75,6 +85,26 @@ function* loadPost(action) {
     console.error(err);
     yield put({
       type: LOAD_POST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function loadFollowingsPostsAPI(lastId) {
+  return axios.get(`posts/related?lastId=${lastId || 0}`);
+}
+
+function* loadFollowingsPosts(action) {
+  try {
+    const result = yield call(loadFollowingsPostsAPI, action.data);
+    yield put({
+      type: LOAD_FOLLOWINGS_POSTS_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_FOLLOWINGS_POSTS_FAILURE,
       error: err.response.data,
     });
   }
@@ -229,6 +259,50 @@ function* addComment(action) {
   }
 }
 
+// RemoveComment
+function removeCommentAPI(data) {
+  // console.log('remove data: ', data);
+  return axios.delete(`/post/comment/${data.postId}/${data.commentId}`, data);
+}
+
+function* removeComment(action) {
+  try {
+    const result = yield call(removeCommentAPI, action.data);
+    yield put({
+      type: REMOVE_COMMENT_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: REMOVE_POST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+// PostAccuse
+function postAccuseAPI(data) {
+  // console.log('accuse data: ', data);
+  return axios.post(`/post/${data.postId}/accuse`, data);
+}
+function* postAccuse(action) {
+  try {
+    const result = yield call(postAccuseAPI, action.data);
+    // console.log('accuse saga result: ', result, result.data);
+    yield put({
+      type: POST_ACCUSE_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: POST_ACCUSE_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 // LikePosts
 function likePostsAPI(data) {
   return axios.patch(`/post/${data}/like`);
@@ -300,6 +374,9 @@ function* watchLoadPost() {
 function* watchLoadPosts() {
   yield throttle(2000, LOAD_POSTS_REQUEST, loadPosts);
 }
+function* watchLoadFollowingsPosts() {
+  yield throttle(2000, LOAD_FOLLOWINGS_POSTS_REQUEST, loadFollowingsPosts);
+}
 function* watchLoadUserPosts() {
   yield throttle(2000, LOAD_USER_POSTS_REQUEST, loadUserPosts);
 }
@@ -311,6 +388,9 @@ function* watchAddPost() {
 }
 function* watchRemovePost() {
   yield takeLatest(REMOVE_POST_REQUEST, removePost);
+}
+function* watchRemoveComment() {
+  yield takeLatest(REMOVE_COMMENT_REQUEST, removeComment);
 }
 function* watchUpdatePost() {
   yield takeLatest(UPDATE_POST_REQUEST, updatePost);
@@ -325,19 +405,26 @@ function* watchUnlikePosts() {
   yield takeLatest(UNLIKE_POSTS_REQUEST, unlikePosts);
 }
 
+function* watchPostAccuse() {
+  yield takeLatest(POST_ACCUSE_REQUEST, postAccuse);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchRetweet),
     fork(watchUploadImages),
     fork(watchLoadPost),
     fork(watchLoadPosts),
+    fork(watchLoadFollowingsPosts),
     fork(watchLoadUserPosts),
     fork(watchLoadHashtagPosts),
     fork(watchAddPost),
     fork(watchRemovePost),
+    fork(watchRemoveComment),
     fork(watchUpdatePost),
     fork(watchAddComment),
     fork(watchLikePosts),
     fork(watchUnlikePosts),
+    fork(watchPostAccuse),
   ]);
 }
