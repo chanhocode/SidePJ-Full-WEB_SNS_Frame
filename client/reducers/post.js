@@ -256,9 +256,6 @@ const reducer = (state = initialState, action) =>
         draft.removeCommentError = null;
         break;
       case REMOVE_COMMENT_SUCCESS: {
-        // console.log('action.data.PostId', action.data.PostId);
-        // console.log('action.dataß', action.dataß);
-        // console.log('v.id', v.id);
         const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
         post.Comments = post.Comments.filter(
           (v) => v.id !== action.data.commentId

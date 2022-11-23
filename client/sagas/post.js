@@ -261,7 +261,7 @@ function* addComment(action) {
 
 // RemoveComment
 function removeCommentAPI(data) {
-  console.log('remove data: ', data);
+  // console.log('remove data: ', data);
   return axios.delete(`/post/comment/${data.postId}/${data.commentId}`, data);
 }
 
@@ -283,7 +283,7 @@ function* removeComment(action) {
 
 // PostAccuse
 function postAccuseAPI(data) {
-  console.log('accuse data: ', data);
+  // console.log('accuse data: ', data);
   return axios.post(`/post/${data.postId}/accuse`, data);
 }
 function* postAccuse(action) {

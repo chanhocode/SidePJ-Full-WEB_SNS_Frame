@@ -56,7 +56,7 @@ const ProfileImageForm = () => {
   }, [imageInput.current]);
 
   const onChangeImages = useCallback((e) => {
-    console.log('images', e.target.files);
+    // console.log('images', e.target.files);
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {

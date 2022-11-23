@@ -81,17 +81,13 @@ const PostCard = ({ post }) => {
 
   const showAccuse = () => {
     setIsAccuseOpen(true);
-    console.log(isAccuseOpen);
   };
-
-  // comment render
-  // useEffect(() => {}, [post.comment]);
 
   const accuseHandleOk = useCallback(
     (accuseValue) => () => {
-      console.log(
-        `postId: ${post.id} _ userId: ${id} _ content: ${accuseValue}`
-      );
+      // console.log(
+      //   `postId: ${post.id} _ userId: ${id} _ content: ${accuseValue}`
+      // );
       dispatch({
         type: POST_ACCUSE_REQUEST,
         data: {
@@ -159,50 +155,11 @@ const PostCard = ({ post }) => {
       data: post.id,
     });
   }, [id]);
-  //
-  // const onRemoveComment = useCallback(
-  //   (e) => {
-  //     if (!id) {
-  //       return alert('로그인이 필요합니다.');
-  //     }
-  //     const commentText =
-  //       e.target.parentElement.parentElement.getElementsByClassName(
-  //         'ant-comment-content-detail'
-  //       )[0].innerHTML;
-  //     console.log('post: ', post);
-  //     console.log(
-  //       'targer: ',
-  //       e.target.parentElement.parentElement.getElementsByClassName(
-  //         'ant-comment-content-detail'
-  //       )[0].innerHTML
-  //     );
-  //     console.log('postId: ', post.id);
-  //     console.log('commentId: ', post.Comments);
-  //     console.log('comment: ', commentText);
-  //     console.log('userId', me.id);
-  //     return dispatch({
-  //       type: REMOVE_COMMENT_REQUEST,
-  //       data: { postId: post.id, commentText: commentText, userId: me.id },
-  //     });
-  //   },
-  //   [id]
-  // );
-  // const onRemoveComment = useCallback(
-  //   (v) => {
-  //     if (!id) {
-  //       return alert('로그인이 필요합니다.');
-  //     }
-  //     return dispatch({
-  //       type: REMOVE_COMMENT_REQUEST,
-  //       data: { commentId: v, postId: post.id, userId: id },
-  //     });
-  //   },
-  //   [id]
-  // );
+  
   const onRemoveComment = useCallback(
     (v) => {
       if (!id) {
-        return alert('해당 댓글을 삭제할 수 없습니다.');
+        return alert('권한이 없습니다.');
       }
       return dispatch({
         type: REMOVE_COMMENT_REQUEST,

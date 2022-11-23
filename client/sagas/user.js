@@ -40,7 +40,29 @@ import {
   UPLOAD_PROFILE_IMAGES_REQUEST,
   UPLOAD_PROFILE_IMAGES_SUCCESS,
   UPLOAD_PROFILE_IMAGES_FAILURE,
+  CHECK_MY_IP_REQUEST,
+  CHECK_MY_IP_SUCCESS,
+  CHECK_MY_IP_FAILURE,
 } from '../reducers/user';
+
+// ChcekIp
+function checkIpAPI(data) {
+  return axios.get(`/user/${data}/check`, data);
+}
+function* checkIp(action) {
+  try {
+    const result = yield call(checkIpAPI, action.data);
+    yield put({
+      type: CHECK_MY_IP_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      type: CHECK_MY_IP_FAILURE,
+      errors: err.response.data,
+    });
+  }
+}
 
 // UploadImages
 function uploadImagesAPI(data) {
@@ -49,7 +71,7 @@ function uploadImagesAPI(data) {
 function* uploadImages(action) {
   try {
     const result = yield call(uploadImagesAPI, action.data);
-    console.log('Upload_saga: ', result.data);
+    // console.log('Upload_saga: ', result.data);
     yield put({
       type: UPLOAD_PROFILE_IMAGES_SUCCESS,
       data: result.data,
@@ -64,7 +86,7 @@ function* uploadImages(action) {
 
 // REMOVE Follower
 function removeFollowerAPI(data) {
-  return axios.delete(`/user/follower/${data}`);
+  return axios.delete(`/user/follower/${data.userId}`);
 }
 
 function* removeFollower(action) {
@@ -176,7 +198,7 @@ function* logIn(action) {
       type: LOG_IN_SUCCESS,
       data: result.data,
     });
-    console.log('login me: ', result.data);
+    // console.log('login me: ', result.data);
   } catch (err) {
     console.error(err);
     yield put({
@@ -303,6 +325,9 @@ function* changeProfile(action) {
 function* watchLoadMyInfo() {
   yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
+function* watchCheckIp() {
+  yield takeLatest(CHECK_MY_IP_REQUEST, checkIp);
+}
 function* watchLoadUser() {
   yield takeLatest(LOAD_USER_REQUEST, loadUser);
 }
@@ -357,5 +382,6 @@ export default function* userSaga() {
     fork(watchLogIn),
     fork(watchLogOut),
     fork(watchSignUP),
+    fork(watchCheckIp),
   ]);
 }

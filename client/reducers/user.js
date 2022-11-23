@@ -4,6 +4,7 @@ export const initialState = {
   me: null,
   userInfo: null,
   imagePaths: [],
+  checkIp: false,
   loadMyInfoLoading: false,
   loadMyInfoDone: false,
   loadMyInfoError: null,
@@ -45,11 +46,19 @@ export const initialState = {
   removeFollowerLoading: false,
   removeFollowerDone: false,
   removeFollowerError: null,
+  //
+  checkMyIpLoading: false,
+  checkMyIpDone: false,
+  checkMyIpError: null,
 };
 
 export const UPLOAD_PROFILE_IMAGES_REQUEST = 'UPLOAD_PROFILE_IMAGES_REQUEST';
 export const UPLOAD_PROFILE_IMAGES_SUCCESS = 'UPLOAD_PROFILE_IMAGES_SUCCESS';
 export const UPLOAD_PROFILE_IMAGES_FAILURE = 'UPLOAD_PROFILE_IMAGES_FAILURE';
+
+export const CHECK_MY_IP_REQUEST = 'CHECK_MY_IP_REQUEST';
+export const CHECK_MY_IP_SUCCESS = 'CHECK_MY_IP_SUCCESS';
+export const CHECK_MY_IP_FAILURE = 'CHECK_MY_IP_FAILURE';
 
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
 export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS';
@@ -118,6 +127,21 @@ export const logoutRequestAction = () => {
 const reducer = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
+      case CHECK_MY_IP_REQUEST:
+        draft.checkMyIpLoading = true;
+        draft.checkMyIpDone = false;
+        draft.checkMyIpError = null;
+        break;
+      case CHECK_MY_IP_SUCCESS:
+        draft.checkMyIpLoading = false;
+        draft.checkMyIpDone = true;
+        draft.checkIp = action.data;
+        break;
+      case CHECK_MY_IP_FAILURE:
+        draft.checkMyIpLoading = false;
+        // draft.checkMyIpError = action.error;
+        break;
+      //
       case REMOVE_FOLLOWER_REQUEST:
         draft.removeFollowerLoading = true;
         draft.removeFollowerError = null;

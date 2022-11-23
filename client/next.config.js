@@ -5,7 +5,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const withImages = require('next-images');
 module.exports = withImages();
 
-module.exports = {
+module.exports = withBundleAnalyzer({
   compress: true,
   webpack(config, { webpack }) {
     const prod = process.env.NODE_ENV === 'production';
@@ -19,4 +19,4 @@ module.exports = {
       ],
     };
   },
-};
+});

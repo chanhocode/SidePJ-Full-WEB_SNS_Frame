@@ -19,7 +19,7 @@ import {
 import { Layout, Menu, Input, Row, Col, Button, Space, Dropdown } from 'antd';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { logoutRequestAction } from '../reducers/user';
+import { CHECK_MY_IP_REQUEST, logoutRequestAction } from '../reducers/user';
 
 import UserProfile from './UserProfile';
 import LoginForm from './LoginForm';
@@ -163,6 +163,20 @@ const AppLayout = ({ children }) => {
   const onSearch = useCallback(() => {
     Router.push(`/hashtag/${searchInput}`);
   }, [searchInput]);
+
+  /**
+   * 현재 ip와 실제 접속된 ip를 확인하기 위해
+   * userId를 server로 넘겨준다.
+   */
+  // useEffect(() => {
+  //   console.log('test');
+  //   if (me) {
+  //     dispatch({
+  //       type: CHECK_MY_IP_REQUEST,
+  //       data: me.id,
+  //     });
+  //   }
+  // });
 
   const onLogOut = useCallback(() => {
     dispatch(logoutRequestAction());
