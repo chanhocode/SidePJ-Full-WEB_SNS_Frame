@@ -256,15 +256,11 @@ router.delete(
           id: req.params.commentId,
         },
       });
-      console.log('comment_ PostId', comment.PostId);
-      console.log('comment', comment);
       res.status(200).json({
         commentId: parseInt(req.params.commentId),
         PostId: parseInt(req.params.postId),
       });
     } catch (error) {
-      console.log('req.params:: ', req.params);
-      console.log('req.params.commentText:: ', req.params.commentText);
       console.error(error);
       next(error);
     }
@@ -295,7 +291,7 @@ router.delete('/:postId', isLoggedIn, async (req, res, next) => {
 // });
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
   // POST /post/images
-  console.log(req.files);
+  // console.log(req.files);
   res.json(req.files.map((v) => v.filename));
 });
 

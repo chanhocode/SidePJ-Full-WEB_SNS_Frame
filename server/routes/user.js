@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const requestIp = require('request-ip');
 
 const bcrypt = require('bcrypt');
 const passport = require('passport');
@@ -31,6 +32,31 @@ const upload = multer({
     },
   }),
   limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+});
+
+router.get('/:userId/check', isLoggedIn, async (req, res, next) => {
+  // GET /userId/check
+  try {
+    const IP = await User.findOne({
+      where: { id: req.user.id },
+      attributes: ['connectIP'],
+    });
+    if (IP.dataValues.connectIP !== requestIp.getClientIp(req)) {
+      req.logout(() => {
+        res.redirect('/');
+      });
+      req.session.destroy();
+      return res
+        .status(200)
+        .send(
+          "<script>alert('새로운 로그인 접근이 있습니다.'); window.location.replace('/login');</script>"
+        );
+    }
+    return res.status(200).json(null);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 router.get('/', async (req, res, next) => {
@@ -179,6 +205,15 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
           },
         ],
       });
+      const addIp = await User.update(
+        {
+          connectIP: requestIp.getClientIp(req),
+        },
+        {
+          where: { id: user.id },
+        }
+      );
+      console.log('client IP: ' + requestIp.getClientIp(req));
       return res.status(200).json(fullUserWithoutPassword);
     });
   })(req, res, next);
@@ -198,7 +233,7 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {
     }
     // Password 암호화 (bcrypt 사용)
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    console.log(req.body);
+    // console.log(req.body);
 
     await User.create({
       email: req.body.email,
@@ -217,12 +252,27 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {
   }
 });
 
-router.post('/logout', isLoggedIn, (req, res) => {
-  req.logout(() => {
-    res.redirect('/');
-  });
-  req.session.destroy();
-  res.send('ok');
+router.post('/logout', isLoggedIn, async (req, res, next) => {
+  // checkIp 비우기
+  try {
+    await User.update(
+      {
+        connectIP: ' ',
+      },
+      {
+        where: { id: req.user.id },
+      }
+    );
+
+    req.logout(() => {
+      res.redirect('/');
+    });
+    await req.session.destroy();
+    return res.send('ok');
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 router.patch('/nickname', isLoggedIn, async (req, res, next) => {
@@ -274,7 +324,7 @@ router.post('/profile', isLoggedIn, upload.none(), async (req, res, next) => {
 
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
   // POST /user/images
-  console.log(req.files);
+  // console.log(req.files);
   res.json(req.files.map((v) => v.filename));
 });
 

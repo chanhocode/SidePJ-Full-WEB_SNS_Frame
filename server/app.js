@@ -8,6 +8,8 @@ const morgan = require('morgan');
 const path = require('path');
 const hpp = require('hpp');
 const helmet = require('helmet');
+const MySQLStore = require('express-mysql-session')(session);
+const requestIp = require('request-ip');
 
 const postRouter = require('./routes/post');
 const postsRouter = require('./routes/posts');
@@ -16,6 +18,7 @@ const hashtagRouter = require('./routes/hashtag');
 
 const db = require('./models');
 const passportConfig = require('./passport');
+const { User } = require('./models');
 
 const app = express();
 
@@ -78,6 +81,21 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 //     },
 //   })
 // );
+
+// clearExpired: 유효 기간이 지난 세션은 삭제
+// checkExpirationInterval: 세션의 유효기간을 체크하는 시간을 설정
+// expiration: 세션의 유효기간을 설정
+// const option = {
+//   host: '127.0.0.1',
+//   port: 3065,
+//   user: 'root',
+//   password: process.env.DB_PASSWORD,
+//   database: 'node-full-sns',
+//   clearExpired: true,
+//   checkExpirationInterval: 10000,
+//   expiration: 10000,
+// };
+
 app.use(
   session({
     saveUninitialized: false,
@@ -85,19 +103,14 @@ app.use(
     secret: process.env.COOKIE_SECRET,
   })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.get('/', (req, res) => {
-  res.send('hello express');
-});
 
 app.use('/post', postRouter);
 app.use('/posts', postsRouter);
 app.use('/user', userRouter);
 app.use('/hashtag', hashtagRouter);
-
-app.listen(3065, () => {
+// '0.0.0.0' : request-ip 를 사용시 IPv4로 데이터를 추가하기 위해 사용 (기본 IPv6)
+app.listen(3065, '0.0.0.0', () => {
   console.log('server On');
 });

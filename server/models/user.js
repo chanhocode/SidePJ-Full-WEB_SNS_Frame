@@ -42,6 +42,10 @@ module.exports = class User extends Model {
           type: DataTypes.STRING(200),
           allowNull: true,
         },
+        connectIP: {
+          type: DataTypes.STRING(100),
+          allowNull: true,
+        },
       },
       {
         modelName: 'User',
