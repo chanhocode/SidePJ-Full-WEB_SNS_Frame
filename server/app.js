@@ -8,8 +8,6 @@ const morgan = require('morgan');
 const path = require('path');
 const hpp = require('hpp');
 const helmet = require('helmet');
-const MySQLStore = require('express-mysql-session')(session);
-const requestIp = require('request-ip');
 
 const postRouter = require('./routes/post');
 const postsRouter = require('./routes/posts');
@@ -18,8 +16,6 @@ const hashtagRouter = require('./routes/hashtag');
 
 const db = require('./models');
 const passportConfig = require('./passport');
-const { User } = require('./models');
-
 const app = express();
 
 dotenv.config();
@@ -33,33 +29,24 @@ db.sequelize
 
 passportConfig();
 
-// <배포버전>
-// if (process.env.NODE_ENV === 'production') {
-//   app.set('trust proxy', 1)
-//   app.use(morgan('combined'));
-//   app.use(hpp());
-//   app.use(helmet());
-// } else {
-//   app.use(morgan('dev'));
-// }
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1)
+  app.use(morgan('combined'));
+  app.use(hpp());
+  app.use(helmet());
+} else {
+  app.use(morgan('dev'));
+}
 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: [
+      'http://localhost:3000',
+      'https://chanhopj.com',
+    ],
     credentials: true,
   })
 );
-// < 배포 버전 >
-// app.use(
-//   cors({
-//     origin: [
-//       'http://localhost:3000',
-//       'https://chanhopj.com',
-//       'http://43.200.67.2',
-//     ],
-//     credentials: true,
-//   })
-// );
 
 app.use('/', express.static(path.join(__dirname, 'uploads')));
 // comment:: req.body
@@ -106,10 +93,15 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('/', (req, res) => {
+  res.send('hello server');
+});
+
 app.use('/post', postRouter);
 app.use('/posts', postsRouter);
 app.use('/user', userRouter);
 app.use('/hashtag', hashtagRouter);
+
 // '0.0.0.0' : request-ip 를 사용시 IPv4로 데이터를 추가하기 위해 사용 (기본 IPv6)
 app.listen(3065, '0.0.0.0', () => {
   console.log('server On');
