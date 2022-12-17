@@ -9,86 +9,67 @@ import {
   EditOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined,
+  UserAddOutlined,
 } from '@ant-design/icons';
 
 const ProfileWrapper = styled(Card)`
   margin-bottom: 20px;
 `;
 const TopItem = styled.div`
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; */
-  position: absolute;
-  width: 60%;
-  top: 30px;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  .nicknameWrapper {
-    font-size: 1.3rem;
-    text-align: center;
-    margin-bottom: 5px;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   .imageWrapper {
-    width: 100%;
+    width: 30%;
     aspect-ratio: 1/1;
     .ant-avatar {
       width: 100%;
       height: 100%;
     }
   }
-`;
-const Meta = styled.a`
-  display: flex;
-  align-items: center;
-
-  height: 100%;
-  width: 100%;
-
-  color: black;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: bold;
-`;
-const Greetings = styled.div`
-  color: #000;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 20px;
-  padding-right: 20px;
-  border-radius: 5px;
-  background-color: #fff;
-  font-weight: 500;
-  margin-top: 10px;
-  margin-bottom: 20px;
-`;
-
-const UserData = styled.div`
-  display: flex;
-  align-items: center;
-  a {
-    color: #fdf0e0;
+  .userData {
+    display: flex;
+    align-items: center;
+    width: 70%;
+    justify-content: center;
+    a {
+      font-weight: 400;
+      color: #000;
+    }
   }
 `;
-
 const Data = styled.div`
   font-size: large;
   text-align: center;
   padding-left: 10px;
   padding-right: 10px;
+  color: #000;
 `;
 
-const UserArea = styled.div`
+const Meta = styled.a`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  border-radius: 10px;
-  color: #fdf0e0;
-  font-weight: 500;
-  background-color: #1c6dd0;
-  margin-top: 60%;
-  padding-top: 18%;
+  height: 100%;
+  width: 100%;
+  color: black;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+`;
+
+const Message = styled.div``;
+const BtnGroup = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  Button {
+    border-radius: 7px;
+    border: none;
+    background-color: #f3f3f3;
+  }
+  .btnL {
+    width: 42%;
+  }
 `;
 
 const UserProfile = () => {
@@ -106,7 +87,6 @@ const UserProfile = () => {
   return (
     <ProfileWrapper>
       <TopItem>
-        <div className='nicknameWrapper'>{me.nickname}</div>
         <div className='imageWrapper' key='avatar'>
           <Link href={`/user/${me.id}`} prefetch={false}>
             <Meta>
@@ -114,10 +94,7 @@ const UserProfile = () => {
             </Meta>
           </Link>
         </div>
-      </TopItem>
-
-      <UserArea>
-        <UserData>
+        <div className='userData'>
           <Data key='twit'>
             <Link href={`/user/${me.id}`}>게시물</Link>
             <br />
@@ -134,11 +111,19 @@ const UserProfile = () => {
             <br />
             {me.Followings.length}
           </Data>
-        </UserData>
-        <Greetings>
-          Welcom to {me.nickname}!! Did anything special happen?
-        </Greetings>
-      </UserArea>
+        </div>
+      </TopItem>
+      <div className='nicknameWrapper'>{me.nickname}</div>
+      <Message>
+        <p>안녕하세요! Petch에 오신걸 환영합니다.</p>
+      </Message>
+      <BtnGroup>
+        <Button className='btnL'>프로필 편집</Button>
+        <Button className='btnL'>프로필 공유</Button>
+        <Button className='btnS'>
+          <UserAddOutlined />
+        </Button>
+      </BtnGroup>
     </ProfileWrapper>
   );
 };
