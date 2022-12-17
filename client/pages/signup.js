@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 import AppLayout from '../componets/AppLayout';
 import styled from 'styled-components';
-import { Button, Checkbox, Form, Input, Calendar } from 'antd';
+import { Button, Checkbox, Form, Input, Calendar, DatePicker } from 'antd';
 import useInput from '../hooks/useInput';
 import { SIGN_UP_REQUEST } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,7 +19,7 @@ const InputArea = styled(Input)`
 `;
 const FormWrapper = styled(Form)`
   width: 100%;
-  background-color: #5f9df7;
+  /* background-color: #5f9df7; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,15 +29,16 @@ const FormWrapper = styled(Form)`
   padding-bottom: 20px;
   border-radius: 5px;
   & h1 {
-    color: #fff;
+    color: #000;
     font-size: 2rem;
     margin-bottom: 20px;
   }
 `;
-const BirthArea = styled(Calendar)`
+const BirthArea = styled(DatePicker)`
   width: 80%;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 5px;
   margin-bottom: 5px;
 `;
 const AgeAndGenderForm = styled.div`
@@ -48,11 +49,11 @@ const AgeAndGenderForm = styled.div`
   margin-left: auto;
   margin-right: auto;
   Input {
-    width: 20%;
+    width: 40%;
     margin-right: 10px;
   }
   .genderWrapper {
-    width: 80%;
+    width: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -63,16 +64,18 @@ const PhoneNum = styled.div`
   margin-left: auto;
   margin-right: auto;
   margin-top: 10px;
-  .numWrapper {
-    width: 100%;
-    display: flex;
-  }
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
   select {
-    width: 20%;
+    width: 30%;
     height: 30px;
+    border: #dedede solid 1px;
+    background-color: #999999;
+    text-align: center;
   }
   Input {
-    width: 20%;
+    width: 30%;
     height: 30px;
   }
 `;
@@ -118,13 +121,12 @@ const signup = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [termError, setTermError] = useState(false);
 
-  const onPanelChange = (value, mode) => {
-    setBirth(value.format('YYYY-MM-DD'));
-  };
   const onBirthSelect = (value, mode) => {
     let birthData = value.format('YYYY-MM-DD');
     setBirth((birthData = value.format('YYYY-MM-DD')));
+    console.log(birth);
   };
+
   const onChangePasswordCheck = useCallback(
     (e) => {
       setPasswordCheck(e.target.value);
@@ -262,14 +264,9 @@ const signup = () => {
           )}
         </div>
         <div>
-          <h3 style={{ color: '#fff' }}>당신의 생일을 선택해주세요.</h3>
-        </div>
-        <div>
           <BirthArea
-            fullscreen={false}
-            onPanelChange={onPanelChange}
-            onSelect={onBirthSelect}
-            style={{ width: '80%' }}
+            onChange={onBirthSelect}
+            placeholder='생일을 선택하세요.'
           />
         </div>
         <AgeAndGenderForm>
@@ -289,7 +286,6 @@ const signup = () => {
             >
               남성
             </Checkbox>
-
             <Checkbox
               onChange={onChangeGender}
               name='user-gender'
@@ -301,34 +297,32 @@ const signup = () => {
           </div>
         </AgeAndGenderForm>
         <PhoneNum>
-          <div className='numWrapper'>
-            <select name='user-number'>
-              <option value='010' selected>
-                010
-              </option>
-            </select>
-            {' - '}
-            <Input
-              name='user-midNum'
-              value={midNum}
-              onChange={onChangeMidnum}
-              maxLength='4'
-            />
-            {' - '}
-            <Input
-              name='user-lastNum'
-              value={lastNum}
-              onChange={onChangeLastNum}
-              maxLength='4'
-            />
-          </div>
+          <select name='user-number'>
+            <option value='010' selected>
+              010
+            </option>
+          </select>
+          <p> - </p>
+          <Input
+            name='user-midNum'
+            value={midNum}
+            onChange={onChangeMidnum}
+            maxLength='4'
+          />
+          <p> - </p>
+          <Input
+            name='user-lastNum'
+            value={lastNum}
+            onChange={onChangeLastNum}
+            maxLength='4'
+          />
         </PhoneNum>
         <div>
           <Checkbox
             name='user-term'
             checked={term}
             onChange={onChangeTerm}
-            style={{ color: '#fff', marginTop: '20px', marginBottom: '20px' }}
+            style={{ color: '#000', marginTop: '20px', marginBottom: '20px' }}
           >
             {'정보제공의 동의하며 회원가입 하시겠습니까? (필수)'}
           </Checkbox>
