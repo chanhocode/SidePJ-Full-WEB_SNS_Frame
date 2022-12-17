@@ -1,16 +1,12 @@
 import React, { useCallback, useState } from 'react';
-import { Form, Card, Avatar, Button } from 'antd';
+import { notification, Card, Avatar, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutRequestAction } from '../reducers/user';
+
 import styled from 'styled-components';
 import Link from 'next/link';
 
-import {
-  EditOutlined,
-  ArrowUpOutlined,
-  ArrowDownOutlined,
-  UserAddOutlined,
-} from '@ant-design/icons';
+import { UserAddOutlined } from '@ant-design/icons';
 
 const ProfileWrapper = styled(Card)`
   margin-bottom: 20px;
@@ -84,6 +80,13 @@ const UserProfile = () => {
     dispatch(logoutRequestAction());
   }, []);
 
+  const openNotification = () => {
+    notification.open({
+      message: '아래 주소를 복사하여 공유하세요.',
+      description: `http://chanhopj.com:8081/user/${me.id}`,
+    });
+  };
+
   return (
     <ProfileWrapper>
       <TopItem>
@@ -118,8 +121,14 @@ const UserProfile = () => {
         <p>안녕하세요! Petch에 오신걸 환영합니다.</p>
       </Message>
       <BtnGroup>
-        <Button className='btnL'>프로필 편집</Button>
-        <Button className='btnL'>프로필 공유</Button>
+        <Button className='btnL'>
+          <Link href='/profile'>
+            <a>프로필 편집</a>
+          </Link>
+        </Button>
+        <Button className='btnL' onClick={openNotification}>
+          프로필 공유
+        </Button>
         <Button className='btnS'>
           <UserAddOutlined />
         </Button>
