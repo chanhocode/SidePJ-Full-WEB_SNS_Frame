@@ -16,10 +16,10 @@ const ProfileImageEdit = styled(Form)`
   border-radius: 4px;
   margin-bottom: 10px;
   .AvatarWrapper {
-    width: 50%;
+    width: 30%;
   }
   .ButtonWrapper {
-    width: 50%;
+    width: 60%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -80,8 +80,8 @@ const ProfileImageForm = () => {
       <div className='AvatarWrapper'>
         <Avatar
           src={Image}
-          style={{ margin: '20px' }}
-          size={200}
+          style={{ margin: '20px', cursor: 'pointer' }}
+          size={100}
           onClick={onClickImageUpload}
         />
         <input
