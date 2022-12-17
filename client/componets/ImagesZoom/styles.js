@@ -41,9 +41,20 @@ export const ImageWrapper = styled.div`
   text-align: center;
 
   & img {
-    height: 75vh;
+    width: 100%;
     margin: 0 auto;
-    max-height: 750px;
+  }
+  @media (min-width: 1060px) {
+    & img {
+      width: 90%;
+      margin: 0 auto;
+    }
+  }
+  @media (min-width: 1400px) {
+    & img {
+      width: 65%;
+      margin: 0 auto;
+    }
   }
 `;
 export const Indicator = styled.div`

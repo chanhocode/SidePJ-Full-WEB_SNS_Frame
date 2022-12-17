@@ -37,16 +37,6 @@ const ImagesZoom = ({ images, onClose }) => {
                 <img src={`http://localhost:3065/${v.src}`} alt={v.src} />
               </ImageWrapper>
             ))}
-            {/*
-            < 배포버전 > 
-            {images.map((v) => (
-              <ImageWrapper key={v.src}>
-                <img
-                  src={`${v.src.replace(/\/thumb\//, '/original/')}`}
-                  alt={v.src}
-                />
-              </ImageWrapper>
-            ))} */}
           </Slider>
           <Indicator>
             <div>
