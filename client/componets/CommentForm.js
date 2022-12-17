@@ -40,6 +40,7 @@ const CommentForm = ({ post }) => {
           htmlType='submit'
           style={{ position: 'absolute', right: 0, bottom: -40, zIndex: 1 }}
           loading={addCommentLoading}
+          
         >
           <EditFilled />
         </Button>
