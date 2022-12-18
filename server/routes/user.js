@@ -61,7 +61,6 @@ router.get('/:userId/check', isLoggedIn, async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
   // GET /user
-  // console.log(req.headers);
   try {
     if (req.user) {
       const fullUserWithoutPassword = await User.findOne({
@@ -213,7 +212,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
           where: { id: user.id },
         }
       );
-      console.log('client IP: ' + requestIp.getClientIp(req));
+      // console.log('client IP: ' + requestIp.getClientIp(req));
       return res.status(200).json(fullUserWithoutPassword);
     });
   })(req, res, next);
@@ -233,8 +232,6 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {
     }
     // Password 암호화 (bcrypt 사용)
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    // console.log(req.body);
-
     await User.create({
       email: req.body.email,
       nickname: req.body.nickname,
@@ -324,7 +321,6 @@ router.post('/profile', isLoggedIn, upload.none(), async (req, res, next) => {
 
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
   // POST /user/images
-  // console.log(req.files);
   res.json(req.files.map((v) => v.filename));
 });
 

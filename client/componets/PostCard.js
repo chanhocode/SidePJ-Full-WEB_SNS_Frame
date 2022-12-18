@@ -34,6 +34,7 @@ import FollowButton from './FollowButton';
 import Link from 'next/link';
 import moment from 'moment';
 import styled from 'styled-components';
+import { backURL } from '../config/config';
 
 moment.locale('ko');
 
@@ -70,7 +71,6 @@ const PostCard = ({ post }) => {
   const id = useSelector((state) => state.user.me?.id);
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
-
   const { removePostLoading, removeCommentLoading } = useSelector(
     (state) => state.post
   );
@@ -78,16 +78,12 @@ const PostCard = ({ post }) => {
   const [editMode, setEditMode] = useState(false);
   const [accuseValue, setAccuseValue] = useState('');
   const [isAccuseOpen, setIsAccuseOpen] = useState(false);
-
   const showAccuse = () => {
     setIsAccuseOpen(true);
   };
-
   const accuseHandleOk = useCallback(
     (accuseValue) => () => {
-      // console.log(
-      //   `postId: ${post.id} _ userId: ${id} _ content: ${accuseValue}`
-      // );
+
       dispatch({
         type: POST_ACCUSE_REQUEST,
         data: {
@@ -155,7 +151,7 @@ const PostCard = ({ post }) => {
       data: post.id,
     });
   }, [id]);
-  
+
   const onRemoveComment = useCallback(
     (v) => {
       if (!id) {
@@ -264,7 +260,7 @@ const PostCard = ({ post }) => {
                     <Avatar
                       src={
                         post.Retweet.User.profileImage
-                          ? `http://chanhopj.com:3065/${post.Retweet.User.profileImage}`
+                          ? `${backURL}/${post.Retweet.User.profileImage}`
                           : '/img/blankProfile.png'
                       }
                     />
@@ -293,7 +289,7 @@ const PostCard = ({ post }) => {
                     <Avatar
                       src={
                         post.User.profileImage
-                          ? `http://chanhopj.com:3065/${post.User.profileImage}`
+                          ? `${backURL}/${post.User.profileImage}`
                           : '/img/blankProfile.png'
                       }
                     />
@@ -357,7 +353,7 @@ const PostCard = ({ post }) => {
                           <Avatar
                             src={
                               item.User.profileImage
-                                ? `http://chanhopj.com:3065/${item.User.profileImage}`
+                                ? `${backURL}/${item.User.profileImage}`
                                 : '/img/blankProfile.png'
                             }
                           />

@@ -56,7 +56,6 @@ function uploadImagesAPI(data) {
 function* uploadImages(action) {
   try {
     const result = yield call(uploadImagesAPI, action.data);
-    console.log('Upload_saga: ', result.data);
     yield put({
       type: UPLOAD_IMAGES_SUCCESS,
       data: result.data,
@@ -262,7 +261,6 @@ function* addComment(action) {
 
 // RemoveComment
 function removeCommentAPI(data) {
-  // console.log('remove data: ', data);
   return axios.delete(`/post/comment/${data.postId}/${data.commentId}`, data);
 }
 
@@ -284,13 +282,11 @@ function* removeComment(action) {
 
 // PostAccuse
 function postAccuseAPI(data) {
-  // console.log('accuse data: ', data);
   return axios.post(`/post/${data.postId}/accuse`, data);
 }
 function* postAccuse(action) {
   try {
     const result = yield call(postAccuseAPI, action.data);
-    // console.log('accuse saga result: ', result, result.data);
     yield put({
       type: POST_ACCUSE_SUCCESS,
       data: result.data,

@@ -9,12 +9,11 @@ import {
   ImageWrapper,
   Indicator,
   SlickWrapper,
-  BackWrapper,
 } from './styles';
+import { backURL } from '../../config/config';
 
 const ImagesZoom = ({ images, onClose }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-
   return (
     <Overlay>
       <Global />
@@ -34,7 +33,7 @@ const ImagesZoom = ({ images, onClose }) => {
           >
             {images.map((v) => (
               <ImageWrapper key={v.src}>
-                <img src={`http://chanhopj.com:3065/${v.src}`} alt={v.src} />
+                <img src={`${backURL}/${v.src}`} alt={v.src} />
               </ImageWrapper>
             ))}
           </Slider>

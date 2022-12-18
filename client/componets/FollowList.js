@@ -19,7 +19,7 @@ const FollowList = ({ header, data, onClickMore, loading }) => {
       data: id,
     });
   };
-  console.dir(`action: ${header}, data: ${data}`);
+  
   return (
     <List
       style={{ marginBottom: 20, backgroundColor: '#fff', borderRadius: '5px' }}

@@ -71,7 +71,6 @@ function uploadImagesAPI(data) {
 function* uploadImages(action) {
   try {
     const result = yield call(uploadImagesAPI, action.data);
-    // console.log('Upload_saga: ', result.data);
     yield put({
       type: UPLOAD_PROFILE_IMAGES_SUCCESS,
       data: result.data,
@@ -198,7 +197,6 @@ function* logIn(action) {
       type: LOG_IN_SUCCESS,
       data: result.data,
     });
-    // console.log('login me: ', result.data);
   } catch (err) {
     console.error(err);
     yield put({

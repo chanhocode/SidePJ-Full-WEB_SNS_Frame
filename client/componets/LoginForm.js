@@ -3,7 +3,6 @@ import { Form, Input, Button, Row, Col } from 'antd';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-
 import useInput from '../hooks/useInput';
 import { loginRequestAction } from '../reducers/user';
 
@@ -14,7 +13,6 @@ const FormWrapper = styled(Form)`
   border-radius: 10px;
   margin-bottom: 20px;
   background-color: #1C6DD0;
-
   & label {
     color: #fff;
     font-size: 1rem;

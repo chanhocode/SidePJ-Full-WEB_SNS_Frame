@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { Button, Input } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { UPDATE_POST_REQUEST } from '../reducers/post';
+import { useSelector } from 'react-redux';
+
 
 const { TextArea } = Input;
 

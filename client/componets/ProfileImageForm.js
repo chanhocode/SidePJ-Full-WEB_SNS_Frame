@@ -6,6 +6,7 @@ import {
   UPLOAD_PROFILE_IMAGES_REQUEST,
 } from '../reducers/user';
 import styled from 'styled-components';
+import { backURL } from '../config/config';
 
 const ProfileImageEdit = styled(Form)`
   width: 100%;
@@ -33,11 +34,8 @@ const ProfileImageForm = () => {
   const dispatch = useDispatch();
   const { me, imagePaths } = useSelector((state) => state.user);
   const [Image, setImage] = useState(
-    me.profileImage
-      ? `http://chanhopj.com:3065/${me.profileImage}`
-      : '/img/blankProfile.png'
+    me.profileImage ? `${backURL}/${me.profileImage}` : '/img/blankProfile.png'
   );
-
   const onSubmit = useCallback(() => {
     const formData = new FormData();
     imagePaths.forEach((p) => {
@@ -49,14 +47,11 @@ const ProfileImageForm = () => {
       data: formData,
     });
   }, [imagePaths]);
-
   const imageInput = useRef();
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
   }, [imageInput.current]);
-
   const onChangeImages = useCallback((e) => {
-    // console.log('images', e.target.files);
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
@@ -64,7 +59,6 @@ const ProfileImageForm = () => {
       }
     };
     reader.readAsDataURL(e.target.files[0]);
-
     const imageFormData = new FormData();
     [].forEach.call(e.target.files, (f) => {
       imageFormData.append('image', f);

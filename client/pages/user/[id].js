@@ -11,6 +11,7 @@ import { LOAD_MY_INFO_REQUEST, LOAD_USER_REQUEST } from '../../reducers/user';
 import PostCard from '../../componets/PostCard';
 import wrapper from '../../store/configureStore';
 import AppLayout from '../../componets/AppLayout';
+import { backURL } from '../../config/config';
 
 const User = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const User = () => {
   const { userInfo, me } = useSelector((state) => state.user);
   const [Image, setImage] = useState(
     userInfo.profileImage
-      ? `http://chanhopj.com:3065/${userInfo.profileImage}`
+      ? `${backURL}/${userInfo.profileImage}`
       : '/img/blankProfile.png'
   );
   useEffect(() => {
@@ -123,7 +124,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
     });
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
-    // console.log('getState', context.store.getState().post.mainPosts);
     return { props: {} };
   }
 );

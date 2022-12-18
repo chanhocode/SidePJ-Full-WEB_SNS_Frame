@@ -124,7 +124,6 @@ const signup = () => {
   const onBirthSelect = (value, mode) => {
     let birthData = value.format('YYYY-MM-DD');
     setBirth((birthData = value.format('YYYY-MM-DD')));
-    console.log(birth);
   };
 
   const onChangePasswordCheck = useCallback(

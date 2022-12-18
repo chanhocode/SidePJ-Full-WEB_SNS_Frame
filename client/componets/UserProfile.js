@@ -2,11 +2,10 @@ import React, { useCallback, useState } from 'react';
 import { notification, Card, Avatar, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutRequestAction } from '../reducers/user';
-
 import styled from 'styled-components';
 import Link from 'next/link';
-
 import { UserAddOutlined } from '@ant-design/icons';
+import { backURL } from '../config/config';
 
 const ProfileWrapper = styled(Card)`
   margin-bottom: 20px;
@@ -72,9 +71,7 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const { me, logOutLoading } = useSelector((state) => state.user);
   const [Image, setImage] = useState(
-    me.profileImage
-      ? `http://chanhopj.com:3065/${me.profileImage}`
-      : '/img/blankProfile.png'
+    me.profileImage ? `${backURL}/${me.profileImage}` : '/img/blankProfile.png'
   );
   const onLogOut = useCallback(() => {
     dispatch(logoutRequestAction());

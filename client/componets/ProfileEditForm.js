@@ -22,6 +22,7 @@ const ProfileEditForm = () => {
       data: nickname,
     });
   }, [nickname]);
+  
   return (
     <Form style={style}>
       <Input.Search

@@ -1,12 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import ImagesZoom from './ImagesZoom';
-import styled from 'styled-components';
 import { backURL } from '../config/config';
-
-const ImgWrapper = styled.div`
-  padding: 10px;
-`;
 
 const PostImages = ({ images }) => {
   const [showImagesZoom, setShowImagesZoom] = useState(false);
@@ -21,18 +16,10 @@ const PostImages = ({ images }) => {
       <>
         <img
           role='presentation'
-          src={`http://chanhopj.com:3065/${images[0].src}`}
+          src={`${backURL}/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
         />
-        {/*
-        < 배포 버전 >
-        <img
-          role='presentation'
-          src={`${images[0].src}`}
-          alt={images[0].src}
-          onClick={onZoom}
-        /> */}
         {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
     );
@@ -42,18 +29,11 @@ const PostImages = ({ images }) => {
       <div style={{}}>
         <img
           role='presentation'
-          src={`http://chanhopj.com:3065/${images[0].src}`}
+          src={`${backURL}/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
           width='100%'
         />
-        {/* <img
-          role='presentation'
-          width='100%'
-          src={`${images[0].src}`}
-          alt={images[0].src}
-          onClick={onZoom}
-        /> */}
         <div
           role='presentation'
           style={{

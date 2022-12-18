@@ -20,12 +20,10 @@ const FormWrapper = styled(Form)`
   border-bottom-right-radius: 5px;
   overflow: hidden;
   padding: 10px;
-  /* margin-right: 5px; */
 `;
 const TextInput = styled(Input.TextArea)`
   margin-bottom: 10px;
 `;
-
 const PostButton = styled(Button)`
   border: none;
   background-color: #1C6DD0;
@@ -33,7 +31,6 @@ const PostButton = styled(Button)`
   font-weight: 600;
   border-top-left-radius: 5px;
 `;
-
 const PostForm = () => {
   const dispatch = useDispatch();
   const { imagePaths, addPostDone, addPostLoading } = useSelector(
@@ -66,9 +63,7 @@ const PostForm = () => {
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
   }, [imageInput.current]);
-
   const onChangeImages = useCallback((e) => {
-    // console.log('images', e.target.files);
     const imageFormData = new FormData(); // FormData 를 이용해 Mulitpart 형식 전송
     [].forEach.call(e.target.files, (f) => {
       imageFormData.append('image', f);
@@ -88,6 +83,7 @@ const PostForm = () => {
   const toggleView = () => {
     setUploadView((uploadView) => !uploadView);
   };
+
   return (
     <>
       <PostButton onClick={toggleView}>
@@ -115,7 +111,7 @@ const PostForm = () => {
             <Button onClick={onClickImageUpload}>이미지 업로드</Button>
             <Button
               type='primary'
-              style={{ float: 'right', width: '6vw' }}
+              style={{ float: 'right' }}
               htmlType='submit'
               loading={addPostLoading}
             >
@@ -126,19 +122,10 @@ const PostForm = () => {
             {imagePaths.map((v, i) => (
               <div key={v} style={{ display: 'inline-block' }}>
                 <img
-                  src={`http://chanhopj.com:3065/${v}`}
+                  src={`${backURL}/${v}`}
                   style={{ width: '200px' }}
                   alt={v}
                 />
-                {/* 
-            < 배포 버전 >
-            {imagePaths.map((v, i) => (
-              <div key={v} style={{ display: 'inline-block' }}>
-                <img
-                  src={v.replace(/\/thumb\//, '/original/')}
-                  style={{ width: '200px' }}
-                  alt={v}
-                /> */}
                 <div>
                   <Button onClick={onRemoveImage(i)}>제거</Button>
                 </div>

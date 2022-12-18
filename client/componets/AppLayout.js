@@ -15,12 +15,9 @@ import {
   RightSquareOutlined,
   DoubleRightOutlined,
 } from '@ant-design/icons';
-
 import { Layout, Menu, Input, Row, Col, Button, Space, Dropdown } from 'antd';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { CHECK_MY_IP_REQUEST, logoutRequestAction } from '../reducers/user';
-
 import UserProfile from './UserProfile';
 import LoginForm from './LoginForm';
 import styled, { createGlobalStyle } from 'styled-components';
@@ -29,7 +26,6 @@ import useInput from '../hooks/useInput';
 import ChanhoInfo from './ChanhoInfo';
 
 const { Sider } = Layout;
-
 const Global = createGlobalStyle`
   body {
     background-color: #fff !important;
@@ -169,7 +165,6 @@ const AppLayout = ({ children }) => {
    * userId를 server로 넘겨준다.
    */
   // useEffect(() => {
-  //   console.log('test');
   //   if (me) {
   //     dispatch({
   //       type: CHECK_MY_IP_REQUEST,
