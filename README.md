@@ -1,14 +1,32 @@
-# CREATE_SNS_Project :: SNS FULL STACK 구현
+<img src="./readmeImg/petchHeader.png" width="100%" />
+
+## 목차
+
+[1. Info](#1-info)
+[2. Preview](#2-preview)
+[3. Maintenance](#3-maintenance)
+[4. History](#4-history)
+
+#1-Info
+
+## SNS Adress
+
+<p>[ move on click ]</p>  
+<div align=center>
+  <a href="http://chanhopj.com:8081">
+   <img src="./readmeImg/petchLogo.png" width="50%"/>  
+  </a>
+</div>
 
 ## 프로젝트 소개
 
 <p align="justify">
-SNS 웹페이지 풀스택 구현 프로젝트:: Local Develop Branch
+SNS 웹페이지 풀스택 구현 프로젝트 :: Petch Project
 </p>
-
 <p>
-배포되는 Main Branch에 올리기전에 기능 추가 테스트 및 최적화를 위한 로컬 브랜치 입니다.
+자신의 반려동물을 또는 카테고리에 맞는 동물을 서로 공유하며 다양한 사람들과 소통을 할 수 있는 반려동물 커뮤니케이션 SNS입니다.
 </p>
+<p>본 프로젝트는 react와 express.js & mySQL 로 구성된 풀스택 프로젝트 이며, 지속적인 업데이트 예정입니다.</p>
 
 ## 기술 스택
 
@@ -36,24 +54,68 @@ SNS 웹페이지 풀스택 구현 프로젝트:: Local Develop Branch
 </div>
 </div>
 
-## Preview
+#2-Preview
+
+## < Petch v1.2 >
+
+## Mobile View
+
+### 랜딩페이지 및 로그인 후 페이지
 
 <div align=center>
+  ![sns1](https://user-images.githubusercontent.com/105937460/208302209-325b6dab-75a9-46e2-be7a-281a7691e08f.gif)
+  ![sns2](https://user-images.githubusercontent.com/105937460/208302215-0aa21fa5-cd9a-499f-87b1-b27e56791399.gif)
+</div>
 
-<h3>Preview1</h3>
+### 카테고리 진입 및 프로필 페이지
 
-## Color
+<div align=center>
+  ![sns3](https://user-images.githubusercontent.com/105937460/208302223-e515897f-0def-4850-b761-120753bfccb4.gif)
+  ![sns4](https://user-images.githubusercontent.com/105937460/208302228-d627404e-e3d8-47cb-901b-d3076ad40edb.gif)
+</div>
 
-- #1C6DD0 \_ 파랑계열 (프로필 배경)
-- #5F9DF7 \_ 파랑계열 (서브컬러)
-- #FFF7E9 \_ 베이지 계열 (커맨트)
-- #E6CBA8 \_ 구분선
+## Desktop View
+
+### 렌딩페이지 및 로그인 후
+
+<div align=center>
+  <img src="./readmeImg/221218/petch1.2v_1.png" width="50%"/>
+  <img src="./readmeImg/221218/petch1.2v_2.png" width="50%"/>
+<div align=center>
+
+### 게시글 작성 및 수정
+
+<div align=center>
+  <img src="./readmeImg/221218/petch1.2v_3.png" width="50%"/>
+  <img src="./readmeImg/221218/petch1.2v_4.png" width="50%"/>
+<div align=center>
+
+### 여러 이미지 삽입시 표시 및 아마자 캐루셀
+
+<div align=center>
+  <img src="./readmeImg/221218/petch1.2v_5.png" width="50%"/>
+  <img src="./readmeImg/221218/petch1.2v_6.png" width="50%"/>
+<div align=center>
+
+### 리트윗 & 댓글
+
+<div align=center>
+  <img src="./readmeImg/221218/petch1.2v_7.png" width="50%"/>
+  <img src="./readmeImg/221218/petch1.2v_8.png" width="50%"/>
+<div align=center>
+
+### 게시글 신고 및 프로필 페이지
+
+<div align=center>
+  <img src="./readmeImg/221218/petch1.2v_9.png" width="50%"/>
+  <img src="./readmeImg/221218/petch1.2v_10.png" width="50%"/>
+<div align=center>
+
+<div>
+
+#3-Maintenance
 
 ## 업데이트 예정
-
-- 팔로잉 게시글만 불러오기 구현
-
-- 댓글 수정 & 삭제 구현
 
 - 좋아요 게시글 목록 구현
 
@@ -62,6 +124,16 @@ SNS 웹페이지 풀스택 구현 프로젝트:: Local Develop Branch
 - 상태메세지 구현
 
 - 메세지 기능 구현
+
+- 프로필 페이지에서 자신의 게시글 확인
+
+- 프로필 수정 페이지 분리
+
+- 프로필 사진 클릭시 프로필 페이지로 이동
+
+- 알림기능 추가
+
+- 리트윗한 뒤 확인 액션 추가
 
 ## 수정 예정
 
@@ -77,7 +149,9 @@ SNS 웹페이지 풀스택 구현 프로젝트:: Local Develop Branch
 
 <p>모바일 환경에서 Sider사용시 비효율적 화면 구성으로 인해 모바일 환경에서는 TopNav환경 구성</p>
 
-## History
+#4-History
+
+## Petch Version 1.2 \_ 2020/12/18
 
 ## ip 체크 기능 구현 \_ 2020/11/22
 
@@ -245,5 +319,3 @@ SNS 웹페이지 풀스택 구현 프로젝트:: Local Develop Branch
 5. 게시글 해시태그 링크 구현
 6. 인피니트 스크롤링 구현
 7. 팔로우, 언팔로우 구현
-
-## 추가 필요 개선 사항
