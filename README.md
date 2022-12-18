@@ -81,36 +81,36 @@ SNS 웹페이지 풀스택 구현 프로젝트 :: Petch Project
 ### 렌딩페이지 및 로그인 후
 
 <div align=center display="flex">
-  <img src="./readmeImg/221218/petch1.2v_1.png" width="50%"/>
-  <img src="./readmeImg/221218/petch1.2v_2.png" width="50%"/>
+  <img src="./readmeImg/221218/petch1.2v_1.png" width="45%"/>
+  <img src="./readmeImg/221218/petch1.2v_2.png" width="45%"/>
 </div>
 
 ### 게시글 작성 및 수정
 
 <div align=center display="flex">
-  <img src="./readmeImg/221218/petch1.2v_3.png" width="50%"/>
-  <img src="./readmeImg/221218/petch1.2v_4.png" width="50%"/>
+  <img src="./readmeImg/221218/petch1.2v_3.png" width="45%"/>
+  <img src="./readmeImg/221218/petch1.2v_4.png" width="45%"/>
 </div>
 
-### 여러 이미지 삽입시 표시 및 아마자 캐루셀
+### 여러 이미지 삽입시 표시 및 이미지 캐루셀
 
 <div align=center display="flex">
-  <img src="./readmeImg/221218/petch1.2v_5.png" width="50%"/>
-  <img src="./readmeImg/221218/petch1.2v_6.png" width="50%"/>
+  <img src="./readmeImg/221218/petch1.2v_5.png" width="45%"/>
+  <img src="./readmeImg/221218/petch1.2v_6.png" width="45%"/>
 </div>
 
 ### 리트윗 & 댓글
 
 <div align=center display="flex">
-  <img src="./readmeImg/221218/petch1.2v_7.png" width="50%"/>
-  <img src="./readmeImg/221218/petch1.2v_8.png" width="50%"/>
+  <img src="./readmeImg/221218/petch1.2v_7.png" width="45%"/>
+  <img src="./readmeImg/221218/petch1.2v_8.png" width="45%"/>
 </div>
 
 ### 게시글 신고 및 프로필 페이지
 
 <div align=center display="flex">
-  <img src="./readmeImg/221218/petch1.2v_9.png" width="50%"/>
-  <img src="./readmeImg/221218/petch1.2v_10.png" width="50%"/>
+  <img src="./readmeImg/221218/petch1.2v_9.png" width="45%"/>
+  <img src="./readmeImg/221218/petch1.2v_10.png" width="45%"/>
 </div>
 
 # 3-Maintenance
