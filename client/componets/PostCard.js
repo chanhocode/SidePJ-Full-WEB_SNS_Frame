@@ -7,8 +7,8 @@ import {
   Avatar,
   List,
   Comment,
-  Modal,
   Input,
+  notification,
 } from 'antd';
 import {
   RetweetOutlined,
@@ -71,19 +71,17 @@ const PostCard = ({ post }) => {
   const id = useSelector((state) => state.user.me?.id);
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
-  const { removePostLoading, removeCommentLoading } = useSelector(
-    (state) => state.post
-  );
+  const { removePostLoading, retweetDone } = useSelector((state) => state.post);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [accuseValue, setAccuseValue] = useState('');
   const [isAccuseOpen, setIsAccuseOpen] = useState(false);
+
   const showAccuse = () => {
     setIsAccuseOpen(true);
   };
   const accuseHandleOk = useCallback(
     (accuseValue) => () => {
-
       dispatch({
         type: POST_ACCUSE_REQUEST,
         data: {
@@ -164,6 +162,8 @@ const PostCard = ({ post }) => {
     },
     [id]
   );
+
+  // 리트윗 기능
   const onRetweet = useCallback(() => {
     if (!id) {
       return alert('로그인이 필요합니다.');
@@ -173,6 +173,7 @@ const PostCard = ({ post }) => {
       data: post.id,
     });
   }, [id]);
+
   const liked = post.Likers.find((v) => v.id === id);
 
   return (

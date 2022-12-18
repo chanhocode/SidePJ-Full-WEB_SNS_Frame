@@ -1,5 +1,11 @@
 import produce from '../util/produce';
-
+import { notification } from 'antd';
+const openNotification = () => {
+  notification.open({
+    message: 'Success!!',
+    description: '성공적으로 게시글을 리트윗 하였습니다.',
+  });
+};
 // comment:: User, Images, Comment 는 대문자로 시작하는 이유: 다른 정보들과 합쳐지기 떄문이다. _ 시퀄라이즈랑 관계 _ 시퀄라이즈에서 정보와 정보가 관계가 있으면 합쳐주는데 그떄 합쳐지는 것은 대문자로 나온다.
 export const initialState = {
   mainPosts: [],
@@ -128,6 +134,7 @@ const reducer = (state = initialState, action) =>
         draft.retweetLoading = false;
         draft.retweetDone = true;
         draft.mainPosts.unshift(action.data);
+        openNotification();
         break;
       case RETWEET_FAILURE:
         draft.retweetLoading = false;
