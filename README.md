@@ -67,6 +67,8 @@ SNS 웹페이지 풀스택 구현 프로젝트:: Local Develop Branch
 
 <p>[ 버그 내용 ] -> [ 수정_날짜 ]</p>
 ### [프로필페이지 PC화면에서 컴포넌트 사이즈 이상으로 화면 구성이 망가진다] -> [22.11.19]
+### [ “ Application error: a client-side exception has occurred (see the browser console for more information “  cat, dog 카테고리내에서 댓글 클릭 시 위 에러 발생 _ (수정) server의 router에서 hashtag를 불러올때 댓글을 받아오지 않아 문제가 발생하여, include내에 comment 추가] -> [22.12.18]
+### [ dog,cat 카테고리 게시글 최신 게시글이 상단으로 변경 및 프로필 이미지 안뜸 문재 해결] -> [22.12.18]
 
 ### [Nav Update] -> [2022-11-16]
 
@@ -75,6 +77,7 @@ SNS 웹페이지 풀스택 구현 프로젝트:: Local Develop Branch
 ## History
 
 ## ip 체크 기능 구현 \_ 2020/11/22
+
 #### Database에 저장된 현재 연결된 ip주소와 다른 곳에서 로그인을 시도시 기존 로그인을 해지
 
 ## 댓글 삭제 구현 \_ 2020/11/21

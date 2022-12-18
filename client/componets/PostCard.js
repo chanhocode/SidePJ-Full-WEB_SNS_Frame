@@ -264,7 +264,7 @@ const PostCard = ({ post }) => {
                     <Avatar
                       src={
                         post.Retweet.User.profileImage
-                          ? `http://localhost:3065/${post.Retweet.User.profileImage}`
+                          ? `http://chanhopj.com:3065/${post.Retweet.User.profileImage}`
                           : '/img/blankProfile.png'
                       }
                     />
@@ -293,7 +293,7 @@ const PostCard = ({ post }) => {
                     <Avatar
                       src={
                         post.User.profileImage
-                          ? `http://localhost:3065/${post.User.profileImage}`
+                          ? `http://chanhopj.com:3065/${post.User.profileImage}`
                           : '/img/blankProfile.png'
                       }
                     />
@@ -357,7 +357,7 @@ const PostCard = ({ post }) => {
                           <Avatar
                             src={
                               item.User.profileImage
-                                ? `http://localhost:3065/${item.User.profileImage}`
+                                ? `http://chanhopj.com:3065/${item.User.profileImage}`
                                 : '/img/blankProfile.png'
                             }
                           />

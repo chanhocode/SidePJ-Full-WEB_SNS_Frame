@@ -17,23 +17,6 @@ try {
   fs.mkdirSync('uploads');
 }
 
-// < 배포버전 >
-// AWS.config.update({
-//   accessKeyId: process.env.S3_ACCESS_KEY_ID,
-//   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-//   region: 'ap-northeast-2',
-// });
-// const upload = multer({
-//   storage: multerS3({
-//     s3: new AWS.S3(),
-//     bucket: 'sns-by-chanho-s3',
-//     key(req, file, cb) {
-//       cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`);
-//     },
-//   }),
-//   limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
-// });
-
 const upload = multer({
   storage: multer.diskStorage({
     destination(req, file, done) {
@@ -283,15 +266,9 @@ router.delete('/:postId', isLoggedIn, async (req, res, next) => {
   }
 });
 
-// <배포 버전>
-// router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
-//   // POST /post/images
-//   console.log(req.files);
-//   res.json(req.files.map((v) => v.location.replace(/\/original\//, '/thumb/')));
-// });
+
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
   // POST /post/images
-  // console.log(req.files);
   res.json(req.files.map((v) => v.filename));
 });
 

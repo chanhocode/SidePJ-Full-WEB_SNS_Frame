@@ -8,7 +8,6 @@ import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import wrapper from '../store/configureStore';
 import { END } from 'redux-saga';
 import axios from 'axios';
-
 import { BackTop } from 'antd';
 
 const AllPage = () => {
@@ -73,7 +72,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
       type: LOAD_POSTS_REQUEST,
     });
     context.store.dispatch(END);
-    console.log('getServerSideProps end');
     await context.store.sagaTask.toPromise();
   }
 );

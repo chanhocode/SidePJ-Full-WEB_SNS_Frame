@@ -96,7 +96,7 @@ function loadFollowingsPostsAPI(lastId) {
 
 function* loadFollowingsPosts(action) {
   try {
-    const result = yield call(loadFollowingsPostsAPI, action.data);
+    const result = yield call(loadFollowingsPostsAPI, action.data, action.lastId);
     yield put({
       type: LOAD_FOLLOWINGS_POSTS_SUCCESS,
       data: result.data,
@@ -152,6 +152,7 @@ function* loadHashtagPosts(action) {
     });
   }
 }
+
 // LoadPosts
 function loadPostsAPI(lastId) {
   return axios.get(`/posts?lastId=${lastId || 0}`);

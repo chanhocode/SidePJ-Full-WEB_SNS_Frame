@@ -33,7 +33,9 @@ if (process.env.NODE_ENV === 'production') {
   app.set('trust proxy', 1)
   app.use(morgan('combined'));
   app.use(hpp());
-  app.use(helmet());
+  app.use(helmet({
+    crossOriginResourcePolicy: false,
+  }));
 } else {
   app.use(morgan('dev'));
 }
@@ -42,7 +44,7 @@ app.use(
   cors({
     origin: [
       'http://localhost:3000',
-      'https://chanhopj.com',
+      'http://chanhopj.com:8081',
     ],
     credentials: true,
   })

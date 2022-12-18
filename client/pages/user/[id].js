@@ -22,7 +22,7 @@ const User = () => {
   const { userInfo, me } = useSelector((state) => state.user);
   const [Image, setImage] = useState(
     userInfo.profileImage
-      ? `http://localhost:3065/${userInfo.profileImage}`
+      ? `http://chanhopj.com:3065/${userInfo.profileImage}`
       : '/img/blankProfile.png'
   );
   useEffect(() => {

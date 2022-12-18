@@ -14,6 +14,10 @@ router.get('/:hashtag', async (req, res, next) => {
     const posts = await Post.findAll({
       where,
       limit: 10,
+      order: [
+        ['createdAt', 'DESC'],
+        [Comment, 'createdAt', 'DESC'],
+      ],
       include: [
         {
           model: Hashtag,
@@ -21,10 +25,19 @@ router.get('/:hashtag', async (req, res, next) => {
         },
         {
           model: User,
-          attributes: ['id', 'nickname'],
+          attributes: ['id', 'nickname', 'profileImage'],
         },
         {
           model: Image,
+        },
+        {
+          model: Comment,
+          include: [
+            {
+              model: User,
+              attributes: ['id', 'nickname', 'profileImage'],
+            },
+          ],
         },
         {
           model: User,
@@ -38,7 +51,7 @@ router.get('/:hashtag', async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ['id', 'nickname'],
+              attributes: ['id', 'nickname', 'profileImage'],
             },
             {
               model: Image,

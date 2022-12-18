@@ -73,7 +73,7 @@ const UserProfile = () => {
   const { me, logOutLoading } = useSelector((state) => state.user);
   const [Image, setImage] = useState(
     me.profileImage
-      ? `http://localhost:3065/${me.profileImage}`
+      ? `http://chanhopj.com:3065/${me.profileImage}`
       : '/img/blankProfile.png'
   );
   const onLogOut = useCallback(() => {

@@ -21,7 +21,7 @@ const PostImages = ({ images }) => {
       <>
         <img
           role='presentation'
-          src={`http://localhost:3065/${images[0].src}`}
+          src={`http://chanhopj.com:3065/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
         />
@@ -42,7 +42,7 @@ const PostImages = ({ images }) => {
       <div style={{}}>
         <img
           role='presentation'
-          src={`http://localhost:3065/${images[0].src}`}
+          src={`http://chanhopj.com:3065/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
           width='100%'
