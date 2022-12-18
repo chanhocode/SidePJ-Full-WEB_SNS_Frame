@@ -2,12 +2,12 @@
 
 ## 목차
 
-[1. Info](#1-info)
-[2. Preview](#2-preview)
-[3. Maintenance](#3-maintenance)
-[4. History](#4-history)
+1. [Info](#1-info)
+2. [Preview](#2-preview)
+3. [Maintenance](#3-maintenance)
+4. [History](#4-history)
 
-#1-Info
+# 1-Info
 
 ## SNS Adress
 
@@ -54,7 +54,7 @@ SNS 웹페이지 풀스택 구현 프로젝트 :: Petch Project
 </div>
 </div>
 
-#2-Preview
+# 2-Preview
 
 ## < Petch v1.2 >
 
@@ -63,57 +63,57 @@ SNS 웹페이지 풀스택 구현 프로젝트 :: Petch Project
 ### 랜딩페이지 및 로그인 후 페이지
 
 <div align=center>
-  ![sns1](https://user-images.githubusercontent.com/105937460/208302209-325b6dab-75a9-46e2-be7a-281a7691e08f.gif)
-  ![sns2](https://user-images.githubusercontent.com/105937460/208302215-0aa21fa5-cd9a-499f-87b1-b27e56791399.gif)
+
+![sns1](https://user-images.githubusercontent.com/105937460/208302209-325b6dab-75a9-46e2-be7a-281a7691e08f.gif)![sns2](https://user-images.githubusercontent.com/105937460/208302215-0aa21fa5-cd9a-499f-87b1-b27e56791399.gif)
+
 </div>
 
 ### 카테고리 진입 및 프로필 페이지
 
 <div align=center>
-  ![sns3](https://user-images.githubusercontent.com/105937460/208302223-e515897f-0def-4850-b761-120753bfccb4.gif)
-  ![sns4](https://user-images.githubusercontent.com/105937460/208302228-d627404e-e3d8-47cb-901b-d3076ad40edb.gif)
+
+![sns3](https://user-images.githubusercontent.com/105937460/208302223-e515897f-0def-4850-b761-120753bfccb4.gif)![sns4](https://user-images.githubusercontent.com/105937460/208302228-d627404e-e3d8-47cb-901b-d3076ad40edb.gif)
+
 </div>
 
 ## Desktop View
 
 ### 렌딩페이지 및 로그인 후
 
-<div align=center>
+<div align=center display="flex">
   <img src="./readmeImg/221218/petch1.2v_1.png" width="50%"/>
   <img src="./readmeImg/221218/petch1.2v_2.png" width="50%"/>
-<div align=center>
+</div>
 
 ### 게시글 작성 및 수정
 
-<div align=center>
+<div align=center display="flex">
   <img src="./readmeImg/221218/petch1.2v_3.png" width="50%"/>
   <img src="./readmeImg/221218/petch1.2v_4.png" width="50%"/>
-<div align=center>
+</div>
 
 ### 여러 이미지 삽입시 표시 및 아마자 캐루셀
 
-<div align=center>
+<div align=center display="flex">
   <img src="./readmeImg/221218/petch1.2v_5.png" width="50%"/>
   <img src="./readmeImg/221218/petch1.2v_6.png" width="50%"/>
-<div align=center>
+</div>
 
 ### 리트윗 & 댓글
 
-<div align=center>
+<div align=center display="flex">
   <img src="./readmeImg/221218/petch1.2v_7.png" width="50%"/>
   <img src="./readmeImg/221218/petch1.2v_8.png" width="50%"/>
-<div align=center>
+</div>
 
 ### 게시글 신고 및 프로필 페이지
 
-<div align=center>
+<div align=center display="flex">
   <img src="./readmeImg/221218/petch1.2v_9.png" width="50%"/>
   <img src="./readmeImg/221218/petch1.2v_10.png" width="50%"/>
-<div align=center>
+</div>
 
-<div>
-
-#3-Maintenance
+# 3-Maintenance
 
 ## 업데이트 예정
 
@@ -149,7 +149,7 @@ SNS 웹페이지 풀스택 구현 프로젝트 :: Petch Project
 
 <p>모바일 환경에서 Sider사용시 비효율적 화면 구성으로 인해 모바일 환경에서는 TopNav환경 구성</p>
 
-#4-History
+# 4-History
 
 ## Petch Version 1.2 \_ 2020/12/18
 
