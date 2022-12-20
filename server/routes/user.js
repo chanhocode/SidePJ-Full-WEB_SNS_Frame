@@ -3,7 +3,6 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const requestIp = require('request-ip');
-
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 
@@ -261,10 +260,8 @@ router.post('/logout', isLoggedIn, async (req, res, next) => {
       }
     );
 
-    req.logout(() => {
-      res.redirect('/');
-    });
-    await req.session.destroy();
+    req.session.destroy();
+
     return res.send('ok');
   } catch (error) {
     console.error(error);

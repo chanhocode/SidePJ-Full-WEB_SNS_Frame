@@ -1,4 +1,5 @@
 import produce from '../util/produce';
+import Router from 'next/router';
 
 export const initialState = {
   me: null,
@@ -29,14 +30,12 @@ export const initialState = {
   changeNicknameLoading: false,
   changeNicknameDone: false,
   changeNicknameError: null,
-  //
   changeProfileLoading: false,
   changeProfileDone: false,
   changeProfileError: null,
   uploadProfileImagesLoading: false,
   uploadProfileImagesDone: false,
   uploadProfileImagesError: null,
-  //
   loadFollowingsLoading: false,
   loadFollowingsDone: false,
   loadFollowingsError: null,
@@ -46,7 +45,6 @@ export const initialState = {
   removeFollowerLoading: false,
   removeFollowerDone: false,
   removeFollowerError: null,
-  //
   checkMyIpLoading: false,
   checkMyIpDone: false,
   checkMyIpError: null,
@@ -259,6 +257,7 @@ const reducer = (state = initialState, action) =>
         draft.logInError = action.error;
         break;
       case LOG_OUT_REQUEST:
+        Router.push('/');
         draft.logOutLoading = true;
         draft.logOutError = null;
         draft.logOutDone = false;

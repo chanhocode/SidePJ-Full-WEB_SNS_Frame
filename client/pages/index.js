@@ -113,7 +113,6 @@ const home = () => {
             lastId:
               mainPosts[mainPosts.length - 1] &&
               mainPosts[mainPosts.length - 1].id,
-            // data: 'cat',
           });
         }
       }

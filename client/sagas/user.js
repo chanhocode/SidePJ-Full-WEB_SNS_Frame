@@ -85,7 +85,8 @@ function* uploadImages(action) {
 
 // REMOVE Follower
 function removeFollowerAPI(data) {
-  return axios.delete(`/user/follower/${data.userId}`);
+  console.log('data: ', data);
+  return axios.delete(`/user/follower/${data}`);
 }
 
 function* removeFollower(action) {

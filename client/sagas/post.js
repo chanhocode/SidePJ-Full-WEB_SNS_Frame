@@ -89,13 +89,18 @@ function* loadPost(action) {
   }
 }
 
+// load Followings Post
 function loadFollowingsPostsAPI(lastId) {
   return axios.get(`posts/related?lastId=${lastId || 0}`);
 }
 
 function* loadFollowingsPosts(action) {
   try {
-    const result = yield call(loadFollowingsPostsAPI, action.data, action.lastId);
+    const result = yield call(
+      loadFollowingsPostsAPI,
+      action.data,
+      action.lastId
+    );
     yield put({
       type: LOAD_FOLLOWINGS_POSTS_SUCCESS,
       data: result.data,
@@ -274,7 +279,7 @@ function* removeComment(action) {
   } catch (err) {
     console.error(err);
     yield put({
-      type: REMOVE_POST_FAILURE,
+      type: REMOVE_COMMENT_FAILURE,
       error: err.response.data,
     });
   }

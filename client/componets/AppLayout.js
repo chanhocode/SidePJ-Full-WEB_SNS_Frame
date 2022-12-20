@@ -174,6 +174,10 @@ const AppLayout = ({ children }) => {
   // });
 
   const onLogOut = useCallback(() => {
+    // (function () {
+    //   Router.push('/');
+    // })();
+
     dispatch(logoutRequestAction());
   }, []);
 
@@ -272,7 +276,7 @@ const AppLayout = ({ children }) => {
                 {me ? (
                   <>
                     <Menu.Item key={5} icon={<UserOutlined />}>
-                      <Link href='/profile'>
+                      <Link href={`/profile/${me.id}`}>
                         <a>Profile</a>
                       </Link>
                     </Menu.Item>
@@ -325,7 +329,7 @@ const AppLayout = ({ children }) => {
                     {me ? (
                       <UserHandle>
                         <div className='profileLink'>
-                          <Link href='/profile'>
+                          <Link href={`/profile/${me.id}`}>
                             <a>
                               <TeamOutlined
                                 style={{ fontSize: '30px', color: '#000' }}

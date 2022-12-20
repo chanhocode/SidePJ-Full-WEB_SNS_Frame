@@ -1,15 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Card,
-  Popover,
-  Button,
-  Avatar,
-  List,
-  Comment,
-  Input,
-  notification,
-} from 'antd';
+import { Card, Popover, Button, Avatar, List, Comment, Input } from 'antd';
 import {
   RetweetOutlined,
   HeartOutlined,
@@ -31,7 +22,6 @@ import {
   REMOVE_COMMENT_REQUEST,
 } from '../reducers/post';
 import FollowButton from './FollowButton';
-import Link from 'next/link';
 import moment from 'moment';
 import styled from 'styled-components';
 import { backURL } from '../config/config';
@@ -71,7 +61,7 @@ const PostCard = ({ post }) => {
   const id = useSelector((state) => state.user.me?.id);
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
-  const { removePostLoading, retweetDone } = useSelector((state) => state.post);
+  const { removePostLoading } = useSelector((state) => state.post);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [accuseValue, setAccuseValue] = useState('');
@@ -256,17 +246,15 @@ const PostCard = ({ post }) => {
             </div>
             <Card.Meta
               avatar={
-                <Link href={`/user/${post.Retweet.User.id}`} prefetch={false}>
-                  <a>
-                    <Avatar
-                      src={
-                        post.Retweet.User.profileImage
-                          ? `${backURL}/${post.Retweet.User.profileImage}`
-                          : '/img/blankProfile.png'
-                      }
-                    />
-                  </a>
-                </Link>
+                <a href={`/user/${post.User.id}`}>
+                  <Avatar
+                    src={
+                      post.Retweet.User.profileImage
+                        ? `${backURL}/${post.Retweet.User.profileImage}`
+                        : '/img/blankProfile.png'
+                    }
+                  />
+                </a>
               }
               title={post.Retweet.User.nickname}
               description={
@@ -285,17 +273,15 @@ const PostCard = ({ post }) => {
             </div>
             <Card.Meta
               avatar={
-                <Link href={`/user/${post.User.id}`} prefetch={false}>
-                  <a>
-                    <Avatar
-                      src={
-                        post.User.profileImage
-                          ? `${backURL}/${post.User.profileImage}`
-                          : '/img/blankProfile.png'
-                      }
-                    />
-                  </a>
-                </Link>
+                <a href={`/user/${post.User.id}`}>
+                  <Avatar
+                    src={
+                      post.User.profileImage
+                        ? `${backURL}/${post.User.profileImage}`
+                        : '/img/blankProfile.png'
+                    }
+                  />
+                </a>
               }
               title={post.User.nickname}
               description={
@@ -349,17 +335,15 @@ const PostCard = ({ post }) => {
                   <Comment
                     author={item.User.nickname}
                     avatar={
-                      <Link href={`/user/${item.User.id}`} prefetch={false}>
-                        <a>
-                          <Avatar
-                            src={
-                              item.User.profileImage
-                                ? `${backURL}/${item.User.profileImage}`
-                                : '/img/blankProfile.png'
-                            }
-                          />
-                        </a>
-                      </Link>
+                      <a href={`/user/${item.User.id}`}>
+                        <Avatar
+                          src={
+                            item.User.profileImage
+                              ? `${backURL}/${item.User.profileImage}`
+                              : '/img/blankProfile.png'
+                          }
+                        />
+                      </a>
                     }
                     content={item.content}
                   />

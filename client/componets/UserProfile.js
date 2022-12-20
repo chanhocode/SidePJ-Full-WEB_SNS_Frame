@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { notification, Card, Avatar, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutRequestAction } from '../reducers/user';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { UserAddOutlined } from '@ant-design/icons';
@@ -69,13 +68,10 @@ const BtnGroup = styled.div`
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const { me, logOutLoading } = useSelector((state) => state.user);
+  const { me } = useSelector((state) => state.user);
   const [Image, setImage] = useState(
     me.profileImage ? `${backURL}/${me.profileImage}` : '/img/blankProfile.png'
   );
-  const onLogOut = useCallback(() => {
-    dispatch(logoutRequestAction());
-  }, []);
 
   const openNotification = () => {
     notification.open({
@@ -88,7 +84,7 @@ const UserProfile = () => {
     <ProfileWrapper>
       <TopItem>
         <div className='imageWrapper' key='avatar'>
-          <Link href={`/user/${me.id}`} prefetch={false}>
+          <Link href={`/profile/${me.id}`} prefetch={false}>
             <Meta>
               <Avatar src={Image} />
             </Meta>
@@ -96,18 +92,18 @@ const UserProfile = () => {
         </div>
         <div className='userData'>
           <Data key='twit'>
-            <Link href={`/user/${me.id}`}>게시물</Link>
+            <Link href={`/profile/${me.id}`}>게시물</Link>
             <br />
             {me.Posts.length}
           </Data>
 
           <Data key='followers'>
-            <Link href='/profile'>팔로워</Link>
+            <Link href='/follow/followers'>팔로워</Link>
             <br />
             {me.Followers.length}
           </Data>
           <Data key='followings'>
-            <Link href='/profile'>팔로잉</Link>
+            <Link href='/follow/followings'>팔로잉</Link>
             <br />
             {me.Followings.length}
           </Data>
@@ -119,7 +115,7 @@ const UserProfile = () => {
       </Message>
       <BtnGroup>
         <Button className='btnL'>
-          <Link href='/profile'>
+          <Link href={`/profileeditor`}>
             <a>프로필 편집</a>
           </Link>
         </Button>
